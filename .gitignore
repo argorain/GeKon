@@ -30,3 +30,8 @@ gekon
 
 # VIM swaps
 *.swp
+
+# Cmake junk
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
