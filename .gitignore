@@ -30,6 +30,9 @@ gekon
 
 # VIM swaps
 *.swp
+# YouCompleteMe plugin
+.ycm_extra_conf.py
+.ycm_extra_conf.pyc
 
 # Cmake junk
 CMakeCache.txt
