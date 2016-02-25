@@ -17,7 +17,10 @@ namespace gekon
     // training sample
     // cv::Mat use references instead of copying so we don't have to
     // worry about memory management (right ?)
-    typedef std::tuple<cv::Mat, cv::Mat> tr_sample_t;
+    typedef struct{
+        cv::Mat original;
+        cv::Mat modified;
+    } tr_sample_t;
 
     // load an image and its modified version; return them as a pair
     tr_sample_t load_img_pair(const std::string name);

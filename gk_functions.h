@@ -25,8 +25,11 @@ namespace gekon
     population_t first_generation(const size_t size);
 
     // apply fitness function to the whole generation
-    std::vector<double> fitness(std::function<double(tr_sample_t, candidate_t)> fit_fcn, 
-            const population_t generation);
+    // only single training sample, so we have to apply it to every training sample or create
+    // next function and define some kind of mean value
+    std::vector<double> fitness(std::function<double(tr_sample_t, candidate_t)> fit_fcn,
+                            tr_sample_t sample,
+                            const population_t generation);
 
     // select candidates for new generation
     // implements also elitism
