@@ -43,3 +43,6 @@ cmake_install.cmake
 
 # Google test source code
 tests/lib/*
+
+# Octave file
+octave-workspace
