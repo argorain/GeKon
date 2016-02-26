@@ -31,7 +31,7 @@ gekon
 # VIM swaps
 *.swp
 # YouCompleteMe plugin
-.ycm_extra_conf.pyc
+*.ycm_extra_conf.pyc
 
 # Cmake junk
 CMakeCache.txt
@@ -40,3 +40,6 @@ cmake_install.cmake
 
 # CLion dir
 .idea/*
+
+# Google test source code
+tests/lib/*
