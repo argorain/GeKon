@@ -9,13 +9,10 @@
 #include <functional>
 #include <opencv2/core/mat.hpp>
 #include "gk_utils.h"
-
+#include "gk_types.h"
 
 namespace gekon
 {
-    // types used further in genetic algorithms
-    typedef cv::Mat candidate_t;
-    typedef std::vector<candidate_t> population_t;
 
     // Note about returning vector as value:
     // http://thbecker.net/articles/rvalue_references/section_06.html

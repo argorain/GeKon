@@ -8,19 +8,13 @@
 #include <tuple>
 #include <iostream>
 #include <opencv2/core.hpp>
+#include "gk_types.h"
 
 namespace gekon
 {
     static const std::string img_type = ".png";
     static const std::string modified_img = ".mod";
 
-    // training sample
-    // cv::Mat use references instead of copying so we don't have to
-    // worry about memory management (right ?)
-    typedef struct{
-        cv::Mat original;
-        cv::Mat modified;
-    } tr_sample_t;
 
     // load an image and its modified version; return them as a pair
     tr_sample_t load_img_pair(const std::string name);

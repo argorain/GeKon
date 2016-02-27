@@ -6,6 +6,19 @@ set(CMAKE_CXX_FLAGS "-Wall -pedantic -std=c++14")
 
 find_package(OpenCV REQUIRED)
 
-add_executable(gekon main.cpp gk_utils.h gk_functions.h gk_operators.h gk_functions.cpp)
+set(HEADER_FILES
+        gk_types.h
+        gk_utils.h
+        gk_functions.h
+        gk_operators.h
+       )
 
-target_link_libraries( gekon ${OpenCV_LIBS} )
+set(SOURCE_FILES
+        gk_functions.cpp
+       )
+
+add_executable(gekon main.cpp ${SOURCE_FILES} ${HEADER_FILES})
+
+target_link_libraries(gekon ${OpenCV_LIBS})
+
+add_library(gekon_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
