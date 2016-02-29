@@ -5,7 +5,20 @@ language: cpp
 
 compiler:
   - g++
-  - gcc
+  - clang
+
+addons:
+  apt:
+    sources:
+      - llvm-toolchain-precise
+      - ubuntu-toolchain-r-test
+    packages:
+      - clang-3.7
+      - g++-5
+      - gcc-5
+
+
+
 
 # Travis CI has 1.5 cores per VM, take advantage of it
 # But first, the makefiles have to be fixed: all plugins are using the same .o's
@@ -21,6 +34,8 @@ before_install:
 
 install:
   - sudo apt-get install libcv-dev libcvaux-dev libhighgui-dev libopencv-dev cmake
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
 
 script:
   - cmake CMakeLists.txt
