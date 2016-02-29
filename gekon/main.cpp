@@ -16,7 +16,7 @@ static void help()
 
 const char* keys =
 {
-    "{help h||}{@image |lena.jpg|input image name}"
+    "{help h||}{@image |../lena.jpg|input image name}"
 };
 
 int main(int argc, char **argv) {
