@@ -4,7 +4,8 @@ os:
 language: cpp
 
 compiler:
-  - clang
+  - g++
+  - gcc
 
 # Travis CI has 1.5 cores per VM, take advantage of it
 # But first, the makefiles have to be fixed: all plugins are using the same .o's
