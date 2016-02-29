@@ -16,6 +16,7 @@ set(HEADER_FILES
 
 set(SOURCE_FILES
         gk_functions.cpp
+		gk_utils.cpp
        )
 
 add_executable(gekon_run main.cpp ${SOURCE_FILES} ${HEADER_FILES})

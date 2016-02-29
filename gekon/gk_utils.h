@@ -21,6 +21,8 @@ namespace gekon
 
     // open directory, find all suitable files based on filename pattern and load them
     std::vector<tr_sample_t> load_samples (const std::string dir_name);
+
+	tr_sample_t* load_img_pair(const std::string original, const std::string modified);
 }
 
 #endif //GEKON_UTILS_H
