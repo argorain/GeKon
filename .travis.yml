@@ -11,7 +11,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-6
+            - gcc-6
       env: COMPILER=g++-6
     - compiler: gcc
       addons:
@@ -19,13 +19,15 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-5
+            - gcc-5
       env: COMPILER=g++-5
 
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y libopencv-dev
 script:
+  - gcc --version
+  - g++ --version
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER . && make
   - ./tests/runGekonTests
 
