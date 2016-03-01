@@ -12,8 +12,8 @@
 
 namespace gekon
 {
-    static const std::string img_type = ".png";
-    static const std::string modified_img = ".mod";
+    static const std::string org_suff = ".png";
+    static const std::string mod_suff = ".mod.png";
 
 
     // load an image and its modified version; return them as a pair
@@ -21,8 +21,6 @@ namespace gekon
 
     // open directory, find all suitable files based on filename pattern and load them
     std::vector<tr_sample_t> load_samples (const std::string dir_name);
-
-	tr_sample_t* load_img_pair(const std::string original, const std::string modified);
 }
 
 #endif //GEKON_UTILS_H
