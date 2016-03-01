@@ -5,15 +5,7 @@
 #include "gk_types.h"
 #include "gk_functions.h"
 #include "gk_utils.h"
-/*
-TEST(basic_check, test_eq) {
-    EXPECT_EQ(1,0);
-}
 
-TEST(basic_check, test_neq) {
-    EXPECT_NE(1,0);
-}
-*/
 TEST(load_img_pair, test_equal) {
 	std::string imagename = "lena_gray";
 
