@@ -19,8 +19,11 @@ set(SOURCE_FILES
 		gk_utils.cpp
        )
 
+
+add_executable(playground playground.cpp ${SOURCE_FILES} ${HEADER_FILES})
 add_executable(gekon_run main.cpp ${SOURCE_FILES} ${HEADER_FILES})
 
+target_link_libraries(playground ${OpenCV_LIBS} "-lstdc++fs")
 target_link_libraries(gekon_run ${OpenCV_LIBS} "-lstdc++fs")
 
 add_library(gekon STATIC ${SOURCE_FILES} ${HEADER_FILES})

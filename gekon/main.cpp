@@ -29,8 +29,7 @@ int main(int argc, char **argv) {
 	cout << "******************" << endl;
 
 	// do something here
-    gekon::load_samples(".");
-	
+
 	Mat image;
 
     CommandLineParser parser(argc, argv, keys);
