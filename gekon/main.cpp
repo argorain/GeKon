@@ -6,6 +6,8 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 
+#include "gk_utils.h"
+
 using namespace std;
 using namespace cv;
 
@@ -27,7 +29,7 @@ int main(int argc, char **argv) {
 	cout << "******************" << endl;
 
 	// do something here
-
+    gekon::load_samples(".");
 	
 	Mat image;
 
@@ -50,7 +52,6 @@ int main(int argc, char **argv) {
     imshow("Original Image", image);
     // Wait for a key stroke; the same function arranges events processing
     waitKey(0);
-	
 	cout << "Bye!" << endl;
 	return 0;
 }

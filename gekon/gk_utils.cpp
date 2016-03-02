@@ -1,5 +1,6 @@
 
 #include <stdexcept>
+#include <experimental/filesystem>
 
 #include "opencv2/core/utility.hpp"
 #include "opencv2/imgproc.hpp"
@@ -9,6 +10,7 @@
 
 using namespace std;
 using namespace cv;
+namespace fs=std::experimental::filesystem;
 
 namespace gekon {
 	tr_sample_t load_img_pair(const std::string name) {
@@ -33,4 +35,18 @@ namespace gekon {
 
 		return sample;
 	}
+
+	std::vector<tr_sample_t> load_samples (const std::string dir_name)
+    {
+        vector<tr_sample_t> samples;
+        fs::path directory(dir_name);
+        if (!fs::is_directory(directory)) {
+            cout << dir_name << " is not a directory!" << endl;
+            assert(false);
+        }
+        for (auto& f : fs::directory_iterator(directory)) {
+            cout << f << endl;
+        }
+        return samples;
+    }
 }
