@@ -7,7 +7,7 @@
 #include "gk_utils.h"
 
 TEST(load_img_pair, test_equal) {
-	std::string imagename = "lena_gray";
+	std::string imagename = "test_samples/lena";
 
 	gekon::tr_sample_t sample = gekon::load_img_pair(imagename);
 
@@ -18,7 +18,7 @@ TEST(load_img_pair, test_equal) {
 
 	for(int i = 0; i < rows; i++) {
 		for(int j = 0; j < cols; j++) {
-			diff += sample.original.at<cv::Vec3b>(i,j)[0];
+			diff += sample.original.at<cv::Vec3b>(i,j)[0] - sample.modified.at<cv::Vec3b>(i,j)[0];
 			//diff += sample->original.at(i,j)[1] - sample->modified.at(i,j)[1];
 			//diff += sample->original.at(i,j)[2] - sample->modified.at(i,j)[2];
 		}
