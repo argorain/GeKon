@@ -7,9 +7,10 @@
 #include "gk_utils.h"
 
 TEST(load_img_pair, test_equal) {
-	std::string imagename = "test_samples/lena";
+	std::string imagename = "lena";
+	std::string path = "test_samples/";
 
-	gekon::tr_sample_t sample = gekon::load_img_pair(imagename);
+	gekon::tr_sample_t sample = gekon::load_img_pair(path, imagename);
 
 	int diff = 0;
 

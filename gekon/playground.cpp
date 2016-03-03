@@ -10,5 +10,5 @@ using namespace std;
 using namespace gekon;
 
 int main() {
-    load_samples("samples/");
+    load_samples("test_samples/");
 }
