@@ -13,5 +13,5 @@ set(TEST_FILES
 
 add_executable(runGekonTests ${TEST_FILES})
 
-target_link_libraries(runGekonTests gtest gtest_main gekon ${OpenCV_LIBS})
+target_link_libraries(runGekonTests gtest gtest_main gekon ${OpenCV_LIBS} "-lboost_system -lboost_filesystem")
 

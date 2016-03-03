@@ -1,6 +1,11 @@
 
+#ifndef BOOST_ALL_DYN_LINK
+	#define BOOST_ALL_DYN_LINK
+#endif 
+
 #include <stdexcept>
-#include <experimental/filesystem>
+#include <boost/filesystem.hpp>
+#include <boost/range/iterator_range.hpp>
 
 #include "opencv2/core/utility.hpp"
 #include "opencv2/imgproc.hpp"
@@ -10,7 +15,7 @@
 
 using namespace std;
 using namespace cv;
-namespace fs=std::experimental::filesystem;
+namespace fs=boost::filesystem;
 
 namespace gekon {
 	tr_sample_t load_img_pair(const std::string name) {
@@ -44,7 +49,7 @@ namespace gekon {
             cout << dir_name << " is not a directory!" << endl;
             assert(false);
         }
-        for (auto& f : fs::directory_iterator(directory)) {
+        for (auto& f : boost::make_iterator_range(fs::directory_iterator(directory), {})) {
             cout << f << endl;
         }
         return samples;
