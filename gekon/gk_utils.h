@@ -22,6 +22,9 @@ namespace gekon
 
     // open directory, find all suitable files based on filename pattern and load them
     std::vector<tr_sample_t> load_samples (const std::string dir_name);
+
+	// plot graph
+	void plot_graph(const std::vector<double> points, std::string name);
 }
 
 #endif //GEKON_UTILS_H

@@ -8,6 +8,8 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/algorithm/string.hpp>
 
+#include "gnuplot-iostream.h"
+
 #include "opencv2/core/utility.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/imgcodecs.hpp"
@@ -79,4 +81,11 @@ namespace gekon {
 
         return samples;
     }
+
+
+	void plot_graph(const std::vector<double> points, std::string name) {
+		Gnuplot gp;
+		
+		gp << "plot" << gp.file1d(points) << "with lines title '" << name << "'\n";
+	}
 }

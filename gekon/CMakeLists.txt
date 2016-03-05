@@ -25,7 +25,7 @@ add_executable(gekon_run main.cpp ${SOURCE_FILES} ${HEADER_FILES})
 
 #target_link_libraries(playground ${OpenCV_LIBS} "-lstdc++fs")
 #target_link_libraries(gekon_run ${OpenCV_LIBS} "-lstdc++fs")
-target_link_libraries(playground ${OpenCV_LIBS} "-lboost_system -lboost_filesystem")
-target_link_libraries(gekon_run ${OpenCV_LIBS} "-lboost_system -lboost_filesystem")
+target_link_libraries(playground ${OpenCV_LIBS} "-lboost_system -lboost_filesystem -lboost_iostreams")
+target_link_libraries(gekon_run ${OpenCV_LIBS} "-lboost_system -lboost_filesystem -lboost_iostreams")
 
 add_library(gekon STATIC ${SOURCE_FILES} ${HEADER_FILES})
