@@ -17,6 +17,7 @@ set(HEADER_FILES
 set(SOURCE_FILES
         gk_functions.cpp
 		gk_utils.cpp
+		gk_operators.cpp
        )
 
 
