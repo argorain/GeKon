@@ -14,6 +14,10 @@ namespace gekon
     typedef std::function<std::vector<candidate_t>(candidate_t, candidate_t)> crossover_fcn_t;
     typedef std::function<void(candidate_t&)> mutation_fcn_t;
 
+	// Parameters
+	const float c_blx_a_alpha = 0.5; // Empiric paramter to widen range	
+	const float m_swap_prob = 0.1; // Probability of swap mutation
+
 	// crossovers
 	std::vector<candidate_t> c_blx_a(candidate_t X, candidate_t Y);
 

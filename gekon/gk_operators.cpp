@@ -28,10 +28,6 @@ namespace gekon {
 	}
 
 	std::vector<candidate_t> c_blx_a(candidate_t X, candidate_t Y) {
-		// CONSTATNS
-		const float alpha = 0.5;
-
-		// ALGORITHM
 		srand (static_cast <unsigned> (time(0)));
 
 		int rows = X.rows;
@@ -47,11 +43,11 @@ namespace gekon {
 				//cout << (float)(diff.at<cv::Vec3b>(r,c)[0]) << " ";
 				float min, max;
 				if(xt > yt) {
-					min = yt-diff*alpha;
-				   	max = xt+diff*alpha;	
+					min = yt-diff*c_blx_a_alpha;
+				   	max = xt+diff*c_blx_a_alpha;	
 				} else {
-					min = xt-diff*alpha;
-					max = yt+diff*alpha;
+					min = xt-diff*c_blx_a_alpha;
+					max = yt+diff*c_blx_a_alpha;
 				}
 				//cout << "min: " << min << " max: " << max << endl;
 				float rX = random(min, max);
@@ -73,14 +69,9 @@ namespace gekon {
 	}
 
 	candidate_t m_swap(candidate_t X) {
-		//CONSTANTS
-		const float m_probabilty = 0.99;
-		
-		
-		//ALGORITHM
 		srand (static_cast <unsigned> (time(0)));
 	
-		if(random(0,1) < m_probabilty) {
+		if(random(0,1) < m_swap_prob) {
 			// Mutate!
 			int rows = X.rows;
 			int cols = X.cols;
