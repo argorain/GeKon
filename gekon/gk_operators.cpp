@@ -34,8 +34,8 @@ namespace gekon {
 		candidate_t kidX = Mat::zeros(rows, cols, CV_32F);
 		candidate_t kidY = Mat::zeros(rows, cols, CV_32F);
 
-        for (int r = 0; r < rows; r++) {
-			for(int c = 0; c< cols; c++) {
+        for (int r = 0; r < rows; ++r) {
+			for(int c = 0; c< cols; ++c) {
 				float xt = X.at<float>(r,c);
 				float yt = Y.at<float>(r,c);
 				float diff = abs(xt-yt);
