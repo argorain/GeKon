@@ -39,7 +39,7 @@ int main() {
 			Y.at<float>(i,j) = i+j*2;	
 		}
 	}
-	std::vector<candidate_t> kids = blx_a(X,Y);
+	std::vector<candidate_t> kids = c_blx_a(X,Y);
 
 	cout << "X" << endl;
 	for(int i=0; i<3; i++) {

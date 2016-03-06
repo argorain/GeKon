@@ -14,8 +14,10 @@ namespace gekon
     typedef std::function<std::vector<candidate_t>(candidate_t, candidate_t)> crossover_fcn_t;
     typedef std::function<void(candidate_t&)> mutation_fcn_t;
 
-	std::vector<candidate_t> blx_a(candidate_t X, candidate_t Y);
+	// crossovers
+	std::vector<candidate_t> c_blx_a(candidate_t X, candidate_t Y);
 
+	// mutations
 	candidate_t m_swap(candidate_t X); 
 }
 

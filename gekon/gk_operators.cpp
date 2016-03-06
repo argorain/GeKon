@@ -27,7 +27,7 @@ namespace gekon {
 		return min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
 	}
 
-	std::vector<candidate_t> blx_a(candidate_t X, candidate_t Y) {
+	std::vector<candidate_t> c_blx_a(candidate_t X, candidate_t Y) {
 		// CONSTATNS
 		const float alpha = 0.5;
 
