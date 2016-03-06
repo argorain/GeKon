@@ -15,6 +15,8 @@ namespace gekon
     typedef std::function<void(candidate_t&)> mutation_fcn_t;
 
 	std::vector<candidate_t> blx_a(candidate_t X, candidate_t Y);
+
+	candidate_t m_swap(candidate_t X); 
 }
 
 #endif //GEKON_GA_OPERATORS_H

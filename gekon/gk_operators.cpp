@@ -23,10 +23,15 @@ using namespace cv;
 
 namespace gekon {
 	
+	float random(float min, float max) {
+		return min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
+	}
+
 	std::vector<candidate_t> blx_a(candidate_t X, candidate_t Y) {
+		// CONSTATNS
+		const float alpha = 0.5;
 
-		float alpha = 0.5;
-
+		// ALGORITHM
 		srand (static_cast <unsigned> (time(0)));
 
 		int rows = X.rows;
@@ -49,8 +54,8 @@ namespace gekon {
 					max = yt+diff*alpha;
 				}
 				//cout << "min: " << min << " max: " << max << endl;
-				float rX =  min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
-				float rY =  min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
+				float rX = random(min, max);
+				float rY = random(min, max); 
 				//cout << "rX: " << rX << " rY: " << rY << endl;
 				kidX.at<float>(r,c) = rX;	
 				kidY.at<float>(r,c) = rY;
@@ -65,6 +70,31 @@ namespace gekon {
 
 		return kids;
 
+	}
+
+	candidate_t m_swap(candidate_t X) {
+		//CONSTANTS
+		const float m_probabilty = 0.99;
+		
+		
+		//ALGORITHM
+		srand (static_cast <unsigned> (time(0)));
+	
+		if(random(0,1) < m_probabilty) {
+			// Mutate!
+			int rows = X.rows;
+			int cols = X.cols;
+			int r1 = random(-0.4, rows-1+0.4); // that +-0.4 is to ensure whole interval
+			int c1 = random(-0.4, cols-1+0.4);
+			int r2 = random(-0.4, rows-1+0.4); 
+			int c2 = random(-0.4, cols-1+0.4);
+			cout << "Swap between [" << r1 << "," << c1 << "],[" << r2 << "," << c2 << "]" << endl;
+			float g = X.at<float>(r1, c1);
+			X.at<float>(r1, c1) = X.at<float>(r2, c2);
+			X.at<float>(r2, c2) = g;
+		}
+
+		return X;
 	}
 
 }
