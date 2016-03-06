@@ -19,6 +19,7 @@ namespace gekon
 	const float m_swap_prob = 0.1; // Probability of swap mutation
 
 	// crossovers
+	// BLX-a and BLX-a-b source http://www.tomaszgwiazda.com/blendX.htm
 	std::vector<candidate_t> c_blx_a(candidate_t X, candidate_t Y);
 
 	// mutations
