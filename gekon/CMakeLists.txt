@@ -12,6 +12,7 @@ set(HEADER_FILES
         gk_utils.h
         gk_functions.h
         gk_operators.h
+		gnuplot-iostream.h
        )
 
 set(SOURCE_FILES
