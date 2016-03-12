@@ -5,6 +5,7 @@
 #include "gk_functions.h"
 #include "gk_utils.h"
 #include "gk_types.h"
+
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 
@@ -12,12 +13,24 @@ using cv::Mat; using cv::Mat_;
 
 namespace gekon {
 
-// I thought it'd be needed. I was wrong.
+    // I thought it'd be needed. I was wrong.
     template<typename T>
     T sum_vec(std::vector<T> vec) {
         T ret = 0;
         std::for_each(vec.begin(), vec.end(), [&](auto it) { ret += it; });
         return ret;
+    }
+
+    population_t first_generation(const size_t size) {
+        std::vector<candidate_t> new_population;
+        new_population.resize(size);
+        for (unsigned int j = 0; j < size; ++j) {
+            //fixme: hard-coded matrix size
+            new_population[j] = Mat(3,3,CV_8U);
+            // generate random matrix with lower bound 0, upper bound 255 and uniform random distribution
+            cv::randu(new_population[j], cv::Scalar::all(0), cv::Scalar::all(255));
+        }
+        return new_population;
     }
 
     std::vector<double> fitness(std::function<double(tr_sample_t, candidate_t)> fit_fcn,
