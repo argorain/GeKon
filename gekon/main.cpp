@@ -13,44 +13,45 @@ using namespace cv;
 
 static void help()
 {
-    cout << endl << "Usage: ./gekon lena.jpg" << endl;
+	cout << "Usage: gekon [PARAMETER] [ORIGNAL IMAGE] [MODIFIED IMAGE]" << endl << endl;
+	cout << "All parameters are mandatory." << endl;
+	cout << "PARAMETER is size of convolution matrix" << endl;
+	cout << "ORIGINAL IMAGE is image before modification" << endl;
+	cout << "MODIFIED IMAGE is image after modification" << endl << endl;
+	cout << "Example of usage: ./gekon 3 lena.jpg lena-mod.jpg" << endl << endl;
+	cout << "Authors: Vojtech Vladyka <vojtech.vladyka@gmail.com> and Martin Sehnoutka <>" << endl;
+	cout << "Department of Automation and Measurement, FEEC BUT, 2016" << endl;
 }
 
 const char* keys =
 {
-    "{help h||}{@image |../lena.jpg|input image name}"
+    "{help h||}{@convSize|3|convolution size}{@original|lena.jpg|original image name}{@modified|lena.mod.jpg|modiifed image name}"
 };
 
 int main(int argc, char **argv) {
 	
 	cout << "GeKon" << endl;
-	cout << "Vojtech Vladyka & Martin Sehnoutka" << endl; 
-	cout << "FEEC BUT 2016" << endl;
-	cout << "******************" << endl;
 
-	// do something here
+    	CommandLineParser parser(argc, argv, keys);
+    	if (parser.has("help"))
+    	{
+        	help();
+        	return 0;
+	}
+    	string original = parser.get<string>(1);
+	string modified = parser.get<string>(2);
+	int convSize = parser.get<int>(0);    	
 
-	Mat image;
+	cout << "Convolution matrix size: " << convSize << endl;
+	cout << "Original image: " << original << endl;
+	cout << "Modified image: " << modified << endl;
 
-    CommandLineParser parser(argc, argv, keys);
-    if (parser.has("help"))
-    {
-        help();
-        return 0;
-    }
-    string filename = parser.get<string>(0);
-    image = imread(filename, 1);
-    if(image.empty())
-    {
-        printf("Cannot read image file: %s\n", filename.c_str());
-        help();
-        return -1;
-    }
-    
-	// Show the image
-    imshow("Original Image", image);
-    // Wait for a key stroke; the same function arranges events processing
-    waitKey(0);
+	// init gekon here
+
+	// test inputs
+
+	// run!
+
 	cout << "Bye!" << endl;
 	return 0;
 }
