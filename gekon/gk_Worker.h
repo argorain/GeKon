@@ -12,20 +12,25 @@
 
 namespace gekon {
 
-    class gk_Worker {
+    class Worker {
     private:
+        size_t generation_size;
         population_t population;
+        std::vector<tr_sample_t> samples;
+
         selection_fcn_t select;
         crossover_fcn_t crossover;
         mutation_fcn_t mutate;
 
+        fitness_fcn_t fit_single;
+
     public:
-        gk_Worker();
-        virtual ~gk_Worker();
+        Worker(size_t s);
+        virtual ~Worker();
         void setSelectionFcn(selection_fcn_t fcn) {select = fcn;};
         void setCrossoverFcn(crossover_fcn_t fcn) {crossover = fcn;};
         void setFcn(mutation_fcn_t fcn) {mutate = fcn;};
-        //TODO: some run or iter function that returns best result in given generation
+        double run();
     };
 }
 
