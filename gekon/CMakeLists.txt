@@ -13,12 +13,14 @@ set(HEADER_FILES
         gk_functions.h
         gk_operators.h
 		gnuplot-iostream.h
+		gk_Worker.h
        )
 
 set(SOURCE_FILES
         gk_functions.cpp
 		gk_utils.cpp
 		gk_operators.cpp
+		gk_Worker.cpp
        )
 
 

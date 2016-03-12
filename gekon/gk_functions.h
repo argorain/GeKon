@@ -28,6 +28,8 @@ namespace gekon
 
     // select candidates for new generation
     // implements also elitism
+    typedef std::function<population_t(population_t)> selection_fcn_t;
+
     population_t selection(const population_t prev_population);
 
     // Naive fitness function implementing mean square error calculation
