@@ -9,9 +9,14 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include <boost/container/map.hpp>
+
 using cv::Mat; using cv::Mat_;
 
 namespace gekon {
+
+
+	std::vector<double> normalize(std::vector<double> values);
 
     // I thought it'd be needed. I was wrong.
     template<typename T>
@@ -83,4 +88,37 @@ namespace gekon {
         return mse;
     }
 
+
+	std::vector<double> normalize(std::vector<double> values) {
+		std::vector<double> norm;
+		double max = *std::max_element(values.begin(), values.end());	
+
+		for(auto const& val: values) {
+			norm.push_back(val/max);
+		}
+
+		return norm;
+	}
+
+    population_t s_roulette(const population_t prev_population, std::vector<double> fitness) {
+		population_t newPop;
+
+		std::vector<double> normFitt = normalize(fitness);	
+//DEPRECATED
+		/*	
+		std::map<double, candidate_t>  generation;
+
+		for(int i=0; i<(int)normFitt.size(); ++i) {
+			generation[normFitt.at(i)] = prev_population.at(i);
+		}
+
+		for( std::map<double, candidate_t>::iterator ii=generation.begin(); ii!=generation.end(); ++ii)
+		{
+			std::cout << (*ii).first << ": " << (*ii).second << std::endl;
+	 	}		
+
+*/
+
+		return newPop;
+	}
 }
