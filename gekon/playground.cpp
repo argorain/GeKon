@@ -11,6 +11,7 @@
 
 #include "gk_utils.h"
 #include "gk_operators.h"
+#include "gk_Worker.h"
 
 using namespace std;
 using namespace gekon;
@@ -97,4 +98,7 @@ int main() {
     for (auto &iter: test_pop) {
         cout << iter << endl;
     }
+
+    Worker test();
+
 }

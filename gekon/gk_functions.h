@@ -21,16 +21,18 @@ namespace gekon
     // initialize new population
     population_t first_generation(const size_t size);
 
+    typedef std::function<double(tr_sample_t, candidate_t)> fitness_fcn_t;
+
     // apply fitness function to the whole generation
-    std::vector<double> fitness(std::function<double(tr_sample_t, candidate_t)> fit_fcn,
+    std::vector<double> fitness(fitness_fcn_t fit_fcn,
                             std::vector<tr_sample_t> samples,
                             const population_t generation);
 
     // select candidates for new generation
     // implements also elitism
-    typedef std::function<population_t(population_t)> selection_fcn_t;
+    typedef std::function<population_t(population_t, std::vector<double>)> selection_fcn_t;
 
-    population_t selection(const population_t prev_population);
+    population_t selection(const population_t prev_population, std::vector<double> fitness);
 
     // Naive fitness function implementing mean square error calculation
     double fitness_mse(const tr_sample_t sample, const candidate_t candidate);
