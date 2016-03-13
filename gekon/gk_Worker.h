@@ -14,8 +14,10 @@ namespace gekon {
 
     class Worker {
     private:
+        int kernel_size;
         size_t generation_size;
         population_t population;
+
         std::vector<tr_sample_t> samples;
 
         selection_fcn_t select;
@@ -25,7 +27,7 @@ namespace gekon {
         fitness_fcn_t fit_single;
 
     public:
-        Worker(size_t s);
+        Worker(size_t gensize, int ksize);
         virtual ~Worker();
         void setSelectionFcn(selection_fcn_t fcn) {select = fcn;};
         void setCrossoverFcn(crossover_fcn_t fcn) {crossover = fcn;};

@@ -21,12 +21,12 @@ namespace gekon {
         return ret;
     }
 
-    population_t first_generation(const size_t size) {
+    population_t first_generation(const size_t size, int ksize) {
         std::vector<candidate_t> new_population;
         new_population.resize(size);
         for (unsigned int j = 0; j < size; ++j) {
             //fixme: hard-coded matrix size
-            new_population[j] = Mat(3,3,CV_8U);
+            new_population[j] = Mat(ksize,ksize,CV_8U);
             // generate random matrix with lower bound 0, upper bound 255 and uniform random distribution
             cv::randu(new_population[j], cv::Scalar::all(0), cv::Scalar::all(255));
         }

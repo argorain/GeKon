@@ -94,7 +94,7 @@ int main() {
 		cout << endl;
 	}
 
-    population_t test_pop = first_generation(3);
+    population_t test_pop = first_generation(3, 0);
     for (auto &iter: test_pop) {
         cout << iter << endl;
     }

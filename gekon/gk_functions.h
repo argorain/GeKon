@@ -19,7 +19,7 @@ namespace gekon
     // http://stackoverflow.com/questions/6211575/proper-way-move-semantics-to-return-a-stdvector-from-function-calling-in-c
 
     // initialize new population
-    population_t first_generation(const size_t size);
+    population_t first_generation(const size_t size, int ksize);
 
     typedef std::function<double(tr_sample_t, candidate_t)> fitness_fcn_t;
 
