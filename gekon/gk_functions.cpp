@@ -27,18 +27,18 @@ namespace gekon {
     }
 
     population_t first_generation(const size_t size, int ksize) {
-        std::vector<candidate_t> new_population;
+        population_t new_population;
         new_population.resize(size);
         for (unsigned int j = 0; j < size; ++j) {
-            //fixme: hard-coded matrix size
-            new_population[j] = Mat(ksize,ksize,CV_8U);
+            auto new_kernel = Mat(ksize,ksize,CV_8U);
             // generate random matrix with lower bound 0, upper bound 255 and uniform random distribution
-            cv::randu(new_population[j], cv::Scalar::all(0), cv::Scalar::all(255));
+            cv::randu(new_kernel, cv::Scalar::all(0), cv::Scalar::all(255));
+            new_population[j] = std::make_pair(0, new_kernel);
         }
         return new_population;
     }
 
-    std::vector<double> fitness(std::function<double(tr_sample_t, candidate_t)> fit_fcn,
+    /*std::vector<double> fitness(std::function<double(tr_sample_t, candidate_t)> fit_fcn,
                                 std::vector<tr_sample_t> samples,
                                 const population_t generation) {
         // Fitness matrix; 1st dimension - samples; 2nd dim - candidates applied to the given
@@ -65,7 +65,8 @@ namespace gekon {
             fit_result[i] = fit_sum / double(samples.size());
         }
         return fit_result;
-    }
+    }*/
+
 
 
     double fitness_mse(const tr_sample_t sample, const candidate_t candidate) {
@@ -121,4 +122,18 @@ namespace gekon {
 
 		return newPop;
 	}
+
+    bool cmp_candidates(const std::pair<double, candidate_t> a, const std::pair<double, candidate_t> b) {
+        double fit_a, fit_b;
+        fit_a = a.first;
+        fit_b = b.first;
+        return fit_a < fit_b;
+    }
+
+    void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample, population_t generation) {
+        for (int j = 0; j < generation.size(); ++j) {
+            generation[j].first = fit_fcn(sample, generation[j].second);
+        }
+        std::sort(generation.begin(), generation.end(), cmp_candidates);
+    }
 }
