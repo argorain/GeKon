@@ -18,7 +18,8 @@ namespace gekon {
         size_t generation_size;
         population_t population;
 
-        std::vector<tr_sample_t> samples;
+        //std::vector<tr_sample_t> samples;
+        tr_sample_t sample;
 
         selection_fcn_t select;
         crossover_fcn_t crossover;

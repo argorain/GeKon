@@ -96,7 +96,7 @@ int main() {
 
     population_t test_pop = first_generation(3, 0);
     for (auto &iter: test_pop) {
-        cout << iter << endl;
+        cout << iter.first << ' ' << iter.second << endl;
     }
 
     Worker test();

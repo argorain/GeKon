@@ -101,10 +101,10 @@ namespace gekon {
 		return norm;
 	}
 
-    population_t s_roulette(const population_t prev_population, std::vector<double> fitness) {
-		population_t newPop;
+    population_t s_roulette(const population_t prev_population) {
+		//population_t newPop;
 
-		std::vector<double> normFitt = normalize(fitness);	
+		//std::vector<double> normFitt = normalize(fitness);
 //DEPRECATED
 		/*	
 		std::map<double, candidate_t>  generation;
@@ -120,7 +120,7 @@ namespace gekon {
 
 */
 
-		return newPop;
+		return prev_population;
 	}
 
     bool cmp_candidates(const std::pair<double, candidate_t> a, const std::pair<double, candidate_t> b) {
@@ -134,6 +134,6 @@ namespace gekon {
         for (int j = 0; j < generation.size(); ++j) {
             generation[j].first = fit_fcn(sample, generation[j].second);
         }
-        std::sort(generation.begin(), generation.end(), cmp_candidates);
+        //std::sort(generation.begin(), generation.end(), cmp_candidates);
     }
 }
