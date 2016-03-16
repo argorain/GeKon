@@ -10,6 +10,9 @@
 
 namespace gekon
 {
+    
+	float random(float min, float max);
+    
     //crossover and mutation
     typedef std::function<std::vector<candidate_t>(candidate_t, candidate_t)> crossover_fcn_t;
     typedef std::function<void(candidate_t&)> mutation_fcn_t;

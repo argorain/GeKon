@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <algorithm>
 
 #include "opencv2/core.hpp"
 #include "opencv2/core/utility.hpp"
@@ -94,11 +95,40 @@ int main() {
 		cout << endl;
 	}
 
-    population_t test_pop = first_generation(3, 0);
+    cout << "FIRST GEN" << endl;
+
+    population_t test_pop = first_generation(10, 3);
+    for (auto &iter: test_pop) {
+        cout << iter.first << ' ' << iter.second << endl;
+    }
+    
+    cout << "ROULETTE TEST" << endl;
+    double fit = 100;
+    cout << "Fitness seed" << endl;
+    for (auto &iter: test_pop) {
+       iter.first = fit;
+       fit -= 10; 
+       cout << iter.first << ' ' << iter.second << endl;
+    }
+
+    //FIXME Nejede sort.. Nevím proč.
+    //std::sort(test_pop.begin(), test_pop.end());
+
+    cout << "Sorted..." << endl;
     for (auto &iter: test_pop) {
         cout << iter.first << ' ' << iter.second << endl;
     }
 
+    test_pop = s_roulette(test_pop);
+    cout << "Selected" << endl;
+    for (auto &iter: test_pop) {
+        cout << iter.first << ' ' << iter.second << endl;
+    }
+    
+    
+    cout << "WORKER TEST" << endl;
     Worker test();
+
+
 
 }

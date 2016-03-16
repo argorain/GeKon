@@ -5,6 +5,7 @@
 #include "gk_functions.h"
 #include "gk_utils.h"
 #include "gk_types.h"
+#include "gk_operators.h"
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
@@ -16,7 +17,8 @@ using cv::Mat; using cv::Mat_;
 namespace gekon {
 
 
-	std::vector<double> normalize(std::vector<double> values);
+
+	population_t normalize(population_t values);
 
     // I thought it'd be needed. I was wrong.
     template<typename T>
@@ -90,37 +92,45 @@ namespace gekon {
     }
 
 
-	std::vector<double> normalize(std::vector<double> values) {
-		std::vector<double> norm;
-		double max = *std::max_element(values.begin(), values.end());	
+	population_t normalize(population_t values) {
+		population_t norm;
+        double sum = 0;
+
+        for(auto const& val: values) {
+            sum += val.first;
+        }
 
 		for(auto const& val: values) {
-			norm.push_back(val/max);
+			norm.push_back(std::pair<double, candidate_t>(val.first/sum, val.second ));
 		}
 
 		return norm;
 	}
 
     population_t s_roulette(const population_t prev_population) {
-		//population_t newPop;
 
-		//std::vector<double> normFitt = normalize(fitness);
-//DEPRECATED
-		/*	
-		std::map<double, candidate_t>  generation;
+		population_t normPop = normalize(prev_population);
+        population_t selPop;
 
-		for(int i=0; i<(int)normFitt.size(); ++i) {
-			generation[normFitt.at(i)] = prev_population.at(i);
-		}
+        double sfitt = 0;
+        int left = normPop.size()/2;
+            
+        for(int i=0; i<(int)normPop.size(); i++) {
+            sfitt += normPop[i].first;
+            normPop[i].first = sfitt;
+        }
 
-		for( std::map<double, candidate_t>::iterator ii=generation.begin(); ii!=generation.end(); ++ii)
-		{
-			std::cout << (*ii).first << ": " << (*ii).second << std::endl;
-	 	}		
+        for(int i=0; i<left; i++) {
+            double random = gekon::random(0, 1);
+            for(auto const& val: normPop) {
+                if(val.first > random) {
+                    selPop.push_back(std::pair<double, candidate_t>(val.first, val.second));
+                    break;
+                }
+            }
+        }
 
-*/
-
-		return prev_population;
+		return selPop;
 	}
 
     bool cmp_candidates(const std::pair<double, candidate_t> a, const std::pair<double, candidate_t> b) {
@@ -131,7 +141,7 @@ namespace gekon {
     }
 
     void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample, population_t generation) {
-        for (int j = 0; j < generation.size(); ++j) {
+        for (int j = 0; j < (int)generation.size(); ++j) {
             generation[j].first = fit_fcn(sample, generation[j].second);
         }
         //std::sort(generation.begin(), generation.end(), cmp_candidates);
