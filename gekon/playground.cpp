@@ -111,8 +111,7 @@ int main() {
        cout << iter.first << ' ' << iter.second << endl;
     }
 
-    //FIXME Nejede sort.. Nevím proč.
-    //std::sort(test_pop.begin(), test_pop.end());
+	std::sort(test_pop.begin(), test_pop.end(), cmp_candidates);
 
     cout << "Sorted..." << endl;
     for (auto &iter: test_pop) {
