@@ -30,6 +30,7 @@ namespace gekon {
     public:
         Worker(size_t gensize, int ksize);
         virtual ~Worker();
+        void setTrSample(tr_sample_t asample) {sample = asample;};
         void setSelectionFcn(selection_fcn_t fcn) {select = fcn;};
         void setCrossoverFcn(crossover_fcn_t fcn) {crossover = fcn;};
         void setFcn(mutation_fcn_t fcn) {mutate = fcn;};
