@@ -7,6 +7,10 @@
 #include "gk_types.h"
 #include "gk_operators.h"
 
+#include <opencv2/core/utility.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 
@@ -79,6 +83,9 @@ namespace gekon {
         Mat_<unsigned char> conv_result;
         filter2D(sample.original, conv_result, -1, candidate, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
 
+        imshow("Image", conv_result);
+        cv::waitKey(0);
+
         double sum_square = 0;
         cv::MatConstIterator_<unsigned char> it = conv_result.begin(),
                 it_end = conv_result.end(),
@@ -142,7 +149,10 @@ namespace gekon {
 
     void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample, population_t generation) {
         for (int j = 0; j < (int)generation.size(); ++j) {
+            std::cout << "Fitness calc #" << j;
             generation[j].first = fit_fcn(sample, generation[j].second);
+            std::cout << " = " << generation[j].first << std::endl;
+            //std::cout << "Konvolution" << std::endl << generation[j].second << std::endl;
         }
         //std::sort(generation.begin(), generation.end(), cmp_candidates);
     }

@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
             .original = orig_img,
             .modified = mod_img
     };
-    Worker the_gekon(500, convSize);
+    Worker the_gekon(20,convSize);
     the_gekon.setTrSample(sample);
 
     // test inputs

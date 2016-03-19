@@ -16,6 +16,11 @@ namespace gekon {
         mutate = m_swap;
         population = first_generation(gensize, ksize);
         fit_single = fitness_mse;
+
+       /* 
+        for (auto &iter: population) {
+            cout << iter.first << ' ' << iter.second << endl;
+        }*/
     }
 
     Worker::~Worker() {
@@ -26,17 +31,26 @@ namespace gekon {
         static bool first_run = true;
         vector<double> fit_values;
 
+        cout << "Run!" << endl;
         if (first_run) {
             fitness(fit_single, sample, population);
             // min element fcn returns iterator, so I have to
             // dereference it to get double
             //return *min_element(fit_values.begin(), fit_values.end());
+            first_run = false;
+            cout << "Init first gen!" << endl;
             return population[0].first;
         }
 
+        cout << "Evolve!" << endl;
         population_t new_generation = select(population);
         vector<candidate_t> new_kernels;
         population_t new_kernels_with_fit;
+
+
+        for (auto &iter: population) {
+            cout << iter.first << ' ' << iter.second << endl;
+        }
 
         // take pair of kernels and produce new pair
         for (unsigned int j = 0; j < new_generation.size(); j += 2) {
