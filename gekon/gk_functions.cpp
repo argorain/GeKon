@@ -36,9 +36,9 @@ namespace gekon {
         population_t new_population;
         new_population.resize(size);
         for (unsigned int j = 0; j < size; ++j) {
-            auto new_kernel = Mat(ksize,ksize,CV_8U);
+            auto new_kernel = Mat(ksize,ksize,CV_8S);
             // generate random matrix with lower bound 0, upper bound 255 and uniform random distribution
-            cv::randu(new_kernel, cv::Scalar::all(0), cv::Scalar::all(255));
+            cv::randu(new_kernel, cv::Scalar::all(-20), cv::Scalar::all(20));
             new_population[j] = std::make_pair(0, new_kernel);
         }
         return new_population;
@@ -82,6 +82,14 @@ namespace gekon {
 
         Mat_<unsigned char> conv_result;
         filter2D(sample.original, conv_result, -1, candidate, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
+
+        std::cout << candidate << std::endl;
+
+        imshow("Image", sample.original);
+        cv::waitKey(0);
+        imshow("Image", sample.modified);
+        cv::waitKey(0);
+
 
         imshow("Image", conv_result);
         cv::waitKey(0);
