@@ -35,6 +35,7 @@ const char* keys =
 };
 
 int main(int argc, char **argv) {
+    srand (time(NULL));
 
     cout << "GeKon" << endl;
 
@@ -66,15 +67,27 @@ int main(int argc, char **argv) {
             .original = orig_img,
             .modified = mod_img
     };
-    Worker the_gekon(20,convSize);
+    Worker the_gekon(100,convSize);
     the_gekon.setTrSample(sample);
 
     // test inputs
 
     // run!
-    for (int j = 0; j < 10; ++j) {
-        cout << the_gekon.run() << endl;
+    for (int j = 0; j < 5; ++j) {
+        cout << endl << ">>>>MAIN:" << the_gekon.run() << endl << endl;
     }
+    auto sol = the_gekon.retBestSolution();
+
+    cout << sol << endl;
+
+    Mat conv_result;
+    filter2D(sample.original, conv_result, -1, sol, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
+
+    imshow("Image", sample.modified);
+    cv::waitKey(0);
+
+    imshow("Image", conv_result);
+    cv::waitKey(0);
 
     cout << "Bye!" << endl;
     return 0;

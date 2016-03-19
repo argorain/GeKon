@@ -36,7 +36,7 @@ namespace gekon {
         population_t new_population;
         new_population.resize(size);
         for (unsigned int j = 0; j < size; ++j) {
-            auto new_kernel = Mat(ksize,ksize,CV_8S);
+            auto new_kernel = Mat(ksize,ksize,KERNEL_TYPE);
             // generate random matrix with lower bound 0, upper bound 255 and uniform random distribution
             cv::randu(new_kernel, cv::Scalar::all(-20), cv::Scalar::all(20));
             new_population[j] = std::make_pair(0, new_kernel);
@@ -81,18 +81,19 @@ namespace gekon {
         //sum(sum(diff))
 
         Mat_<unsigned char> conv_result;
+        //Mat conv_result;
         filter2D(sample.original, conv_result, -1, candidate, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
 
         std::cout << candidate << std::endl;
-
+        /*
         imshow("Image", sample.original);
         cv::waitKey(0);
         imshow("Image", sample.modified);
         cv::waitKey(0);
+        */
 
-
-        imshow("Image", conv_result);
-        cv::waitKey(0);
+        //imshow("Image", conv_result);
+        //cv::waitKey(0);
 
         double sum_square = 0;
         cv::MatConstIterator_<unsigned char> it = conv_result.begin(),
@@ -102,7 +103,16 @@ namespace gekon {
         for (; it != it_end && it2 != it2_end; ++it, ++it2) {
             sum_square += pow(double(*it)-double(*it2), 2);
         }
+
+        /*
+        conv_result = conv_result - sample.modified;
+        cv::pow(conv_result, 2, conv_result);
+        double sum_square = cv::sum(conv_result)[0]; //zero means first channel
+        // http://stackoverflow.com/questions/11071509/opencv-convert-scalar-to-float-or-double-type
+         */
+
         double mse = sqrt(sum_square / double(conv_result.rows * conv_result.cols));
+        std::cout << "MSE:" << mse;
         return mse;
     }
 
@@ -116,7 +126,7 @@ namespace gekon {
         }
 
 		for(auto const& val: values) {
-			norm.push_back(std::pair<double, candidate_t>(val.first/sum, val.second ));
+			norm.push_back(std::make_pair(val.first/sum, val.second ));
 		}
 
 		return norm;
@@ -139,7 +149,7 @@ namespace gekon {
             double random = gekon::random(0, 1);
             for(auto const& val: normPop) {
                 if(val.first > random) {
-                    selPop.push_back(std::pair<double, candidate_t>(val.first, val.second));
+                    selPop.push_back(std::make_pair(val.first, val.second));
                     break;
                 }
             }
@@ -155,8 +165,8 @@ namespace gekon {
         return fit_a < fit_b;
     }
 
-    void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample, population_t generation) {
-        for (int j = 0; j < (int)generation.size(); ++j) {
+    void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample, population_t &generation) {
+        for (size_t j = 0; j < generation.size(); ++j) {
             std::cout << "Fitness calc #" << j;
             generation[j].first = fit_fcn(sample, generation[j].second);
             std::cout << " = " << generation[j].first << std::endl;

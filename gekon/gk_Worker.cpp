@@ -29,7 +29,7 @@ namespace gekon {
 
     double Worker::run() {
         static bool first_run = true;
-        vector<double> fit_values;
+        //vector<double> fit_values;
 
         cout << "Run!" << endl;
         if (first_run) {
@@ -55,14 +55,27 @@ namespace gekon {
         // take pair of kernels and produce new pair
         for (unsigned int j = 0; j < new_generation.size(); j += 2) {
             auto new_pair = crossover(new_generation[j].second, new_generation[j + 1].second);
+            cout << "new pair" << new_pair[0];
             new_kernels.insert(new_kernels.end(), new_pair.begin(), new_pair.end());
         }
+
+        //cout << new_kernels[0] << endl;
+        cout << "new kernels" << endl;
+        for (size_t i=0; i < 5; ++i) {
+            cout << new_kernels[i] << endl;
+        }
+
         // TODO: do not mutate everyone
         for_each(new_kernels.begin(),
                 new_kernels.end(),
                 [=](auto &iter){
                     mutate(iter);
                 });
+        cout << "new kernels" << endl;
+        for (size_t i=0; i < 5; ++i) {
+            cout << new_kernels[i] << endl;
+        }
+        new_kernels_with_fit.resize(new_kernels.size());
         transform(new_kernels.begin(),
                   new_kernels.end(),
                   new_kernels_with_fit.begin(),

@@ -32,7 +32,7 @@ namespace gekon
                             const population_t generation);*/
     void fitness(fitness_fcn_t fit_fcn,
                  tr_sample_t sample,
-                 population_t generation);
+                 population_t &generation);
 
     // select candidates for new generation
     // implements also elitism

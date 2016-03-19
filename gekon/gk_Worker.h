@@ -35,6 +35,7 @@ namespace gekon {
         void setCrossoverFcn(crossover_fcn_t fcn) {crossover = fcn;};
         void setFcn(mutation_fcn_t fcn) {mutate = fcn;};
         double run();
+        cv::Mat retBestSolution() {return population[0].second;};
     };
 }
 

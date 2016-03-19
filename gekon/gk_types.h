@@ -22,6 +22,9 @@ namespace gekon
         cv::Mat modified;
     } tr_sample_t;
 
+    typedef float ker_num_t; //one number in convolution kernel
+    static const auto KERNEL_TYPE = CV_32F;
+
 }
 
 #endif //GEKON_GK_TYPES_H

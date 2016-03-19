@@ -11,7 +11,8 @@
 namespace gekon
 {
     
-	float random(float min, float max);
+	//float random(float min, float max);
+	ker_num_t random(ker_num_t min, ker_num_t max);
     
     //crossover and mutation
     typedef std::function<std::vector<candidate_t>(candidate_t, candidate_t)> crossover_fcn_t;

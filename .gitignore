@@ -45,3 +45,5 @@ tests/lib/*
 
 # Octave file
 octave-workspace
+
+bin/*
