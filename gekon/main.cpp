@@ -76,17 +76,20 @@ int main(int argc, char **argv) {
     }
 
     // init gekon here
+
+    cv::theRNG().state = time(NULL); //random seed for opencv. Need to be initialized for each thread.
+
     tr_sample_t sample = {
             .original = orig_img,
             .modified = mod_img
     };
-    Worker the_gekon(100,convSize);
+    Worker the_gekon(10,convSize);
     the_gekon.setTrSample(sample);
 
     // test inputs
 
     // run!
-    for (int j = 0; j < 5; ++j) {
+    for (int j = 0; j < 4; ++j) {
         cout << endl << ">>>>MAIN:" << the_gekon.run() << endl << endl;
     }
     auto sol = the_gekon.retBestSolution();

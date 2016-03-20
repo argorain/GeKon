@@ -111,7 +111,7 @@ namespace gekon {
         // http://stackoverflow.com/questions/11071509/opencv-convert-scalar-to-float-or-double-type
          */
 
-        double mse = sqrt(sum_square / double(conv_result.rows * conv_result.cols));
+        double mse = sqrt(double(conv_result.rows * conv_result.cols)/(sum_square+0.0001));
         std::cout << "MSE:" << mse;
         return mse;
     }

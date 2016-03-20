@@ -42,7 +42,7 @@ namespace gekon {
             return population[0].first;
         }
 
-        cout << "Evolve!" << endl;
+        cout << "Select!" << endl;
         auto elite = population[0];
         population_t new_generation = select(population);
         vector<candidate_t> new_kernels;
@@ -53,6 +53,7 @@ namespace gekon {
             cout << iter.first << ' ' << iter.second << endl;
         }
 
+        cout << "Crossover" << endl;
         // take pair of kernels and produce new pair
         for (unsigned int j = 0; j < new_generation.size(); j += 2) {
             auto new_pair = crossover(new_generation[j].second, new_generation[j + 1].second);
@@ -61,21 +62,19 @@ namespace gekon {
         }
 
         //cout << new_kernels[0] << endl;
-        cout << "new kernels" << endl;
-        for (size_t i=0; i < 5; ++i) {
-            cout << new_kernels[i] << endl;
-        }
+        //cout << "new kernels" << endl;
+        //for (size_t i=0; i < 5; ++i) {
+        //    cout << new_kernels[i] << endl;
+        //}
 
         // TODO: do not mutate everyone
+        // You should mutate everyone! There is some probability of mutation, but it should by applied for eveyone
         for_each(new_kernels.begin(),
                 new_kernels.end(),
                 [=](auto &iter){
                     mutate(iter);
                 });
-        cout << "new kernels" << endl;
-        for (size_t i=0; i < 5; ++i) {
-            cout << new_kernels[i] << endl;
-        }
+        
         new_kernels_with_fit.resize(new_kernels.size());
         transform(new_kernels.begin(),
                   new_kernels.end(),
@@ -83,9 +82,22 @@ namespace gekon {
                   [](auto iter){return make_pair(0, iter);});
 
         fitness(fit_single, sample, new_kernels_with_fit);
+        
+        cout << "new kernels" << endl;
+        for (size_t i=0; i < (size_t)new_kernels.size(); ++i) {
+            cout << new_kernels[i] << endl;
+        }
+        
         new_generation.insert(new_generation.end(), new_kernels_with_fit.begin(), new_kernels_with_fit.end());
         new_generation.push_back(elite);
         std::sort(new_generation.begin(), new_generation.end(), cmp_candidates);
+
+        
+        cout << "Population:" << endl;
+        for (size_t i=0; i < (size_t)new_generation.size(); ++i) {
+            cout << new_generation[i].first << endl;
+            cout << new_generation[i].second << endl;
+        }
 
         return new_generation[0].first;
     }

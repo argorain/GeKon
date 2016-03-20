@@ -26,9 +26,9 @@ namespace gekon {
 	ker_num_t random(ker_num_t min, ker_num_t max) {
 		//return min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
 		auto rand_num = rand();
-        cout << "Rand: " << rand_num << endl;
+        //cout << "Rand: " << rand_num << endl;
         auto ret = ker_num_t(float(min) + float(rand_num)/float(RAND_MAX/float(max-min)));
-        cout << "Ret: " << ret << endl;
+        //cout << "Ret: " << ret << endl;
         return ret;
 	}
 
@@ -52,13 +52,13 @@ namespace gekon {
 					min = xt-diff*c_blx_a_alpha;
 					max = yt+diff*c_blx_a_alpha;
 				}
-				cout << "min: " << min << " max: " << max << endl;
+		//		cout << "min: " << min << " max: " << max << endl;
 				float rX = random(min, max);
 				float rY = random(min, max); 
-				cout << "rX: " << rX << " rY: " << rY << endl;
+		//		cout << "rX: " << rX << " rY: " << rY << endl;
 				kidX.at<ker_num_t>(r,c) = rX;
 				kidY.at<ker_num_t>(r,c) = rY;
-				cout << "rXV: " << (float)(kidX.at<float>(r,c)) << endl;
+		//		cout << "rXV: " << (float)(kidX.at<float>(r,c)) << endl;
 			}
 			//cout << endl;
 		}		
