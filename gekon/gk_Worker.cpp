@@ -43,6 +43,7 @@ namespace gekon {
         }
 
         cout << "Evolve!" << endl;
+        auto elite = population[0];
         population_t new_generation = select(population);
         vector<candidate_t> new_kernels;
         population_t new_kernels_with_fit;
@@ -83,6 +84,7 @@ namespace gekon {
 
         fitness(fit_single, sample, new_kernels_with_fit);
         new_generation.insert(new_generation.end(), new_kernels_with_fit.begin(), new_kernels_with_fit.end());
+        new_generation.push_back(elite);
         std::sort(new_generation.begin(), new_generation.end(), cmp_candidates);
 
         return new_generation[0].first;

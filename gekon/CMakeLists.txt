@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.8)
 project (gekon)
 
 set(CMAKE_CXX_COMPILER "g++")
-set(CMAKE_CXX_FLAGS "-Wall -pedantic -std=c++14")
+set(CMAKE_CXX_FLAGS "-Wall -pedantic -std=c++14 -g")
 
 find_package(OpenCV REQUIRED)
 

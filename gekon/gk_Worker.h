@@ -36,6 +36,7 @@ namespace gekon {
         void setFcn(mutation_fcn_t fcn) {mutate = fcn;};
         double run();
         cv::Mat retBestSolution() {return population[0].second;};
+        cv::Mat retWorstSolution() {return population[population.size()-1].second;};
     };
 }
 

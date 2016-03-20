@@ -35,7 +35,7 @@ const char* keys =
 };
 
 int main(int argc, char **argv) {
-    srand (time(NULL));
+    srand ((unsigned int)time(NULL));
 
     cout << "GeKon" << endl;
 
@@ -53,8 +53,21 @@ int main(int argc, char **argv) {
     cout << "Original image: " << original << endl;
     cout << "Modified image: " << modified << endl;
 
-    Mat mod_img = imread(modified, CV_LOAD_IMAGE_GRAYSCALE);
-    Mat orig_img = imread(original, CV_LOAD_IMAGE_GRAYSCALE);
+    Mat_<ker_num_t > mod_img;
+    Mat i1 = imread(modified, CV_LOAD_IMAGE_GRAYSCALE);
+    i1.convertTo(mod_img, KERNEL_TYPE, 1/255.0);
+    Mat_<ker_num_t > orig_img;
+    Mat i2 = imread(original, CV_LOAD_IMAGE_GRAYSCALE);
+    i2.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
+
+    imshow("Image", i1);
+    cv::waitKey(0);
+    imshow("Image", i2);
+    cv::waitKey(0);
+    imshow("Image", mod_img);
+    cv::waitKey(0);
+    imshow("Image", orig_img);
+    cv::waitKey(0);
 
     if (!mod_img.data || !orig_img.data)
     {
@@ -83,10 +96,20 @@ int main(int argc, char **argv) {
     Mat conv_result;
     filter2D(sample.original, conv_result, -1, sol, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
 
+    auto w_sol = the_gekon.retWorstSolution();
+
+    cout << w_sol << endl;
+
+    Mat conv_result2;
+    filter2D(sample.original, conv_result2, -1, w_sol, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
+
     imshow("Image", sample.modified);
     cv::waitKey(0);
 
     imshow("Image", conv_result);
+    cv::waitKey(0);
+
+    imshow("Image", conv_result2);
     cv::waitKey(0);
 
     cout << "Bye!" << endl;

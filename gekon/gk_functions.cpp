@@ -80,7 +80,7 @@ namespace gekon {
         //diff = A-B
         //sum(sum(diff))
 
-        Mat_<unsigned char> conv_result;
+        Mat_<ker_num_t> conv_result;
         //Mat conv_result;
         filter2D(sample.original, conv_result, -1, candidate, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
 
@@ -96,10 +96,10 @@ namespace gekon {
         //cv::waitKey(0);
 
         double sum_square = 0;
-        cv::MatConstIterator_<unsigned char> it = conv_result.begin(),
+        cv::MatConstIterator_<ker_num_t> it = conv_result.begin(),
                 it_end = conv_result.end(),
-                it2 = sample.modified.begin<unsigned char>(),
-                it2_end = sample.modified.end<unsigned char>();
+                it2 = sample.modified.begin<ker_num_t>(),
+                it2_end = sample.modified.end<ker_num_t>();
         for (; it != it_end && it2 != it2_end; ++it, ++it2) {
             sum_square += pow(double(*it)-double(*it2), 2);
         }

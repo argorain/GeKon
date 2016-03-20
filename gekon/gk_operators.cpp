@@ -25,7 +25,10 @@ namespace gekon {
 	
 	ker_num_t random(ker_num_t min, ker_num_t max) {
 		//return min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
-        auto ret = ker_num_t(float(min) + float(rand())/float(RAND_MAX/float(max-min)));
+		auto rand_num = rand();
+        cout << "Rand: " << rand_num << endl;
+        auto ret = ker_num_t(float(min) + float(rand_num)/float(RAND_MAX/float(max-min)));
+        cout << "Ret: " << ret << endl;
         return ret;
 	}
 
