@@ -55,11 +55,13 @@ namespace gekon {
 
         cout << "Crossover" << endl;
         // take pair of kernels and produce new pair
+        cout << "New gen size: " << new_generation.size() << endl;
         for (unsigned int j = 0; j < new_generation.size(); j += 2) {
             auto new_pair = crossover(new_generation[j].second, new_generation[j + 1].second);
-            cout << "new pair" << new_pair[0];
+            cout << "new pair" << new_pair[0] << endl;
             new_kernels.insert(new_kernels.end(), new_pair.begin(), new_pair.end());
         }
+        cout << "New kernels size: " << new_kernels.size() << endl;
 
         //cout << new_kernels[0] << endl;
         //cout << "new kernels" << endl;
@@ -98,6 +100,8 @@ namespace gekon {
             cout << new_generation[i].first << endl;
             cout << new_generation[i].second << endl;
         }
+
+        cout << "Gen size: " << new_generation.size() << endl;
 
         return new_generation[0].first;
     }

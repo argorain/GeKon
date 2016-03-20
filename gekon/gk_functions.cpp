@@ -138,8 +138,12 @@ namespace gekon {
         population_t selPop;
 
         double sfitt = 0;
-        int left = normPop.size()/2;
-            
+        int left = 0;
+        if(normPop.size()/2 % 2 == 0)
+            left = normPop.size()/2;
+        else
+            left = normPop.size()/2+1;
+
         for(int i=0; i<(int)normPop.size(); i++) {
             sfitt += normPop[i].first;
             normPop[i].first = sfitt;

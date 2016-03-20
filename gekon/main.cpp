@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
     // test inputs
 
     // run!
-    for (int j = 0; j < 4; ++j) {
+    for (int j = 0; j < 40; ++j) {
         cout << endl << ">>>>MAIN:" << the_gekon.run() << endl << endl;
     }
     auto sol = the_gekon.retBestSolution();
