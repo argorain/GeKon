@@ -86,12 +86,18 @@ int main(int argc, char **argv) {
     Worker the_gekon(10,convSize);
     the_gekon.setTrSample(sample);
 
+    std::vector<double> fitPlot;
+
     // test inputs
 
     // run!
     for (int j = 0; j < 40; ++j) {
-        cout << endl << ">>>>MAIN:" << the_gekon.run() << endl << endl;
+        auto ret = the_gekon.run();
+        cout << endl << ">>>>MAIN:" << ret << endl << endl;
+        fitPlot.push_back(ret);
     }
+    plot_graph(fitPlot, "Fitness");
+    
     auto sol = the_gekon.retBestSolution();
 
     cout << sol << endl;
