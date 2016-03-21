@@ -12,7 +12,7 @@ sudo apt-get -y autoremove
 sudo apt-get install -y build-essential cmake
 
 # GUI:
-sudo apt-get install -y qt5-default libvtk6-dev
+#sudo apt-get install -y qt5-default libvtk6-dev
 
 # Media I/O:
 sudo apt-get install -y zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev libjasper-dev libopenexr-dev libgdal-dev
@@ -24,14 +24,16 @@ sudo apt-get install -y libdc1394-22-dev libavcodec-dev libavformat-dev libswsca
 sudo apt-get install -y libtbb-dev libeigen3-dev
 
 # Python:
-sudo apt-get install -y python-dev python-tk python-numpy python3-dev python3-tk python3-numpy
+#sudo apt-get install -y python-dev python-tk python-numpy python3-dev python3-tk python3-numpy
 
 # Java:
-sudo apt-get install -y ant default-jdk
+#sudo apt-get install -y ant default-jdk
 
 # Documentation:
-sudo apt-get install -y doxygen
+#sudo apt-get install -y doxygen
 
+#Libs
+sudo apt-get install -y zlib1g
 
 # INSTALL THE LIBRARY (YOU CAN CHANGE '3.0.0' FOR THE LAST STABLE VERSION)
 
