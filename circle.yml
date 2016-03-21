@@ -5,11 +5,14 @@ machine:
         - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 20
         - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 20
         - sudo apt-get update
+        - wget https://raw.githubusercontent.com/argorain/GeKon/master/install-opencv.sh
+        - sudo bash install-opencv.sh
+
 checkout:
     post:
         - git submodule sync
         - git submodule update --init
-        - sudo bash install-opencv.sh
+
 test:
     override:
         - cmake .
