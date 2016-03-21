@@ -80,8 +80,8 @@ int main(int argc, char **argv) {
     cv::theRNG().state = time(NULL); //random seed for opencv. Need to be initialized for each thread.
 
     tr_sample_t sample = {
-            .original = orig_img,
-            .modified = mod_img
+            orig_img,
+            mod_img
     };
     Worker the_gekon(10,convSize);
     the_gekon.setTrSample(sample);
