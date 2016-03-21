@@ -5,9 +5,7 @@ machine:
         - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 20
         - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 20
         - sudo apt-get update
-        - sudo apt-get install aptitude -y
-        - sudo aptitude search opencv 
-
+        - sudo apt-get install libopencv-dev python-opencv -y
 checkout:
     post:
         - git submodule sync
