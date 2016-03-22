@@ -166,7 +166,7 @@ namespace gekon {
         double fit_a, fit_b;
         fit_a = a.first;
         fit_b = b.first;
-        return fit_a < fit_b;
+        return fit_a > fit_b; //reverse the order because bigger fitness means better cadidate
     }
 
     void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample, population_t &generation) {

@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
     Mat_<ker_num_t > orig_img;
     Mat i2 = imread(original, CV_LOAD_IMAGE_GRAYSCALE);
     i2.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
-
+/*
     imshow("Image", i1);
     cv::waitKey(0);
     imshow("Image", i2);
@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
     cv::waitKey(0);
     imshow("Image", orig_img);
     cv::waitKey(0);
-
+*/
     if (!mod_img.data || !orig_img.data)
     {
         cout << "Error while reading training samples." << endl;
@@ -111,10 +111,10 @@ int main(int argc, char **argv) {
 
     Mat conv_result2;
     filter2D(sample.original, conv_result2, -1, w_sol, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
-
+/*
     imshow("Image", sample.modified);
     cv::waitKey(0);
-
+*/
     imshow("Image", conv_result);
     cv::waitKey(0);
 

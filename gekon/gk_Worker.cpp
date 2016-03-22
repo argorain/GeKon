@@ -43,8 +43,13 @@ namespace gekon {
         }
 
         cout << "Select!" << endl;
-        auto elite = population[0];
+        pair<double, candidate_t> elite = population[0];
         population_t new_generation = select(population);
+        cout << "Population fitness: " << "[" << elite.first << "], ";
+        for_each(population.begin(), population.end(), [](auto& iter){
+            cout << iter.first << ", ";
+        });
+        cout << endl;
         vector<candidate_t> new_kernels;
         population_t new_kernels_with_fit;
 
@@ -69,8 +74,9 @@ namespace gekon {
         //    cout << new_kernels[i] << endl;
         //}
 
-        // TODO: do not mutate everyone
         // You should mutate everyone! There is some probability of mutation, but it should by applied for eveyone
+        // todo: do not calculate fitness for those who haven't been changed by mutation => remember
+        // who was mutated
         for_each(new_kernels.begin(),
                 new_kernels.end(),
                 [=](auto &iter){
