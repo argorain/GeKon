@@ -66,7 +66,7 @@ namespace gekon {
 		std::vector<candidate_t> kids;
 		kids.push_back(kidX);
 		kids.push_back(kidY);
-		std::cout << kidX << endl << kidY << endl;
+		//std::cout << kidX << endl << kidY << endl;
 
 		return kids;
 
@@ -81,7 +81,7 @@ namespace gekon {
 			int c1 = random(-0.4, cols-1+0.4);
 			int r2 = random(-0.4, rows-1+0.4); 
 			int c2 = random(-0.4, cols-1+0.4);
-			cout << "Swap between [" << r1 << "," << c1 << "],[" << r2 << "," << c2 << "]" << endl;
+			//cout << "Swap between [" << r1 << "," << c1 << "],[" << r2 << "," << c2 << "]" << endl;
 			float g = X.at<float>(r1, c1);
 			X.at<float>(r1, c1) = X.at<float>(r2, c2);
 			X.at<float>(r2, c2) = g;

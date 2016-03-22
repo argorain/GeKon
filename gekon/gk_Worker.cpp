@@ -53,17 +53,17 @@ namespace gekon {
         vector<candidate_t> new_kernels;
         population_t new_kernels_with_fit;
 
-
+        /*
         for (auto &iter: population) {
             cout << iter.first << ' ' << iter.second << endl;
-        }
+        }*/
 
         cout << "Crossover" << endl;
         // take pair of kernels and produce new pair
         cout << "New gen size: " << new_generation.size() << endl;
         for (unsigned int j = 0; j < new_generation.size(); j += 2) {
             auto new_pair = crossover(new_generation[j].second, new_generation[j + 1].second);
-            cout << "new pair" << new_pair[0] << endl;
+            //cout << "new pair" << new_pair[0] << endl;
             new_kernels.insert(new_kernels.end(), new_pair.begin(), new_pair.end());
         }
         cout << "New kernels size: " << new_kernels.size() << endl;
@@ -90,23 +90,24 @@ namespace gekon {
                   [](auto iter){return make_pair(0, iter);});
 
         fitness(fit_single, sample, new_kernels_with_fit);
-        
+
+        /*
         cout << "new kernels" << endl;
         for (size_t i=0; i < (size_t)new_kernels.size(); ++i) {
             cout << new_kernels[i] << endl;
-        }
+        }*/
         
         new_generation.insert(new_generation.end(), new_kernels_with_fit.begin(), new_kernels_with_fit.end());
         new_generation.push_back(elite);
         std::sort(new_generation.begin(), new_generation.end(), cmp_candidates);
         population = new_generation;
 
-        
+        /*
         cout << "Population:" << endl;
         for (size_t i=0; i < (size_t)new_generation.size(); ++i) {
             cout << new_generation[i].first << endl;
             cout << new_generation[i].second << endl;
-        }
+        }*/
 
         cout << "Gen size: " << new_generation.size() << endl;
 

@@ -91,11 +91,15 @@ int main(int argc, char **argv) {
     // test inputs
 
     // run!
+    time_t start, end;
+    time(&start);
     for (int j = 0; j < 100; ++j) {
         auto ret = the_gekon.run();
-        cout << endl << ">>>>MAIN:" << ret << endl << endl;
+        cout << endl << "Elite: " << ret << endl << endl;
         fitPlot.push_back(ret);
     }
+    time(&end);
+    cout << "Time elapsed: " << difftime(end, start) << endl;
     plot_graph(fitPlot, "Fitness");
     
     auto sol = the_gekon.retBestSolution();

@@ -84,7 +84,7 @@ namespace gekon {
         //Mat conv_result;
         filter2D(sample.original, conv_result, -1, candidate, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
 
-        std::cout << candidate << std::endl;
+        //std::cout << candidate << std::endl;
         /*
         imshow("Image", sample.original);
         cv::waitKey(0);
@@ -112,7 +112,7 @@ namespace gekon {
          */
 
         double mse = sqrt(double(conv_result.rows * conv_result.cols)/(sum_square+0.0001));
-        std::cout << "MSE:" << mse;
+        //std::cout << "MSE:" << mse;
         return mse;
     }
 
@@ -171,9 +171,9 @@ namespace gekon {
 
     void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample, population_t &generation) {
         for (size_t j = 0; j < generation.size(); ++j) {
-            std::cout << "Fitness calc #" << j;
+            // std::cout << "Fitness calc #" << j;
             generation[j].first = fit_fcn(sample, generation[j].second);
-            std::cout << " = " << generation[j].first << std::endl;
+            //std::cout << " = " << generation[j].first << std::endl;
             //std::cout << "Konvolution" << std::endl << generation[j].second << std::endl;
         }
         //std::sort(generation.begin(), generation.end(), cmp_candidates);
