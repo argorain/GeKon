@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
             orig_img,
             mod_img
     };
-    Worker the_gekon(10,convSize);
+    Worker the_gekon(50,convSize);
     the_gekon.setTrSample(sample);
 
     std::vector<double> fitPlot;
@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
     // test inputs
 
     // run!
-    for (int j = 0; j < 40; ++j) {
+    for (int j = 0; j < 100; ++j) {
         auto ret = the_gekon.run();
         cout << endl << ">>>>MAIN:" << ret << endl << endl;
         fitPlot.push_back(ret);
@@ -117,10 +117,10 @@ int main(int argc, char **argv) {
 */
     imshow("Image", conv_result);
     cv::waitKey(0);
-
+/*
     imshow("Image", conv_result2);
     cv::waitKey(0);
-
+*/
     cout << "Bye!" << endl;
     return 0;
 }

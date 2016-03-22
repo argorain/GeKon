@@ -99,6 +99,7 @@ namespace gekon {
         new_generation.insert(new_generation.end(), new_kernels_with_fit.begin(), new_kernels_with_fit.end());
         new_generation.push_back(elite);
         std::sort(new_generation.begin(), new_generation.end(), cmp_candidates);
+        population = new_generation;
 
         
         cout << "Population:" << endl;
@@ -109,6 +110,6 @@ namespace gekon {
 
         cout << "Gen size: " << new_generation.size() << endl;
 
-        return new_generation[0].first;
+        return population[0].first;
     }
 }
