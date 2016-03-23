@@ -5,6 +5,10 @@
 #ifndef GEKON_GK_TYPES_H
 #define GEKON_GK_TYPES_H
 
+#ifndef NUM_THREADS
+#define NUM_THREADS 1
+#endif
+
 #include <opencv2/core.hpp>
 #include <vector>
 

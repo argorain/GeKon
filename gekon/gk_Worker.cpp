@@ -17,6 +17,9 @@ namespace gekon {
         population = first_generation(gensize, ksize);
         fit_single = fitness_mse;
 
+        static_assert((unsigned int)NUM_THREADS > 0, "Number of threads must be numeric value greater than zero.");
+        cout << "Running with " << NUM_THREADS << " threads." << endl;
+
        /* 
         for (auto &iter: population) {
             cout << iter.first << ' ' << iter.second << endl;

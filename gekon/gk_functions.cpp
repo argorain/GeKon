@@ -15,6 +15,7 @@
 #include <opencv2/imgproc.hpp>
 
 #include <boost/container/map.hpp>
+#include <thread>
 
 using cv::Mat; using cv::Mat_;
 
@@ -170,12 +171,39 @@ namespace gekon {
     }
 
     void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample, population_t &generation) {
+        size_t vec_size = generation.size();
+        unsigned int num_of_threads = NUM_THREADS;
+        std::vector<size_t> boundaries;
+
+        unsigned int step = (unsigned int)vec_size/num_of_threads;
+        for (unsigned int i = 0; i < num_of_threads; ++i) {
+            //fixme: last thread has biggest portion
+            boundaries.push_back(i*step);
+        }
+        boundaries.push_back(vec_size);
+        std::thread *tt = new std::thread[num_of_threads];
+
+        for (unsigned int i = 0; i < num_of_threads; ++i) {
+            tt[i] = std::thread([&](size_t low, size_t high){
+                for (size_t j = low; j < high; ++j) {
+                    generation[j].first = fit_fcn(sample, generation[j].second);
+                }
+            }, boundaries[i], boundaries[i+1]);
+        }
+        //fixme: main thread is idle
+        for (unsigned int i = 0; i < num_of_threads; ++i)
+            tt[i].join();
+
+        delete [] tt;
+
+
+        /*
         for (size_t j = 0; j < generation.size(); ++j) {
             // std::cout << "Fitness calc #" << j;
             generation[j].first = fit_fcn(sample, generation[j].second);
             //std::cout << " = " << generation[j].first << std::endl;
             //std::cout << "Konvolution" << std::endl << generation[j].second << std::endl;
-        }
+        }*/
         //std::sort(generation.begin(), generation.end(), cmp_candidates);
     }
 }
