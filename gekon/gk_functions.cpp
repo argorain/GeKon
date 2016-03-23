@@ -114,7 +114,8 @@ namespace gekon {
 
         double mse = sqrt(double(conv_result.rows * conv_result.cols)/(sum_square+0.0001));
         //std::cout << "MSE:" << mse;
-        return mse;
+        //return mse;
+        return exp(10*mse);
     }
 
 
@@ -150,18 +151,46 @@ namespace gekon {
             normPop[i].first = sfitt;
         }
 
+        std::cout << "Selected positions: ";
         for(int i=0; i<left; i++) {
             double random = gekon::random(0, 1);
-            for(auto const& val: normPop) {
+            /*for(auto const& val: normPop) {
                 if(val.first > random) {
                     selPop.push_back(std::make_pair(val.first, val.second));
                     break;
                 }
+            }*/
+            for (unsigned int j = 0; j < normPop.size(); ++j) {
+                if (normPop[j].first > random) {
+                    selPop.push_back(std::make_pair(normPop[j].first, normPop[j].second));
+                    std::cout << j << ", ";
+                    break;
+                }
             }
         }
+        std::cout << std::endl;
 
 		return selPop;
 	}
+
+    population_t s_rank_selection(const population_t prev_population) {
+        population_t mod_pop; // modified population - replace fitness with reversed index
+        size_t pop_size = prev_population.size();
+        mod_pop.resize(prev_population.size());
+        for (size_t j = 0; j < pop_size; ++j) {
+            // now perform the replacement
+            mod_pop[j].first = double(pop_size-j);
+            mod_pop[j].second = prev_population[j].second;
+        }
+        population_t ret_pop = s_roulette(mod_pop);
+        // use already implemented roulette selection
+        for (size_t j = 0; j < ret_pop.size(); ++j) {
+            // pick fitness values back from previous population
+            size_t prev_index = pop_size - size_t(ret_pop[j].first);
+            ret_pop[j].first = prev_population[prev_index].first;
+        }
+        return ret_pop;
+    }
 
     bool cmp_candidates(const std::pair<double, candidate_t> a, const std::pair<double, candidate_t> b) {
         double fit_a, fit_b;

@@ -83,8 +83,9 @@ int main(int argc, char **argv) {
             orig_img,
             mod_img
     };
-    Worker the_gekon(100,convSize);
+    Worker the_gekon(80,convSize);
     the_gekon.setTrSample(sample);
+    //the_gekon.setSelectionFcn(s_rank_selection);
 
     std::vector<double> fitPlot;
 
@@ -93,9 +94,11 @@ int main(int argc, char **argv) {
     // run!
     time_t start, end;
     time(&start);
-    for (int j = 0; j < 500; ++j) {
+    int loops = 100;
+    for (int j = 0; j < loops; ++j) {
         auto ret = the_gekon.run();
-        cout << endl << "Elite: " << ret << endl << endl;
+        cout << endl << "Elite: " << ret << endl
+             << "Iterations: " << j << "/" << loops << endl << endl;
         fitPlot.push_back(ret);
     }
     time(&end);

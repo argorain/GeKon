@@ -39,6 +39,7 @@ namespace gekon
     typedef std::function<population_t(population_t)> selection_fcn_t;
 
     population_t s_roulette(const population_t prev_population);
+    population_t s_rank_selection(const population_t prev_population);
 
     // Naive fitness function implementing mean square error calculation
     double fitness_mse(const tr_sample_t sample, const candidate_t candidate);
