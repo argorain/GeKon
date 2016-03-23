@@ -115,7 +115,7 @@ namespace gekon {
         double mse = sqrt(double(conv_result.rows * conv_result.cols)/(sum_square+0.0001));
         //std::cout << "MSE:" << mse;
         //return mse;
-        return exp(10*mse);
+        return exp(5*mse);
     }
 
 
@@ -172,6 +172,26 @@ namespace gekon {
 
 		return selPop;
 	}
+
+    population_t s_tournament(const population_t prev_population) {
+        unsigned int new_gen_size;
+        unsigned int prev_gen_size = (unsigned int)prev_population.size();
+
+        if(prev_gen_size/2 % 2 == 0)
+            new_gen_size = prev_gen_size/2;
+        else
+            new_gen_size = prev_gen_size/2+1;
+
+        population_t new_gen;
+        new_gen.resize(new_gen_size);
+
+        for (unsigned int j = 0; j < new_gen_size; ++j) {
+            unsigned int fst = (unsigned int)floor(random(0, prev_gen_size)),
+                snd = (unsigned int)floor(random(0, prev_gen_size));
+            new_gen[j] = prev_population[(fst < snd) ? fst : snd];
+        }
+        return new_gen;
+    }
 
     population_t s_rank_selection(const population_t prev_population) {
         population_t mod_pop; // modified population - replace fitness with reversed index
