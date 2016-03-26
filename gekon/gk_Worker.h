@@ -27,13 +27,18 @@ namespace gekon {
 
         fitness_fcn_t fit_single;
 
+        unsigned int threads;
+
     public:
-        Worker(size_t gensize, int ksize);
+        Worker();
         virtual ~Worker();
+        void setKernelSize(const int ksize) {kernel_size = ksize;};
+        void setGenSize(const size_t gensize) {generation_size = gensize;};
         void setTrSample(tr_sample_t asample) {sample = asample;};
         void setSelectionFcn(selection_fcn_t fcn) {select = fcn;};
         void setCrossoverFcn(crossover_fcn_t fcn) {crossover = fcn;};
-        void setFcn(mutation_fcn_t fcn) {mutate = fcn;};
+        void setMutationFcn(mutation_fcn_t fcn) {mutate = fcn;};
+        void overrideNumOfThreads(const unsigned int n) {threads = n;};
         double run();
         cv::Mat retBestSolution() {return population[0].second;};
         cv::Mat retWorstSolution() {return population[population.size()-1].second;};

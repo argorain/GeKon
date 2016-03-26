@@ -1,0 +1,13 @@
+# This is a test file containing predefined tests for
+# GeKon project
+
+[simple-test]
+selection="roulette"
+threads=8
+
+[another-test]
+mutation="swap"
+threads=1
+
+[yet-another-test]
+threads=4

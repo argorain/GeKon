@@ -83,7 +83,9 @@ int main(int argc, char **argv) {
             orig_img,
             mod_img
     };
-    Worker the_gekon(80,convSize);
+    Worker the_gekon;//80,convSize);
+    the_gekon.setGenSize(80);
+    the_gekon.setKernelSize(convSize);
     the_gekon.setTrSample(sample);
     the_gekon.setSelectionFcn(s_tournament);
 

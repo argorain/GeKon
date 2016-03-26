@@ -219,9 +219,12 @@ namespace gekon {
         return fit_a > fit_b; //reverse the order because bigger fitness means better cadidate
     }
 
-    void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample, population_t &generation) {
+    void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample,
+                 population_t &generation,
+                 const unsigned int threads_num)
+    {
         size_t vec_size = generation.size();
-        unsigned int num_of_threads = NUM_THREADS;
+        unsigned int num_of_threads = threads_num;
         std::vector<size_t> boundaries;
 
         unsigned int step = (unsigned int)vec_size/num_of_threads;

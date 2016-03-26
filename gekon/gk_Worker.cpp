@@ -10,15 +10,17 @@ using namespace std;
 
 namespace gekon {
 
-    Worker::Worker(size_t gensize, int ksize) {
+    Worker::Worker() {
         select = s_roulette;
         crossover = c_blx_a;
         mutate = m_swap;
-        population = first_generation(gensize, ksize);
+        //population = first_generation(gensize, ksize);
         fit_single = fitness_mse;
+        kernel_size = 3;
+        generation_size = 100;
 
         static_assert((unsigned int)NUM_THREADS > 0, "Number of threads must be numeric value greater than zero.");
-        cout << "Running with " << NUM_THREADS << " threads." << endl;
+        threads = NUM_THREADS;
 
        /* 
         for (auto &iter: population) {
@@ -36,7 +38,9 @@ namespace gekon {
 
         cout << "Run!" << endl;
         if (first_run) {
-            fitness(fit_single, sample, population);
+            cout << "Running with " << threads << " threads." << endl;
+            population = first_generation(generation_size, kernel_size);
+            fitness(fit_single, sample, population, threads);
             // min element fcn returns iterator, so I have to
             // dereference it to get double
             //return *min_element(fit_values.begin(), fit_values.end());
@@ -92,7 +96,7 @@ namespace gekon {
                   new_kernels_with_fit.begin(),
                   [](auto iter){return make_pair(0, iter);});
 
-        fitness(fit_single, sample, new_kernels_with_fit);
+        fitness(fit_single, sample, new_kernels_with_fit, threads);
 
         /*
         cout << "new kernels" << endl;
