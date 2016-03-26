@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
     };
     Worker the_gekon(80,convSize);
     the_gekon.setTrSample(sample);
-    //the_gekon.setSelectionFcn(s_rank_selection);
+    the_gekon.setSelectionFcn(s_tournament);
 
     std::vector<double> fitPlot;
 
