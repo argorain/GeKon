@@ -7,9 +7,15 @@
 #include "gk_Worker.h"
 
 #include <iostream>
+#include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgcodecs/imgcodecs_c.h>
 
 using std::cout; using std::endl;
 using std::cerr;
+
+using namespace gekon;
 
 static const std::map<std::string, gekon::selection_fcn_t> selection_map = {
         {"roulette", gekon::s_roulette},
@@ -27,14 +33,14 @@ public:
         name = selection = crossover = mutation = "default";
         number_of_threads = 4;
         kernel_size = 3;
-        generation_size = 100;
+        generation_size = 500;
     }
 };
 
 int main(int argc, char **argv)
 {
-    if (argc < 2) {
-        cout << "Usage: ." << argv[0] << " <test file>" << endl;
+    if (argc < 4) {
+        cout << "Usage: ." << argv[0] << " <test file> <original> <modified>" << endl;
         return 1;
     }
 
@@ -101,13 +107,41 @@ int main(int argc, char **argv)
     auto test_output = [&](std::string comment, std::string value){
         cout << test_tag << comment << value << endl;
     };
+
+    cv::Mat_<ker_num_t > mod_img;
+    cv::Mat i1 = cv::imread(argv[3], CV_LOAD_IMAGE_GRAYSCALE);
+    i1.convertTo(mod_img, KERNEL_TYPE, 1/255.0);
+    cv::Mat_<ker_num_t > orig_img;
+    cv::Mat i2 = cv::imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE);
+    i2.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
+
+
+    srand ((unsigned int)time(NULL));
+    cv::theRNG().state = (uint64_t)time(NULL); //random seed for opencv. Need to be initialized for each thread.
+
+    tr_sample_t sample = {
+            orig_img,
+            mod_img
+    };
+
     while (it_worker != workers.end()) {
         test_output("Test name: ", it_worker->name);
         test_output("Number of threads: ", std::to_string(it_worker->number_of_threads));
         test_output("Selection type: ", it_worker->selection);
         cout << test_tag << "Run!" << endl;
+
+        it_worker->worker.setTrSample(sample);
+        it_worker->worker.setGenSize(it_worker->generation_size);
+
         time_t start, end;
         time(&start);
+        int loops = 100;
+        for (int j = 0; j < loops; ++j) {
+            auto ret = it_worker->worker.run();
+            cout << endl << "Elite: " << ret << endl
+            << "Iterations: " << j << "/" << loops << endl << endl;
+        }
+
         time(&end);
         cout << test_tag << "Time elapsed: " << difftime(end, start) << endl;
 

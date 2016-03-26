@@ -21,6 +21,7 @@ namespace gekon {
 
         static_assert((unsigned int)NUM_THREADS > 0, "Number of threads must be numeric value greater than zero.");
         threads = NUM_THREADS;
+        first_run = true;
 
        /* 
         for (auto &iter: population) {
@@ -33,7 +34,7 @@ namespace gekon {
     }
 
     double Worker::run() {
-        static bool first_run = true;
+        //static bool first_run = true;
         //vector<double> fit_values;
 
         cout << "Run!" << endl;

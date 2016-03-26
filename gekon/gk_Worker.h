@@ -28,6 +28,7 @@ namespace gekon {
         fitness_fcn_t fit_single;
 
         unsigned int threads;
+        bool first_run;
 
     public:
         Worker();
