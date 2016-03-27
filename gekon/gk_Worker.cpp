@@ -22,6 +22,8 @@ namespace gekon {
         static_assert((unsigned int)NUM_THREADS > 0, "Number of threads must be numeric value greater than zero.");
         threads = NUM_THREADS;
         first_run = true;
+        max_generation_count = 5000;
+        generation_counter = 1;
 
        /* 
         for (auto &iter: population) {
@@ -88,7 +90,7 @@ namespace gekon {
         for_each(new_kernels.begin(),
                 new_kernels.end(),
                 [=](auto &iter){
-                    mutate(iter);
+                    mutate(iter, generation_counter, max_generation_count);
                 });
         
         new_kernels_with_fit.resize(new_kernels.size());
@@ -118,6 +120,8 @@ namespace gekon {
         }*/
 
         cout << "Gen size: " << new_generation.size() << endl;
+
+        ++generation_counter;
 
         return population[0].first;
     }

@@ -88,6 +88,7 @@ int main(int argc, char **argv) {
     the_gekon.setKernelSize(convSize);
     the_gekon.setTrSample(sample);
     the_gekon.setSelectionFcn(s_tournament);
+    the_gekon.setMutationFcn(m_dynamic;
 
     std::vector<double> fitPlot;
 

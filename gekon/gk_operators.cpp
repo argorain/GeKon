@@ -126,8 +126,8 @@ namespace gekon {
         return kids;
     }
 
-	candidate_t m_swap(candidate_t X) {
-		if(random(0,1) < m_swap_prob) {
+	void m_swap(candidate_t &X, unsigned int t, unsigned int T) {
+        if(random(0,1) < m_swap_prob) {
 			// Mutate!
 			int rows = X.rows;
 			int cols = X.cols;
@@ -141,7 +141,18 @@ namespace gekon {
 			X.at<float>(r2, c2) = g;
 		}
 
-		return X;
+		//return X;
 	}
 
+    void m_dynamic(candidate_t &X, unsigned int t, unsigned int T) {
+        int rows = X.rows;
+        int cols = X.cols;
+        for (int r = 0; r < rows; ++r) {
+            for (int c = 0; c < cols; ++c) {
+                if(random(0,1) < m_swap_prob) {
+                    X.at<ker_num_t>(r,c) = X.at<ker_num_t>(r,c)*(1-pow(random(0,1), pow(float(1)-float(t)/T, m_dynamic_B)));
+                }
+            }
+        }
+    }
 }

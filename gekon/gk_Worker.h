@@ -30,6 +30,8 @@ namespace gekon {
         unsigned int threads;
         bool first_run;
 
+        unsigned int generation_counter, max_generation_count;
+
     public:
         Worker();
         virtual ~Worker();
@@ -40,6 +42,7 @@ namespace gekon {
         void setCrossoverFcn(crossover_fcn_t fcn) {crossover = fcn;};
         void setMutationFcn(mutation_fcn_t fcn) {mutate = fcn;};
         void overrideNumOfThreads(const unsigned int n) {threads = n;};
+        void setMaxNumberOfGenerations(const unsigned int n) {max_generation_count=n;};
         double run();
         cv::Mat retBestSolution() {return population[0].second;};
         cv::Mat retWorstSolution() {return population[population.size()-1].second;};
