@@ -3,11 +3,16 @@
 
 [simple-test]
 selection="roulette"
+mutation="dynamic"
 threads=8
+max_generations=20
 
 [another-test]
 mutation="swap"
 threads=1
+max_generations=20
 
 [yet-another-test]
+crossover="blx_a"
 threads=4
+max_generations=20
