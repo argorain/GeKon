@@ -77,7 +77,32 @@ namespace gekon {
     }
 
     std::vector<candidate_t> c_simle(candidate_t X, candidate_t Y) {
-        return std::vector<gekon::candidate_t>();
+        // random vectors
+        vector<ker_num_t> rand_vec;
+        vector<bool> decision_vec;
+        // new candidates
+        vector<candidate_t> kids;
+        int rows = X.rows, cols = X.cols;
+        assert(X.rows == Y.rows && X.cols == Y.cols);
+        // initialization of container types
+        rand_vec.resize((unsigned int)rows*cols, 0);
+        decision_vec.resize((unsigned int)rows*cols, false);
+        kids.resize(2, Mat::zeros(rows, cols, KERNEL_TYPE));
+
+        for (int j = 0; j < 2; ++j) {
+            for_each(rand_vec.begin(), rand_vec.end(), [](auto &iter) {
+                return random(0, 1);
+            });
+            transform(rand_vec.begin(), rand_vec.end(), decision_vec.begin(), [](auto iter) {
+                return iter > 0.5;
+            });
+            for (int k=0; k < rows*cols; ++k) {
+                int r = k/cols;
+                int c = k%cols;
+                kids[j].at<ker_num_t>(r,c) = (decision_vec[k]) ? X.at<ker_num_t>(r,c) : Y.at<ker_num_t>(r,c);
+            }
+        }
+        return kids;
     }
 
 	candidate_t m_swap(candidate_t X) {

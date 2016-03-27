@@ -9,7 +9,8 @@ find_package(OpenCV REQUIRED)
 
 set(TEST_FILES
         first_test.cpp
-        gk_utils_test.cpp)
+        gk_utils_test.cpp
+        selection_test.cpp)
 
 add_executable(runGekonTests ${TEST_FILES})
 
