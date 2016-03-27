@@ -73,7 +73,28 @@ namespace gekon {
 	}
 
     std::vector<candidate_t> c_convex(candidate_t X, candidate_t Y) {
-        return std::vector<gekon::candidate_t>();
+        // random vectors
+        vector<ker_num_t> rand_vec;
+        // new candidates
+        vector<candidate_t> kids;
+        int rows = X.rows, cols = X.cols;
+        assert(X.rows == Y.rows && X.cols == Y.cols);
+        // initialization of container types
+        rand_vec.resize((unsigned int)rows*cols, 0);
+        kids.resize(2, Mat::zeros(rows, cols, KERNEL_TYPE));
+
+        for (int j = 0; j < 2; ++j) {
+            for_each(rand_vec.begin(), rand_vec.end(), [](auto &iter) {
+                return random(0, 1);
+            });
+            for (int k=0; k < rows*cols; ++k) {
+                int r = k/cols;
+                int c = k%cols;
+                kids[j].at<ker_num_t>(r,c) = rand_vec[k]*X.at<ker_num_t>(r,c) + (1-rand_vec[k])* Y.at<ker_num_t>(r,c);
+            }
+        }
+
+        return kids;
     }
 
     std::vector<candidate_t> c_simle(candidate_t X, candidate_t Y) {
