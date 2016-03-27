@@ -72,6 +72,14 @@ namespace gekon {
 
 	}
 
+    std::vector<candidate_t> c_convex(candidate_t X, candidate_t Y) {
+        return std::vector<gekon::candidate_t>();
+    }
+
+    std::vector<candidate_t> c_simle(candidate_t X, candidate_t Y) {
+        return std::vector<gekon::candidate_t>();
+    }
+
 	candidate_t m_swap(candidate_t X) {
 		if(random(0,1) < m_swap_prob) {
 			// Mutate!
