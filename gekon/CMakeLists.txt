@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.8)
 project (gekon)
 
 set(CMAKE_CXX_COMPILER "g++")
-set(CMAKE_CXX_FLAGS "-Wall -pedantic -std=c++14 -g -DNUM_THREADS=4")
+set(CMAKE_CXX_FLAGS "-Wall -pedantic -std=c++14 -lm -g -DNUM_THREADS=4")
 
 find_package(OpenCV REQUIRED)
 
@@ -24,14 +24,14 @@ set(SOURCE_FILES
        )
 
 
-add_executable(playground playground.cpp ${SOURCE_FILES} ${HEADER_FILES})
+   #add_executable(playground playground.cpp ${SOURCE_FILES} ${HEADER_FILES})
 add_executable(gekon_run main.cpp ${SOURCE_FILES} ${HEADER_FILES})
 add_executable(automated_tests automated_tests.cpp ${SOURCE_FILES} ${HEADER_FILES})
 
 #target_link_libraries(playground ${OpenCV_LIBS} "-lstdc++fs")
 #target_link_libraries(gekon_run ${OpenCV_LIBS} "-lstdc++fs")
-target_link_libraries(playground ${OpenCV_LIBS} "-lboost_system -lboost_filesystem -lboost_iostreams")
-target_link_libraries(gekon_run ${OpenCV_LIBS} "-lboost_system -lboost_filesystem -lboost_iostreams")
-target_link_libraries(automated_tests ${OpenCV_LIBS} "-lboost_system -lboost_filesystem -lboost_iostreams")
+#target_link_libraries(playground ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
+target_link_libraries(gekon_run ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
+target_link_libraries(automated_tests ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
 
 add_library(gekon STATIC ${SOURCE_FILES} ${HEADER_FILES})
