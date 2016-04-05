@@ -47,3 +47,8 @@ tests/lib/*
 octave-workspace
 
 bin/*
+
+# Docs
+docs/*
+!docs/*.md
+!docs/*.tex
