@@ -43,7 +43,7 @@ namespace gekon {
         if (first_run) {
             cout << "Running with " << threads << " threads." << endl;
             population = first_generation(generation_size, kernel_size);
-            fitness(fit_single, sample, population, threads);
+            fitness(fit_single, samples, population, threads);
             // min element fcn returns iterator, so I have to
             // dereference it to get double
             //return *min_element(fit_values.begin(), fit_values.end());
@@ -99,7 +99,7 @@ namespace gekon {
                   new_kernels_with_fit.begin(),
                   [](auto iter){return make_pair(0, iter);});
 
-        fitness(fit_single, sample, new_kernels_with_fit, threads);
+        fitness(fit_single, samples, new_kernels_with_fit, threads);
 
         /*
         cout << "new kernels" << endl;
