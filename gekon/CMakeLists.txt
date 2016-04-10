@@ -14,6 +14,7 @@ set(HEADER_FILES
         gk_operators.h
 		gnuplot-iostream.h
 		gk_Worker.h
+        SSIM.h
        )
 
 set(SOURCE_FILES
@@ -21,6 +22,7 @@ set(SOURCE_FILES
 		gk_utils.cpp
 		gk_operators.cpp
 		gk_Worker.cpp
+        SSIM.cpp
        )
 
 
@@ -30,7 +32,6 @@ add_executable(automated_tests automated_tests.cpp ${SOURCE_FILES} ${HEADER_FILE
 
 #target_link_libraries(playground ${OpenCV_LIBS} "-lstdc++fs")
 #target_link_libraries(gekon_run ${OpenCV_LIBS} "-lstdc++fs")
-#target_link_libraries(playground ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
 target_link_libraries(playground ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
 target_link_libraries(gekon_run ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
 target_link_libraries(automated_tests ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")

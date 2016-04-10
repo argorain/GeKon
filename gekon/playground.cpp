@@ -165,6 +165,11 @@ int main(int argc, char **argv)
     cout << "WORKER TEST" << endl;
     Worker test();
 
+    */
 
-*/
+    ssim("samples/lena_gray.png", "samples/lena_gray_M.png");
+    ssim("samples/lena_gray.png", "samples/lena_gray.mod.png");
+    ssim("samples/lena_gray.png", "samples/lena_gray.png");
+
+
 }

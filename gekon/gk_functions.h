@@ -51,6 +51,8 @@ namespace gekon
     std::vector<tr_sample_t> load_samples(std::string orig, std::string mod);
     cv::Mat vec2image(std::vector<tr_sample_t> samples, candidate_t kernel);
 
+    double fitness_ssim(const tr_sample_t sample, const candidate_t candidate);
+
 }
 
 #endif //GEKON_GA_FUNCTIONS_H
