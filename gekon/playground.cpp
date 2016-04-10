@@ -5,22 +5,24 @@
 #include <iostream>
 #include <algorithm>
 
-#include "opencv2/core.hpp"
-#include "opencv2/core/utility.hpp"
-#include "opencv2/imgproc.hpp"
-#include "opencv2/imgcodecs.hpp"
+//#include "opencv2/core.hpp"
+//#include "opencv2/core/utility.hpp"
+//#include "opencv2/imgproc.hpp"
+//#include "opencv2/imgcodecs.hpp"
 
-#include "gk_utils.h"
-#include "gk_operators.h"
-#include "gk_Worker.h"
+//#include "gk_utils.h"
+//#include "gk_operators.h"
+//#include "gk_Worker.h"
+
+#include "SSIM.h"
 
 using namespace std;
-using namespace gekon;
+//using namespace gekon;
 
 int main() {
 
     //plot playground
-    std::vector<double> data;
+    /*std::vector<double> data;
     for(int i=0; i<200; i++) {
         data.push_back(1/(double)i + 2);
     }
@@ -126,6 +128,11 @@ int main() {
     cout << "WORKER TEST" << endl;
     Worker test();
 
+    */
+
+    ssim("samples/lena_gray.png", "samples/lena_gray_M.png");
+    ssim("samples/lena_gray.png", "samples/lena_gray.mod.png");
+    ssim("samples/lena_gray.png", "samples/lena_gray.png");
 
 
 }

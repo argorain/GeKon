@@ -46,6 +46,7 @@ namespace gekon
     // Naive fitness function implementing mean square error calculation
     double fitness_mse(const tr_sample_t sample, const candidate_t candidate);
 
+    double fitness_ssim(const tr_sample_t sample, const candidate_t candidate);
 }
 
 #endif //GEKON_GA_FUNCTIONS_H
