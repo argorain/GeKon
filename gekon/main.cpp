@@ -97,12 +97,17 @@ int main(int argc, char **argv) {
     // run!
     time_t start, end;
     time(&start);
-    int loops = 100;
+    int loops = 1000; // maximum iterations
+    float goodEnough = 90; //ending condition
     for (int j = 0; j < loops; ++j) {
         auto ret = the_gekon.run();
         cout << endl << "Elite: " << ret << endl
              << "Iterations: " << j << "/" << loops << endl << endl;
         fitPlot.push_back(ret);
+        if(ret > goodEnough) {
+            cout << "Found solution good enough. Ending." << endl;
+            break;
+        }
     }
     time(&end);
     cout << "Time elapsed: " << difftime(end, start) << endl;
