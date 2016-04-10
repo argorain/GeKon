@@ -402,8 +402,8 @@ namespace gekon {
         cvConvert(img2_temp, img2);
 //        cvReleaseImage(&img1_temp);
 //        cvReleaseImage(&img2_temp);
-        img1_temp->~IplImage();
-        img2_temp->~IplImage();
+        //img1_temp->~IplImage();
+        //img2_temp->~IplImage();
 
         
         img1_sq = cvCreateImage( size, d, nChan);
