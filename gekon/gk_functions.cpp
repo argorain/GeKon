@@ -219,7 +219,21 @@ namespace gekon {
         return fit_a > fit_b; //reverse the order because bigger fitness means better cadidate
     }
 
-    void fitness(fitness_fcn_t fit_fcn, tr_sample_t sample,
+    static inline double fitness_vec(std::vector<tr_sample_t> samples,
+                                     candidate_t candidate,
+                                     fitness_fcn_t fit_fcn)
+    {
+        double ret_value = 0;
+        std::for_each(samples.begin(), samples.end(), [&](auto &iter){
+           ret_value += fit_fcn(iter, candidate);
+        });
+        ret_value /= double(samples.size());
+        return ret_value;
+    }
+
+    void fitness(fitness_fcn_t fit_fcn,
+                 //tr_sample_t sample,
+                 std::vector<tr_sample_t> samples,
                  population_t &generation,
                  const unsigned int threads_num)
     {
@@ -238,7 +252,8 @@ namespace gekon {
         for (unsigned int i = 0; i < num_of_threads; ++i) {
             tt[i] = std::thread([&](size_t low, size_t high){
                 for (size_t j = low; j < high; ++j) {
-                    generation[j].first = fit_fcn(sample, generation[j].second);
+                    //generation[j].first = fit_fcn(sample, generation[j].second);
+                    generation[j].first = fitness_vec(samples, generation[j].second, fit_fcn);
                 }
             }, boundaries[i], boundaries[i+1]);
         }

@@ -31,7 +31,8 @@ namespace gekon
                             std::vector<tr_sample_t> samples,
                             const population_t generation);*/
     void fitness(fitness_fcn_t fit_fcn,
-                 tr_sample_t sample,
+                 //tr_sample_t sample,
+                 std::vector<tr_sample_t> samples,
                  population_t &generation,
                  const unsigned int threads_num);
 

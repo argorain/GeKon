@@ -18,7 +18,7 @@ namespace gekon {
         size_t generation_size;
         population_t population;
 
-        //std::vector<tr_sample_t> samples;
+        std::vector<tr_sample_t> samples;
         tr_sample_t sample;
 
         selection_fcn_t select;
@@ -37,7 +37,11 @@ namespace gekon {
         virtual ~Worker();
         void setKernelSize(const int ksize) {kernel_size = ksize;};
         void setGenSize(const size_t gensize) {generation_size = gensize;};
-        void setTrSample(tr_sample_t asample) {sample = asample;};
+        void setTrSample(tr_sample_t asample) {
+            samples.push_back(asample);
+            //todo: delete this line and write new function for vector of samples
+            sample = asample;
+        };
         void setSelectionFcn(selection_fcn_t fcn) {select = fcn;};
         void setCrossoverFcn(crossover_fcn_t fcn) {crossover = fcn;};
         void setMutationFcn(mutation_fcn_t fcn) {mutate = fcn;};
