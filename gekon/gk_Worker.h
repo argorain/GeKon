@@ -39,9 +39,10 @@ namespace gekon {
         void setGenSize(const size_t gensize) {generation_size = gensize;};
         void setTrSample(tr_sample_t asample) {
             samples.push_back(asample);
-            //todo: delete this line and write new function for vector of samples
-            sample = asample;
         };
+        void setTrSamples(auto asamples) {
+            samples = asamples;
+        }
         void setSelectionFcn(selection_fcn_t fcn) {select = fcn;};
         void setCrossoverFcn(crossover_fcn_t fcn) {crossover = fcn;};
         void setMutationFcn(mutation_fcn_t fcn) {mutate = fcn;};

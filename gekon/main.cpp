@@ -53,13 +53,13 @@ int main(int argc, char **argv) {
     cout << "Original image: " << original << endl;
     cout << "Modified image: " << modified << endl;
 
-    Mat_<ker_num_t > mod_img;
+/*    Mat_<ker_num_t > mod_img;
     Mat i1 = imread(modified, CV_LOAD_IMAGE_GRAYSCALE);
     i1.convertTo(mod_img, KERNEL_TYPE, 1/255.0);
     Mat_<ker_num_t > orig_img;
     Mat i2 = imread(original, CV_LOAD_IMAGE_GRAYSCALE);
     i2.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
-/*
+
     imshow("Image", i1);
     cv::waitKey(0);
     imshow("Image", i2);
@@ -69,24 +69,21 @@ int main(int argc, char **argv) {
     imshow("Image", orig_img);
     cv::waitKey(0);
 */
-    if (!mod_img.data || !orig_img.data)
-    {
-        cout << "Error while reading training samples." << endl;
-        return -1;
-    }
+
 
     // init gekon here
 
     cv::theRNG().state = time(NULL); //random seed for opencv. Need to be initialized for each thread.
 
-    tr_sample_t sample = {
+/*    tr_sample_t sample = {
             orig_img,
             mod_img
-    };
+    };*/
+    auto samples = load_samples(original, modified);
     Worker the_gekon;//80,convSize);
     the_gekon.setGenSize(80);
     the_gekon.setKernelSize(convSize);
-    the_gekon.setTrSample(sample);
+    the_gekon.setTrSamples(samples);
     the_gekon.setSelectionFcn(s_tournament);
     the_gekon.setMutationFcn(m_dynamic);
 
@@ -97,7 +94,7 @@ int main(int argc, char **argv) {
     // run!
     time_t start, end;
     time(&start);
-    int loops = 100;
+    int loops = 20;
     for (int j = 0; j < loops; ++j) {
         auto ret = the_gekon.run();
         cout << endl << "Elite: " << ret << endl
@@ -112,6 +109,12 @@ int main(int argc, char **argv) {
 
     cout << sol << endl;
 
+    auto img = vec2image(samples, sol);
+    namedWindow("Result", CV_WINDOW_AUTOSIZE);
+    imshow("Result", img);
+    cv::waitKey(0);
+
+    /*
     Mat conv_result;
     filter2D(sample.original, conv_result, -1, sol, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
 
@@ -121,13 +124,10 @@ int main(int argc, char **argv) {
 
     Mat conv_result2;
     filter2D(sample.original, conv_result2, -1, w_sol, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
-/*
     imshow("Image", sample.modified);
     cv::waitKey(0);
-*/
     imshow("Image", conv_result);
     cv::waitKey(0);
-/*
     imshow("Image", conv_result2);
     cv::waitKey(0);
 */

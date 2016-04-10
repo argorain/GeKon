@@ -47,6 +47,10 @@ namespace gekon
     // Naive fitness function implementing mean square error calculation
     double fitness_mse(const tr_sample_t sample, const candidate_t candidate);
 
+    // Load training sample into vector (in case of RGB image)
+    std::vector<tr_sample_t> load_samples(std::string orig, std::string mod);
+    cv::Mat vec2image(std::vector<tr_sample_t> samples, candidate_t kernel);
+
 }
 
 #endif //GEKON_GA_FUNCTIONS_H

@@ -24,13 +24,14 @@ set(SOURCE_FILES
        )
 
 
-   #add_executable(playground playground.cpp ${SOURCE_FILES} ${HEADER_FILES})
+add_executable(playground playground.cpp ${SOURCE_FILES} ${HEADER_FILES})
 add_executable(gekon_run main.cpp ${SOURCE_FILES} ${HEADER_FILES})
 add_executable(automated_tests automated_tests.cpp ${SOURCE_FILES} ${HEADER_FILES})
 
 #target_link_libraries(playground ${OpenCV_LIBS} "-lstdc++fs")
 #target_link_libraries(gekon_run ${OpenCV_LIBS} "-lstdc++fs")
 #target_link_libraries(playground ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
+target_link_libraries(playground ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
 target_link_libraries(gekon_run ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
 target_link_libraries(automated_tests ${OpenCV_LIBS} "-lm -lpthread -lboost_system -lboost_filesystem -lboost_iostreams")
 

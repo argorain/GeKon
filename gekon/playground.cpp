@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <algorithm>
+#include <opencv2/imgcodecs/imgcodecs_c.h>
+#include <opencv2/highgui.hpp>
 
 #include "opencv2/core.hpp"
 #include "opencv2/core/utility.hpp"
@@ -15,10 +17,47 @@
 #include "gk_Worker.h"
 
 using namespace std;
+using namespace cv;
 using namespace gekon;
 
-int main() {
+const char* keys =
+{
+    "{help h||}{@convSize|3|convolution size}{@original|lena.jpg|original image name}{@modified|lena.mod.jpg|modiifed image name}"
+};
 
+int main(int argc, char **argv)
+{
+    cout << "GeKon" << endl;
+
+    CommandLineParser parser(argc, argv, keys);
+    string original = parser.get<string>(1);
+    string modified = parser.get<string>(2);
+    int convSize = parser.get<int>(0);
+
+    cout << "Convolution matrix size: " << convSize << endl;
+
+    Mat_<ker_num_t > mod_img;
+    Mat i1 = imread(modified, IMREAD_UNCHANGED );
+    //i1.convertTo(mod_img, KERNEL_TYPE, 1/255.0);
+    Mat_<ker_num_t > orig_img;
+    Mat i2 = imread(original, IMREAD_UNCHANGED);
+    //i2.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
+
+    cout << "Original image: " << original << " number of channels: " << i2.channels() << endl;
+    cout << "Modified image: " << modified << " number of channels: " << i1.channels() << endl;
+
+    Mat bgr[3];
+    split(i2, bgr);
+
+    namedWindow("B", CV_WINDOW_AUTOSIZE);
+    namedWindow("G", CV_WINDOW_AUTOSIZE);
+    namedWindow("R", CV_WINDOW_AUTOSIZE);
+    imshow("B", bgr[0]);
+    imshow("G", bgr[1]);
+    imshow("R", bgr[2]);
+
+    waitKey(0);
+/*
     //plot playground
     std::vector<double> data;
     for(int i=0; i<200; i++) {
@@ -127,5 +166,5 @@ int main() {
     Worker test();
 
 
-
+*/
 }

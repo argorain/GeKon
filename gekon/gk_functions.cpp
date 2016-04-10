@@ -273,4 +273,75 @@ namespace gekon {
         }*/
         //std::sort(generation.begin(), generation.end(), cmp_candidates);
     }
+
+    std::vector<tr_sample_t> load_samples(std::string orig, std::string mod)
+    {
+        Mat_<ker_num_t > mod_img;
+        Mat_<ker_num_t > orig_img;
+
+        Mat imod = cv::imread(mod, cv::IMREAD_UNCHANGED );
+        Mat iorig = cv::imread(orig, cv::IMREAD_UNCHANGED);
+
+        if (!iorig.data || !imod.data)
+        {
+            std::cout << "Error while reading training samples." << std::endl;
+            exit(-1);
+        }
+
+        if (imod.channels() != iorig.channels()) {
+            std::cerr << "Original and modified images need to have the same number of channels!" << std::endl;
+            exit(-1);
+        }
+
+        if (imod.channels() == 3) {
+            Mat bgr_mod_type[3];
+            split(imod, bgr_mod_type);
+            Mat bgr_orig_type[3];
+            split(iorig, bgr_orig_type);
+            Mat bgr_orig[3], bgr_mod[3];
+            for (int i = 0; i < 3; ++i) {
+                bgr_orig_type[i].convertTo(bgr_orig[i], KERNEL_TYPE, 1/255.0);
+                bgr_mod_type[i].convertTo(bgr_mod[i], KERNEL_TYPE, 1/255.0);
+            }
+            return {{bgr_orig[0],bgr_mod[0]},{bgr_orig[1],bgr_mod[1]},{bgr_orig[2],bgr_mod[2]}};
+        } else if (imod.channels() == 1) {
+            //tr_sample_t ret = {
+            //        orig_img,
+            //        mod_img
+            //};
+            //std::vector<tr_sample_t> ret_vec = {ret};
+
+            imod.convertTo(mod_img, KERNEL_TYPE, 1/255.0);
+            iorig.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
+            return {{orig_img, mod_img}};
+        } else {
+            std::cerr << "Unknown image format with " << imod.channels() << " channels!" << std::endl;
+            exit(-1);
+        }
+
+    }
+
+    cv::Mat vec2image(std::vector<tr_sample_t> samples, candidate_t kernel)
+    {
+        if (samples.size() == 1) {
+            Mat conv_result;
+            cv::filter2D(samples[0].original, conv_result, -1, kernel, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
+            return conv_result;
+        } else if (samples.size() == 3) {
+            std::vector<Mat> img_vec = {
+                    samples[0].original,
+                    samples[1].original,
+                    samples[2].original
+            };
+            Mat image;
+            Mat conv_result;
+            cv::merge(img_vec, image);
+            cv::filter2D(image, conv_result, -1, kernel, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
+            return conv_result;
+        } else {
+            std::cerr << "Cannot construct result image. Wrong number of channels!" << std::endl;
+            exit(-1);
+        }
+
+    }
 }
