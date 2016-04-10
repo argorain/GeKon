@@ -428,8 +428,8 @@ namespace gekon {
         cvReleaseImage(&img1);
         cvReleaseImage(&img2);
         cvReleaseImage(&img1_img2);
-        //cvReleaseImage(&img1_temp);
-        //cvReleaseImage(&img2_temp);
+        cvReleaseImage(&img1_temp);
+        cvReleaseImage(&img2_temp);
         cvReleaseImage(&img1_sq);
         cvReleaseImage(&img2_sq);
         cvReleaseImage(&mu1);
