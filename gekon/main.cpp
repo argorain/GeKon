@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
     time_t start, end;
     time(&start);
     int loops = 1000; // maximum iterations
-    float goodEnough = 90; //ending condition
+    float goodEnough = 85; //ending condition
     for (int j = 0; j < loops; ++j) {
         auto ret = the_gekon.run();
         cout << endl << "Elite: " << ret << endl
