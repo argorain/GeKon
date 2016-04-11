@@ -18,9 +18,17 @@
 \begin{document}
 
 \maketitle
+\tableofcontents
 
 \section{Zadání}
 Cílem projektu je navrhnout algoritmus pro indukci konvoluční masky na základě dvou šedotónových nebo barevných obrázků. Pro hledání řešení jsou použité genetické algoritmy. Jako prostředek realizace je zvolena knihovna OpenCV a programovací jazyk C++.
+
+\begin{verbatim}
+ +----------+                      +----------+
+ | Původní  |                      | Nový     |
+ | obrázek  |----> Konvoluce ----> | obrázek  |
+ +----------+                      +----------+
+\end{verbatim}
 
 \section{Teoretický rozbor}
 
@@ -43,5 +51,9 @@ T sum_vec(std::vector<T> vec) {
     return ret;
 }
 \end{cppcode}
+
+\section{Implementace}
+
+\section{Zhodnocení dosažených výsledků}
 
 \end{document}
