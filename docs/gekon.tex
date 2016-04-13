@@ -34,9 +34,38 @@ Cílem projektu je navrhnout algoritmus pro indukci konvoluční masky na zákla
 
 Práci je možné rozdělit do dvou základních oblastí. První jsou genetické algoritmy, které byly použity pro hledání optimálního řešení. Druhá oblast je zpracování obrazu, jelikož se zabýváme porovnáváním dvou obrázků, námi vytvořeného a zadaného.
 
+Tato sekce je pouhým náznakem principu daných algoritmů, jelikož předpokládáme, že toto není hlavním cílem projektu.
+
 \subsection{Genetické algoritmy}
 
-operátory
+Jde o heuristický postup, který se snaží aplikovat evoluční principy na optimalizační úlohu. Na rozdíl od analytického výpočtu nepředpokládáme na výstupu exaktní řešení, proto tyto metody používáme v případě, že neznáme analytický postup jak úlohu vyřešit. Celý algoritmus se dá rozdělit na několik kroků, kterým říkáme genetické operátory. Jsou to selekce, křížení a mutace. Tyto operátory potom pracují nad množinou jedinců, kterou nazýváme populace. Jako poslední termín zavádíme fitness funkci, jenž slouží k ohodnocení "výkonnosti" jedince.
+
+\begin{verbatim}
+Schéma genetického algoritmu:
+
+  1. Vytvoření počáteční populace
+  2. Ohodnocení fitness funkcí
+  3. Ukončovací podmínka
+      +--> Splněna: Skok na konec 
+      +--> Nesplněna: Pokračuj
+  4. Selekce
+  5. Křížení
+  6. Mutace
+  7. Elitismus - nejlepšího jedince ponech bez změny
+  8. Skok na fitness
+\end{verbatim}
+
+\subsection{Selekce}
+Naivní řešení by bylo vzít nejlepší jedince ze současné generace a stvořit generaci novou. Tímto postupem bychom se ovšem brzy dostali do lokálního minima, což není žádoucí. Proto zavádíme různé metody selekce, které mají tomuto jevu předcházet tak, že preferují lepší jedince, ale na bázi určité náhody dávají šanci i jedincům horším. V našem projektu implementujeme tyto metody selekce:
+
+\paragraph{Vážená ruleta}
+Tato metoda náhodně vybírá jednoho jedince z populace, nicméně lepší jedinci mají vyšší pravděpodobnost. Tato pravděpodobnost je určena poměrem jejich fitness funkcí.
+
+\paragraph{Poziční selekce}
+Funguje stejně jako vážená ruleta pouze místo fitness funkce používá pro určení poměrů pravděpodobnosti pozici jedince v pořadí od nejlepšího po nejhoršího. Tato metoda na rozdíl od rulety dává šanci jedincům i v případech, že jejich fitness je podstatně menší než nejlepších jedinců. Tím lze opět eliminovat možnost konvergence do lokálních minim.
+
+\paragraph{Turnaj}
+Metoda náhodně vybírá dvojice, ze které vybírá toho lepšího jedince.
 
 \subsection{Zpracování obrazu}
 
@@ -55,5 +84,10 @@ T sum_vec(std::vector<T> vec) {
 \section{Implementace}
 
 \section{Zhodnocení dosažených výsledků}
+
+
+\section{Použitá literatura}
+
+HONZÍK, Petr. Strojové učení [online]. Brno, 2006. Dostupné také z: www.vutbr.cz
 
 \end{document}
