@@ -67,9 +67,44 @@ Funguje stejně jako vážená ruleta pouze místo fitness funkce používá pro
 \paragraph{Turnaj}
 Metoda náhodně vybírá dvojice, ze které vybírá toho lepšího jedince.
 
+\subsection{Křížení}
+
+\paragraph{blx a, simple, convex}
+
+\subsection{Mutace}
+
 \subsection{Zpracování obrazu}
 
+\paragraph{Chybová funkce}
+
+Slouží k ohodnocení podobnosti dvou obrazů, tzn. v našem případě je použita jako fitness funkce pro genetický algoritmus.
+
+\paragraph{Kvadrát rozdílu obrazových funkcí}
+
+Jedná se o naivní implementaci porovnání dvou obrazů, která se dá popsat tímto vzorcem:
+\begin{equation}
+  error = \sqrt{\sum\limits_{\forall r} \sum\limits_{\forall c} ( O_{r,c} - Y_{r,c} )^2}
+\end{equation}
+
+Kde $O$ je vzor upravený neznámým konvolučním jádrem a $Y = I \ast k $ je vzor po konvoluci s kandidátním řešením. $r,c$ jsou obrazové souřadnice.
+
+Tato funkce ovšem vykazuje opačné chování, než jsme od fitness funkce chtěli, klesá s lepším kandidátem a roste s horším. Proto jsme vzorec upravili, aby vyhovoval našim potřebám.
+\begin{equation}
+  fitness = \sqrt{\frac{rows \cdot cols}{{\sum\limits_{\forall r} \sum\limits_{\forall c} ( O_{r,c} - Y_{r,c} )^2}}}
+\end{equation}
+
+Nicméně ani tato fitness funkce nebyla vyhovující neboť dostatečně nerozlišovala dobré a špatné kandidáty, proto jsme ji upravili do finální podoby:
+\begin{equation}
+  fitness_{new} = e ^ {5 \cdot fitness}
+\end{equation}
+
+Kde hodnota 5 byla určena experimentálně.
+
+\paragraph{IQA algoritmy}
+
 IQA ...
+
+\section{Implementace}
 
 Příklad vysázení kódu pomocí minted:
 \begin{cppcode}
@@ -81,10 +116,7 @@ T sum_vec(std::vector<T> vec) {
 }
 \end{cppcode}
 
-\section{Implementace}
-
 \section{Zhodnocení dosažených výsledků}
-
 
 \section{Použitá literatura}
 
