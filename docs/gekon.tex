@@ -105,20 +105,32 @@ Kde hodnota 5 byla určena experimentálně.
 IQA ...
 
 \section{Implementace}
+Jak již bylo zmíněno, implementace byla provedena v jazyku C++ a to s pomocí knihovny OpenCV. Samozřejmě jsme nepoužili pouze tuto knihovnu, ale rovněž STL, Google test framework, boost atd. I přes použitý jazyk, jsme implementaci neprovedli čistě objektově. Většina základních funkcí (jako jsou na příklad genetické operátory) jsou definovány jako prosté funkce, u kterých byl důraz kladen na ortogonalitu a modularitu, abychom mohli jednoduše zkoušet různé kombinace námi implementovaných operátorů. Nicméně pro pohodlné použití jsme vytvořili jednu třídu příhodně nazvanou Worker, která zapouzdřuje celý genetický algoritmus, ta obsahuje parametry generace a ukazatele na použité operátory.
 
-Příklad vysázení kódu pomocí minted:
+Testování programu je možné pomocí dvou spustitelných souborů. První z nich je "gekon\_run", který jako parametry přebírá velikost konvolučního jádra a vstupní obrázky, nicméně nelze měnit parametry algoritmu neboť jsou, jak by se řeklo v IT žargonu, "hardcoded" ve zdrojovém souboru. Tento problém řeší druhý spustitelný soubor, který je pojmenován "automated\_tests" a přebírá konfigurační soubor napsaný v jazyku TOML, ten pak definuje parametry testů jako jsou např. velikost generace, použité operátory a počet vláken.
+
+Struktura projektu:
+\begin{verbatim}
+. -- bin -- spustitelné soubory
+  |- docs -- dokumentace
+  |- gekon -- zdrojové kódy
+  |- samples -- testovací vzory
+  |- tests -- unit testy
+\end{verbatim}
+
+Ukázka rozhraní jednotlivých funkcí:
 \begin{cppcode}
-template<typename T>
-T sum_vec(std::vector<T> vec) {
-    T ret = 0;
-    std::for_each(vec.begin(), vec.end(), [&](auto it) { ret += it; });
-    return ret;
-}
+typedef std::function<std::vector<candidate_t>(candidate_t, candidate_t)> crossover_fcn_t;
+typedef std::function<void(candidate_t&, unsigned int, unsigned int)> mutation_fcn_t;
+typedef std::function<double(tr_sample_t, candidate_t)> fitness_fcn_t;
+typedef std::function<population_t(population_t)> selection_fcn_t;
 \end{cppcode}
 
 \section{Zhodnocení dosažených výsledků}
+%TODO: 
 
 \section{Použitá literatura}
+%TODO: Doplnit i další zdroje
 
 HONZÍK, Petr. Strojové učení [online]. Brno, 2006. Dostupné také z: www.vutbr.cz
 
