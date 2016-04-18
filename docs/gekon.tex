@@ -4,6 +4,9 @@
 %\usepackage{lmodern}
 \usepackage[top=1in, bottom=1in, left=0.75in, right=0.75in]{geometry}
 \usepackage[czech]{babel}
+\usepackage{hyperref}
+
+\addto\captionsczech{\renewcommand{\refname}{Zdroje}}
 
 \usepackage{minted}
 \newminted{ocaml}{fontsize=\footnotesize}
@@ -71,6 +74,14 @@ Metoda náhodně vybírá dvojice, ze které vybírá toho lepšího jedince.
 
 \paragraph{blx a, simple, convex}
 
+\paragraph{BLX-$\alpha$}
+Metoda křížení BLX-$\alpha$ je založená na principu výběru hodnoty z rozsahu většího, než je rozsah rodičů, takže se může potomek vyhnout lokálnímu extrému.\\
+Výsledná hodnota jednoho prvku po křížení je určena takto:
+\begin{equation}
+    u = <min(x,y) - \alpha \Delta; max(x,y) + \alpha \Delta>
+\end{equation}
+kde $\alpha$ je parametr rozšíření intervalu, $\Delta$ je absolutní hodnota rozdílu hodnot rodičů. Hodnota $u$ je hodnota nového potomka která je náhodně vybraná z intervalu.
+
 \subsection{Mutace}
 
 \subsection{Zpracování obrazu}
@@ -100,9 +111,15 @@ Nicméně ani tato fitness funkce nebyla vyhovující neboť dostatečně nerozl
 
 Kde hodnota 5 byla určena experimentálně.
 
-\paragraph{IQA algoritmy}
-
-IQA ...
+\paragraph{SSIM}
+SSIM (Structural Similiarity Image Assesment) je metoda spadající pod Image Quality Assesment (IQA), která vyjadřuje podobnost dvou obrazů na škále od -1 pro naprosto odlišné obrazy po 1 pro identické obrazy. Tato medota bere vychází ze způsobu jak obraz vnímá člověk, a to že sleduje strukturu obrazu.\\
+Definice podle původní práce\cite{ssim} je následující:
+\begin{equation}
+    SSIM(x,y) = \frac{(2 \mu_x \mu_y + C_1)(2 \sigma_{xy} + C_2)}{({\mu_x}^2 + {\mu_y}^2 + C_1)({\sigma_x}^2 + {\sigma_y}^2 + C_2)}
+\end{equation}
+kde $\mu$ je průměr hodnot pixelů obrazu, $\sigma$ je standartní odchylka obrazu. Konstanty $C_1$ a $C_2$ jsou odvozeny od rozsahu hodnot pixelu $L$, v našem případě 255 a konstanty $k << 1$. V práci jsou použity hodnoty $k_1 = 0,01$ a $k_2 = 0,03$. Posléze se konstanta $C$ počítá takto: $C = k \cdot L$.\\
+V naší implementaci, která byla převzaná ze zdroje \cite{ssim-src} jsou použity konstanty $C_1 = 6,5025$ a $C_2 = 58,5225$. Průměr $\mu$ je řešen pomocí gaussiánu 11x11. Standartní odchylka $\sigma$ je realizována jako rozdíl gaussiánu a $\mu$. Poté je všechno ve formě matice, tím pádem je potřeba pro skalární výsledek spočítat průměrnou hodnotu matice.\\
+Tato metoda vykazuje vyšší výpočetní náročnost ale zároveň i lepší výsledky, obzvláště u nedostatečného množství významných bodů.
 
 \section{Implementace}
 Jak již bylo zmíněno, implementace byla provedena v jazyku C++ a to s pomocí knihovny OpenCV. Samozřejmě jsme nepoužili pouze tuto knihovnu, ale rovněž STL, Google test framework, boost atd. I přes použitý jazyk, jsme implementaci neprovedli čistě objektově. Většina základních funkcí (jako jsou na příklad genetické operátory) jsou definovány jako prosté funkce, u kterých byl důraz kladen na ortogonalitu a modularitu, abychom mohli jednoduše zkoušet různé kombinace námi implementovaných operátorů. Nicméně pro pohodlné použití jsme vytvořili jednu třídu příhodně nazvanou Worker, která zapouzdřuje celý genetický algoritmus, ta obsahuje parametry generace a ukazatele na použité operátory.
@@ -132,6 +149,15 @@ typedef std::function<population_t(population_t)> selection_fcn_t;
 \section{Použitá literatura}
 %TODO: Doplnit i další zdroje
 
-HONZÍK, Petr. Strojové učení [online]. Brno, 2006. Dostupné také z: www.vutbr.cz
+\begin{thebibliography}{9}
+ 
+\bibitem{strojove-uceni}
+HONZÍK, Petr. \emph{Strojové učení} [online]. Brno, 2006. Dostupné také z: \url{www.vutbr.cz}
+
+\bibitem{ssim}
+WANG, Zhou, Alan C. BOVIK, Hamid R. SHEIKH a Eero P. SIMONCELLI. \emph{The SSIM Index for Image Quality Assessment}. The Center for Neural Science at NYU [online]. New York: NY University, 2003 [cit. 2016-04-18]. Dostupné z: \url{http://www.cns.nyu.edu/lcv/ssim/}
+
+\end{thebibliography}
+
 
 \end{document}
