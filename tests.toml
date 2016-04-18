@@ -1,18 +1,21 @@
 # This is a test file containing predefined tests for
 # GeKon project
 
+# First test few version with MSE fitness
 [simple-test]
 selection="roulette"
 mutation="dynamic"
 threads=8
-max_generations=20
+max_iterations=10
 
 [another-test]
 mutation="swap"
 threads=1
-max_generations=20
+max_iterations=10
 
 [yet-another-test]
 crossover="blx_a"
 threads=4
-max_generations=20
+max_iterations=10
+
+# Now try SSIM instead

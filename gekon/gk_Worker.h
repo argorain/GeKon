@@ -48,6 +48,7 @@ namespace gekon {
         void setMutationFcn(mutation_fcn_t fcn) {mutate = fcn;};
         void overrideNumOfThreads(const unsigned int n) {threads = n;};
         void setMaxNumberOfGenerations(const unsigned int n) {max_generation_count=n;};
+        void setFitnessFcn(fitness_fcn_t fcn) {fit_single = fcn;};
         double run();
         cv::Mat retBestSolution() {return population[0].second;};
         cv::Mat retWorstSolution() {return population[population.size()-1].second;};

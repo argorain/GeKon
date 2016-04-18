@@ -34,14 +34,19 @@ static const std::map<std::string, gekon::mutation_fcn_t> mutation_map = {
         {"dynamic", gekon::m_dynamic}
 };
 
+static const std::map<std::string, gekon::fitness_fcn_t> fitness_map = {
+        {"mse", gekon::fitness_mse},
+        {"ssim", gekon::fitness_ssim}
+};
+
 class test_definition{
 public:
     gekon::Worker worker;
-    std::string name, selection, crossover, mutation;
+    std::string name, selection, crossover, mutation, fitness;
     unsigned int number_of_threads, kernel_size, generation_size, max_iterations;
 
     test_definition() {
-        name = selection = crossover = mutation = "default";
+        name = selection = crossover = mutation = fitness = "default";
         number_of_threads = 4;
         kernel_size = 3;
         generation_size = 80;
@@ -125,6 +130,16 @@ int main(int argc, char **argv)
                     cerr << "Mutation type not found!" << endl;
                 }
             }
+            if ((*it_table)->contains("fitness")) {
+                const std::string fitness = (*it_table)->get("fitness")->as<std::string>()->get();
+                it_worker->fitness = fitness;
+                auto search = fitness_map.find(fitness);
+                if (search != fitness_map.end()) {
+                    it_worker->worker.setFitnessFcn(search->second);
+                } else {
+                    cerr << "Fitness type not found!" << endl;
+                }
+            }
             it_table++; it_worker++;
         }
     }
@@ -161,11 +176,13 @@ int main(int argc, char **argv)
     while (it_worker != workers.end()) {
         test_output("Test name: ", it_worker->name);
         test_output("Number of threads: ", std::to_string(it_worker->number_of_threads));
+        test_output("Max. number of iterations: ", std::to_string(it_worker->max_iterations));
         test_output("Selection type: ", it_worker->selection);
         test_output("Crossover type: ", it_worker->crossover);
         test_output("Mutation type: ", it_worker->mutation);
         test_output("Kernel size: ", std::to_string(it_worker->kernel_size));
         test_output("Generation size: ", std::to_string(it_worker->generation_size));
+        test_output("Fitness funtion: ", it_worker->fitness);
         cout << test_tag << "Run!" << endl;
 
         it_worker->worker.setTrSample(sample);
