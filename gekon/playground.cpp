@@ -167,9 +167,9 @@ int main(int argc, char **argv)
 
     */
 
-    ssim("samples/lena_gray.png", "samples/lena_gray_M.png");
-    ssim("samples/lena_gray.png", "samples/lena_gray.mod.png");
-    ssim("samples/lena_gray.png", "samples/lena_gray.png");
+//    ssim("samples/lena_gray.png", "samples/lena_gray_M.png");
+ //   ssim("samples/lena_gray.png", "samples/lena_gray.mod.png");
+  //  ssim("samples/lena_gray.png", "samples/lena_gray.png");
 
 
 }
