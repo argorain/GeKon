@@ -7,7 +7,7 @@ crossover="simple"
 fitness="mse"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [roulette-simple-mse-swap]
 selection="roulette"
@@ -15,7 +15,7 @@ crossover="simple"
 fitness="mse"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [roulette-simple-ssim-dynamic]
 selection="roulette"
@@ -23,7 +23,7 @@ crossover="simple"
 fitness="ssim"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [roulette-simple-ssim-swap]
 selection="roulette"
@@ -31,7 +31,7 @@ crossover="simple"
 fitness="ssim"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 
 
@@ -41,7 +41,7 @@ crossover="convex"
 fitness="mse"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [roulette-convex-mse-swap]
 selection="roulette"
@@ -49,7 +49,7 @@ crossover="convex"
 fitness="mse"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [roulette-convex-ssim-dynamic]
 selection="roulette"
@@ -57,7 +57,7 @@ crossover="convex"
 fitness="ssim"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [roulette-convex-ssim-swap]
 selection="roulette"
@@ -65,7 +65,7 @@ crossover="convex"
 fitness="ssim"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 
 
@@ -75,7 +75,7 @@ crossover="blx_a"
 fitness="mse"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [roulette-blx_a-mse-swap]
 selection="roulette"
@@ -83,7 +83,7 @@ crossover="blx_a"
 fitness="mse"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [roulette-blx_a-ssim-dynamic]
 selection="roulette"
@@ -91,7 +91,7 @@ crossover="blx_a"
 fitness="ssim"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [roulette-blx_a-ssim-swap]
 selection="roulette"
@@ -99,4 +99,4 @@ crossover="blx_a"
 fitness="ssim"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500

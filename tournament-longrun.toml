@@ -7,7 +7,7 @@ crossover="simple"
 fitness="mse"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [tournament-simple-mse-swap]
 selection="tournament"
@@ -15,7 +15,7 @@ crossover="simple"
 fitness="mse"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [tournament-simple-ssim-dynamic]
 selection="tournament"
@@ -23,7 +23,7 @@ crossover="simple"
 fitness="ssim"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [tournament-simple-ssim-swap]
 selection="tournament"
@@ -31,7 +31,7 @@ crossover="simple"
 fitness="ssim"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 
 
@@ -41,7 +41,7 @@ crossover="convex"
 fitness="mse"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [tournament-convex-mse-swap]
 selection="tournament"
@@ -49,7 +49,7 @@ crossover="convex"
 fitness="mse"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [tournament-convex-ssim-dynamic]
 selection="tournament"
@@ -57,7 +57,7 @@ crossover="convex"
 fitness="ssim"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [tournament-convex-ssim-swap]
 selection="tournament"
@@ -65,7 +65,7 @@ crossover="convex"
 fitness="ssim"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 
 
@@ -75,7 +75,7 @@ crossover="blx_a"
 fitness="mse"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [tournament-blx_a-mse-swap]
 selection="tournament"
@@ -83,7 +83,7 @@ crossover="blx_a"
 fitness="mse"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [tournament-blx_a-ssim-dynamic]
 selection="tournament"
@@ -91,7 +91,7 @@ crossover="blx_a"
 fitness="ssim"
 mutation="dynamic"
 threads=4
-max_iterations=1000
+max_iterations=500
 
 [tournament-blx_a-ssim-swap]
 selection="tournament"
@@ -99,4 +99,4 @@ crossover="blx_a"
 fitness="ssim"
 mutation="swap"
 threads=4
-max_iterations=1000
+max_iterations=500
