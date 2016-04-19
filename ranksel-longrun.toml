@@ -1,0 +1,102 @@
+# This is a test file containing predefined tests for
+# GeKon project
+
+[ranksel-simple-mse-dynamic]
+selection="rank selection"
+crossover="simple"
+fitness="mse"
+mutation="dynamic"
+threads=4
+max_iterations=1000
+
+[ranksel-simple-mse-swap]
+selection="rank selection"
+crossover="simple"
+fitness="mse"
+mutation="swap"
+threads=4
+max_iterations=1000
+
+[ranksel-simple-ssim-dynamic]
+selection="rank selection"
+crossover="simple"
+fitness="ssim"
+mutation="dynamic"
+threads=4
+max_iterations=1000
+
+[ranksel-simple-ssim-swap]
+selection="rank selection"
+crossover="simple"
+fitness="ssim"
+mutation="swap"
+threads=4
+max_iterations=1000
+
+
+
+[ranksel-convex-mse-dynamic]
+selection="rank selection"
+crossover="convex"
+fitness="mse"
+mutation="dynamic"
+threads=4
+max_iterations=1000
+
+[ranksel-convex-mse-swap]
+selection="rank selection"
+crossover="convex"
+fitness="mse"
+mutation="swap"
+threads=4
+max_iterations=1000
+
+[ranksel-convex-ssim-dynamic]
+selection="rank selection"
+crossover="convex"
+fitness="ssim"
+mutation="dynamic"
+threads=4
+max_iterations=1000
+
+[ranksel-convex-ssim-swap]
+selection="rank selection"
+crossover="convex"
+fitness="ssim"
+mutation="swap"
+threads=4
+max_iterations=1000
+
+
+
+[ranksel-blx_a-mse-dynamic]
+selection="rank selection"
+crossover="blx_a"
+fitness="mse"
+mutation="dynamic"
+threads=4
+max_iterations=1000
+
+[ranksel-blx_a-mse-swap]
+selection="rank selection"
+crossover="blx_a"
+fitness="mse"
+mutation="swap"
+threads=4
+max_iterations=1000
+
+[ranksel-blx_a-ssim-dynamic]
+selection="rank selection"
+crossover="blx_a"
+fitness="ssim"
+mutation="dynamic"
+threads=4
+max_iterations=1000
+
+[ranksel-blx_a-ssim-swap]
+selection="rank selection"
+crossover="blx_a"
+fitness="ssim"
+mutation="swap"
+threads=4
+max_iterations=1000
