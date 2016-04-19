@@ -2,17 +2,18 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 %\usepackage{lmodern}
-\usepackage[top=1in, bottom=1in, left=0.75in, right=0.75in]{geometry}
+\usepackage[top=1.1in, bottom=1.1in, left=1in, right=1in]{geometry}
 \usepackage[czech]{babel}
 \usepackage{hyperref}
 
 \addto\captionsczech{\renewcommand{\refname}{Zdroje}}
 
 \usepackage{minted}
-\newminted{ocaml}{fontsize=\footnotesize}
-\newminted{cpp}{fontsize=\footnotesize}
+\newminted{ocaml}{fontsize=\small}
+\newminted{cpp}{fontsize=\small, fontfamily=tt, mathescape}
+\newminted{bash}{fontsize=\small}
 
-\title{GeKon}
+\title{Návrh konvolučního filtru pomocí evolučních algoritmů}
 \subtitle{Projekt MAPV}
 \author{Vojtěch Vladyka a Martin Sehnoutka}
 
@@ -124,7 +125,9 @@ Tato metoda vykazuje vyšší výpočetní náročnost ale zároveň i lepší v
 \section{Implementace}
 Jak již bylo zmíněno, implementace byla provedena v jazyku C++ a to s pomocí knihovny OpenCV. Samozřejmě jsme nepoužili pouze tuto knihovnu, ale rovněž STL, Google test framework, boost atd. I přes použitý jazyk, jsme implementaci neprovedli čistě objektově. Většina základních funkcí (jako jsou na příklad genetické operátory) jsou definovány jako prosté funkce, u kterých byl důraz kladen na ortogonalitu a modularitu, abychom mohli jednoduše zkoušet různé kombinace námi implementovaných operátorů. Nicméně pro pohodlné použití jsme vytvořili jednu třídu příhodně nazvanou Worker, která zapouzdřuje celý genetický algoritmus, ta obsahuje parametry generace a ukazatele na použité operátory.
 
-Testování programu je možné pomocí dvou spustitelných souborů. První z nich je "gekon\_run", který jako parametry přebírá velikost konvolučního jádra a vstupní obrázky, nicméně nelze měnit parametry algoritmu neboť jsou, jak by se řeklo v IT žargonu, "hardcoded" ve zdrojovém souboru. Tento problém řeší druhý spustitelný soubor, který je pojmenován "automated\_tests" a přebírá konfigurační soubor napsaný v jazyku TOML, ten pak definuje parametry testů jako jsou např. velikost generace, použité operátory a počet vláken.
+
+Testování programu je možné pomocí dvou spustitelných souborů. První z nich je \uv{gekon\_run}, který jako parametry přebírá velikost konvolučního jádra a vstupní obrázky, nicméně nelze měnit parametry algoritmu neboť jsou, jak by se řeklo v IT žargonu, \uv{hardcoded} ve zdrojovém souboru. Tento problém řeší druhý spustitelný soubor, který je pojmenován \uv{automated\_tests} a přebírá konfigurační soubor napsaný v jazyku TOML, ten pak definuje parametry testů jako jsou např. velikost generace, použité operátory a počet vláken.
+
 
 Struktura projektu:
 \begin{verbatim}
@@ -135,13 +138,54 @@ Struktura projektu:
   |- tests -- unit testy
 \end{verbatim}
 
-Ukázka rozhraní jednotlivých funkcí:
+Ukázka rozhraní genetických operátorů:
 \begin{cppcode}
 typedef std::function<std::vector<candidate_t>(candidate_t, candidate_t)> crossover_fcn_t;
 typedef std::function<void(candidate_t&, unsigned int, unsigned int)> mutation_fcn_t;
 typedef std::function<double(tr_sample_t, candidate_t)> fitness_fcn_t;
 typedef std::function<population_t(population_t)> selection_fcn_t;
 \end{cppcode}
+
+A implementace jednoho konkrétního operátoru:
+\begin{cppcode}
+void m_dynamic(candidate_t &X, unsigned int t, unsigned int T) {
+    /*
+     * Dynamic mutation (Michalewicz):
+     * Defined as $\Delta(t,y) = y \left( 1 - r^{ {1-\frac{t}{T} }^B }  \right)$
+     *     where B = 5
+     */
+    int rows = X.rows;
+   	int cols = X.cols;
+   	for (int r = 0; r < rows; ++r) {
+        for (int c = 0; c < cols; ++c) {
+            if(random(0,1) < m_swap_prob) {
+                X.at<ker_num_t>(r,c) = X.at<ker_num_t>(r,c)*
+                (1-pow(random(0,1), pow(float(1)-float(t)/T, m_dynamic_B)));
+            }
+        }
+    }
+}
+
+\end{cppcode}
+
+\subsection{Spouštění testů}
+Program během výpočtů vypisuje průběžné výsledky. Ideální je výstup (stdout) přesměrovat do souboru a následně filtrovat požadované informace. Jako příklad uvádíme srovnání časové náročnosti běhu jednotlivých algoritmů:
+\begin{bashcode}
+$ cat example1.log | grep '\[TEST\]' | grep  'Time elapsed\|Test name'
+[TEST]Test name: tournament-blx_a-ssim-swap
+[TEST]Time elapsed: 1021
+[TEST]Test name: tournament-simple-mse-dynamic
+[TEST]Time elapsed: 579
+[TEST]Test name: tournament-blx_a-ssim-dynamic
+[TEST]Time elapsed: 1050
+[TEST]Test name: tournament-blx_a-mse-swap
+[TEST]Time elapsed: 597
+[TEST]Test name: tournament-simple-mse-swap
+[TEST]Time elapsed: 611
+[TEST]Test name: tournament-simple-ssim-dynamic
+\end{bashcode}
+
+$ \left(  \frac{a}{b} \right) $
 
 \section{Zhodnocení dosažených výsledků}
 %TODO: 

@@ -145,6 +145,11 @@ namespace gekon {
 	}
 
     void m_dynamic(candidate_t &X, unsigned int t, unsigned int T) {
+        /*
+         * Dynamic mutation (Michalewicz):
+         * Defined as $\Delta(t,y) = y \left( 1 - r^{ {1-\frac{t}{T} }^B }  \right)$
+         *     where B = 5
+         */
         int rows = X.rows;
         int cols = X.cols;
         for (int r = 0; r < rows; ++r) {
