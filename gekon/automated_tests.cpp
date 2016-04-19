@@ -199,6 +199,7 @@ int main(int argc, char **argv)
         for (unsigned int j = 0; j < loops; ++j) {
             auto ret = it_worker->worker.run();
             elite.push_back(ret);
+            cout << j << "/" << loops << endl;
         }
         cout << test_tag << "Elite: [";
         for (unsigned int i = 0; i < elite.size() - 1; ++i) {
@@ -209,14 +210,20 @@ int main(int argc, char **argv)
         time(&end);
         cout << test_tag << "Time elapsed: " << difftime(end, start) << endl;
 
+        time_t seconds;
+        time(&seconds);
+
+
+        cout << "output/"+it_worker->name+"_"+basename(argv[2])+"_"+std::to_string(seconds)+".txt" << endl;
+
         std::ofstream output;
         auto sol = it_worker->worker.retBestSolution();
-        output.open("output/"+it_worker->name+".txt");
+        output.open("output/"+it_worker->name+"_"+basename(argv[2])+"_"+std::to_string(seconds)+".txt");
         output << sol << endl;
         output.close();
 
         auto img = vec2image(samples, sol);
-        cv::imwrite("output/"+it_worker->name+".jpg", img*255);
+        cv::imwrite("output/"+it_worker->name+"_"+basename(argv[2])+"_"+std::to_string(seconds)+".jpg", img*255);
 
         ++it_worker;
     }
