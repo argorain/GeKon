@@ -5,6 +5,9 @@
 \usepackage[top=1.1in, bottom=1.1in, left=1in, right=1in]{geometry}
 \usepackage[czech]{babel}
 \usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \addto\captionsczech{\renewcommand{\refname}{Zdroje}}
 
@@ -185,10 +188,88 @@ $ cat example1.log | grep '\[TEST\]' | grep  'Time elapsed\|Test name'
 [TEST]Test name: tournament-simple-ssim-dynamic
 \end{bashcode}
 
-$ \left(  \frac{a}{b} \right) $
-
 \section{Zhodnocení dosažených výsledků}
-%TODO: 
+Během testování jsme vyzkoušeli všechny možné kombinace námi napsaných operátorů. Časová náročnost byla přibližně jeden den na výkonném domacím počítači. 
+
+\subsection{Vizuální porovnání výsledků}
+Při pohledu na výsledky lze usuzovat vhodnost některých metod pro tuto úlohu. Např. fitness funkce kvadrátu odchylky dává stabilně horší výsledky než SSIM, to samé lze tvrdit o mutaci metodou swap oproti dynamické mutaci, jejíž výsledky jsou z pravidla lepší.
+
+Obrázek \ref{porovnani} zobrazuje vybrané výsledky našich algoritmů ve srovnání s trénovacím vzorem.
+
+\begin{figure}[!ht]
+    \centering
+    \caption{Porovnání výsledků}
+    \label{porovnani}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/example1_E.png}
+        \caption{První vzor}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/ranksel-simple-ssim-dynamic_example1.jpg}
+        \caption{Povedený pokus (rank selection, simple crossover, ssim, dynamic mutation)}
+        \label{fig:gull}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/ranksel-convex-mse-swap_example1.jpg}
+        \caption{Nepovedený pokus (rank selection, convex crossover, mse, swap mutation)}
+        \label{fig:gull}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/example2_E.png}
+        \caption{Druhý vzor}
+        \label{fig:gull}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/roulette-blx_a-ssim-dynamic_example2.jpg}
+        \caption{Povedený pokus (roulette selection, blx\_a crossover, ssim, dynamic mutation)}
+        \label{fig:gull}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/tournament-convex-mse-swap_example2.jpg}
+        \caption{Nepovedený pokus (tournament selection, convex crossover, mse, swap mutation)}
+        \label{fig:gull}
+    \end{subfigure}
+\end{figure}
+
+\subsection{Porovnání časové náročnosti}
+
+Následující tabulka uvádí vliv jednotlivých operátorů na celkovou časovou náročnost; tzn. nejedná se o náročnost pouze daného operátoru, ale celého algoritmu s použitím tohoto operátoru.
+
+\begin{table}[!h]
+  \caption{Porovnání časové náročnosti}
+  \label{tab:por}
+
+  \begin{center}
+    \begin{tabular}{|c|c|}
+    \hline
+       Metoda & Průměrný čas [s] \\
+       \hline
+       SSIM & 448 \\
+        mse &
+        246 \\
+        Turnaj &
+        347 \\
+        Poziční selekce &
+        346 \\
+        Ruleta &
+        348 \\
+        Jednoduché křížení &
+        349 \\
+        Konvexní křížení &
+        347 \\
+        BLX\_$\alpha$ &
+        345 \\
+        Mutace swap &
+        346 \\
+        Mutace dynamická &
+        347 \\
+        \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+
+Jak je vidět, vliv na celkový čas mají prakticky pouze metody fitness funkce. U genetických operátorů by bylo třeba měřit pouze čas provádění daného operátoru.
 
 \section{Použitá literatura}
 %TODO: Doplnit i další zdroje

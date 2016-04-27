@@ -56,11 +56,51 @@ function return_mean {
     echo "$MEAN"
 }
 
+echo "SSIM"
 SSIM_TIMES=$(grep_method "ssim")
 return_mean "$SSIM_TIMES"
 
-MSE_TIMES=$(grep_method "mse")
-return_mean "$MSE_TIMES"
+echo "mse"
+mse_TIMES=$(grep_method "mse")
+return_mean "$mse_TIMES"
+
+echo "tournament"
+tournament_TIMES=$(grep_method "tournament")
+return_mean "$tournament_TIMES"
+
+
+echo "rank"
+rank_TIMES=$(grep_method "rank")
+return_mean "$rank_TIMES"
+
+
+echo "roulette"
+roulette_TIMES=$(grep_method "roulette")
+return_mean "$roulette_TIMES"
+
+echo "simple"
+simple_TIMES=$(grep_method "simple")
+return_mean "$simple_TIMES"
+
+
+echo "convex"
+convex_TIMES=$(grep_method "convex")
+return_mean "$convex_TIMES"
+
+
+echo "blx"
+blx_TIMES=$(grep_method "blx")
+return_mean "$blx_TIMES"
+
+
+echo "swap"
+swap_TIMES=$(grep_method "swap")
+return_mean "$swap_TIMES"
+
+
+echo "dynamic"
+dynamic_TIMES=$(grep_method "dynamic")
+return_mean "$dynamic_TIMES"
 
 
 #SSIM_MEAN=$(return_mean $SSIM_TIMES)

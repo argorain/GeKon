@@ -52,6 +52,7 @@ bin/*
 docs/*
 !docs/*.md
 !docs/*.tex
+!docs/img*
 
 output/*.txt
 output/*.jpg
