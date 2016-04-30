@@ -9,7 +9,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
-\addto\captionsczech{\renewcommand{\refname}{Zdroje}}
+\addto\captionsczech{\renewcommand{\refname}{}}
 
 \usepackage{minted}
 \newminted{ocaml}{fontsize=\small}
@@ -189,14 +189,79 @@ $ cat example1.log | grep '\[TEST\]' | grep  'Time elapsed\|Test name'
 \end{bashcode}
 
 \section{Zhodnocení dosažených výsledků}
-Během testování jsme vyzkoušeli všechny možné kombinace námi napsaných operátorů. Časová náročnost byla přibližně jeden den na výkonném domacím počítači. 
+Během testování jsme vyzkoušeli všechny možné kombinace námi napsaných operátorů nad všemi zadanými vzory. Časová náročnost byla přibližně jeden den na výkonném domacím počítači při fixní délce běhu 500 iterací. 
 
 \subsection{Vizuální porovnání výsledků}
-Při pohledu na výsledky lze usuzovat vhodnost některých metod pro tuto úlohu. Např. fitness funkce kvadrátu odchylky dává stabilně horší výsledky než SSIM, to samé lze tvrdit o mutaci metodou swap oproti dynamické mutaci, jejíž výsledky jsou z pravidla lepší.
+Při pohledu na výsledky lze usuzovat vhodnost některých metod pro tuto úlohu. Např. fitness funkce kvadrátu odchylky dává stabilně horší výsledky než SSIM, to samé lze tvrdit o mutaci metodou swap oproti dynamické mutaci, jejíž výsledky jsou z pravidla lepší. Naopak vliv selekce a křížení je spíše menší. Ten by se projevil hlavně na rychlosti konvergence k výsledku.
 
-Obrázek \ref{porovnani} zobrazuje vybrané výsledky našich algoritmů ve srovnání s trénovacím vzorem.
+%Obrázek \ref{porovnani} zobrazuje vybrané výsledky našich algoritmů ve srovnání s trénovacím vzorem.
 
-\begin{figure}[!ht]
+Obrázek \ref{porovnani_ex1} ukazuje výsledky různých kombinací operátorů. Výsledek \ref{fig:ex11} je vizuálně nejshodnější, zatímco výsledek \ref{fig:ex12} se v jistých bodech odlišuje více (byť to není v těchto malých náhledech vidět). Naopak výsledek \ref{fig:ex13} je evidentně špatně, ačkoli možná by se po delším čase dostal též k výsledku.
+
+Jak bude vidět na dalších ukázkách, kombinace operátorů Roulette pro selekci, BLX-$\alpha$ pro křížení, SSIM pro fitness a Dynamická mutace se jeví jako nejlepší kombinace univerzálně pro všechny zadané vzory.
+
+Zajíámavá situace je vidět na obrázku \ref{porovnani_ex2}. Správný výsledek je opět na obrázku \ref{fig:ex21}, ale rozdíl mezi ním a obrázkem \ref{fig:ex22} je pouze v použitém operátoru mutace, kde v prvním případě je použit lepší operátor Dynamické mutace zatímco ve druhém případě je operátor Swap. Na obrázku \ref{fig:ex23} je evidentně špatný výsledek, který pouze zvýraznil hrany.
+
+Výsledek na šedotónovém obrázku \ref{porovnani_ex6} je obecně lepší, ale i zde jsou výsledky, které jsou naprosto špatně. Správný výsledek je opět na obrázku \ref{fig:ex61} se stále stejnou kombinací jako všechny předchozí příklady. Zajímavá situace nastala u výsledků \ref{fig:ex62} a \ref{fig:ex63}. První jmenovaný je poměrně obstojný. Nemá na správný výsledek, protože je poněkud tmavší, ale řešení je to správné. Ale od špatného výsledku na druhém zmiňovaném se liší pouze způsobem křížení, kde v prvním případě byla použita metoda Simple crossover a u druhého Convex crossover. V tomto případě by bylo zajímavé nechat testy běžet opakovaně, zda se tento výsledek projeví znovu.
+
+Zajímavá změna je na obrázku \ref{porovnani_ex3}. Zde ve vizuální podobnosti vyšel lépe vzorek využívající selekci Turnaj oproti Ruletě. Opět jako několikrát předtím, špatný výsledek je na \ref{fig:ex33}.
+
+
+\subsection{Porovnání časové náročnosti}
+
+Následující tabulka uvádí vliv jednotlivých operátorů na celkovou časovou náročnost; tzn. nejedná se o náročnost pouze daného operátoru, ale celého algoritmu s použitím tohoto operátoru.
+
+\begin{table}[!h]
+  \caption{Porovnání časové náročnosti}
+  \label{tab:por}
+
+  \begin{center}
+    \begin{tabular}{|c|c|}
+    \hline
+       Metoda & Průměrný čas [s] \\
+       \hline
+       SSIM & 448 \\
+        mse &
+        246 \\
+        Turnaj &
+        347 \\
+        Poziční selekce &
+        346 \\
+        Ruleta &
+        348 \\
+        Jednoduché křížení &
+        349 \\
+        Konvexní křížení &
+        347 \\
+        BLX-$\alpha$ &
+        345 \\
+        Mutace swap &
+        346 \\
+        Mutace dynamická &
+        347 \\
+        \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+
+Jak je vidět, vliv na celkový čas mají prakticky pouze metody fitness funkce. U genetických operátorů by bylo třeba měřit pouze čas provádění daného operátoru.
+
+\section{Použitá literatura}
+%TODO: Doplnit i další zdroje
+
+\begin{thebibliography}{9}
+ 
+\bibitem{strojove-uceni}
+HONZÍK, Petr. \emph{Strojové učení} [online]. Brno, 2006. Dostupné také z: \url{www.vutbr.cz}
+
+\bibitem{ssim}
+WANG, Zhou, Alan C. BOVIK, Hamid R. SHEIKH a Eero P. SIMONCELLI. \emph{The SSIM Index for Image Quality Assessment}. The Center for Neural Science at NYU [online]. New York: NY University, 2003 [cit. 2016-04-18]. Dostupné z: \url{http://www.cns.nyu.edu/lcv/ssim/}
+
+\end{thebibliography}
+
+\section{Přílohy}
+
+\begin{figure}[!h]
     \centering
     \caption{Porovnání výsledků}
     \label{porovnani}
@@ -232,57 +297,170 @@ Obrázek \ref{porovnani} zobrazuje vybrané výsledky našich algoritmů ve srov
     \end{subfigure}
 \end{figure}
 
-\subsection{Porovnání časové náročnosti}
+\begin{figure}[!h]
+    \centering
+    \caption{Srovnání na vzoru 1}
+    \label{porovnani_ex1}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/example1.png}
+        \caption{Vzor}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/example1_E.png}
+        \caption{Požadovaný výsledek}
+        \label{fig:gull}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/roulette-blx_a-ssim-dynamic_example1.jpg}
+        \caption{Správný výsledek (Roulette, BLX-$\alpha$, SSIM, Dynamic mutation)}
+        \label{fig:ex11}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/ranksel-simple-ssim-dynamic_example1.jpg}
+        \caption{Obstojný výsledek (Rank selection, Simple crossover, SSIM, Dynamic mutation)}
+        \label{fig:ex12}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/ranksel-blx_a-mse-swap_example1.jpg}
+        \caption{Špatný výsledek (Rank selection, BLX-$\alpha$, MSE, Swap mutation)}
+        \label{fig:ex13}
+    \end{subfigure}
+\end{figure}
 
-Následující tabulka uvádí vliv jednotlivých operátorů na celkovou časovou náročnost; tzn. nejedná se o náročnost pouze daného operátoru, ale celého algoritmu s použitím tohoto operátoru.
+\begin{figure}[!h]
+    \centering
+    \caption{Srovnání na vzoru 2}
+    \label{porovnani_ex2}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/example2.png}
+        \caption{Vzor}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/example2_E.png}
+        \caption{Požadovaný výsledek}
+        \label{fig:gull}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/roulette-blx_a-ssim-dynamic_example2.jpg}
+        \caption{Správný výsledek (Roulette, BLX-$\alpha$, SSIM, Dynamic mutation)}
+        \label{fig:ex21}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/roulette-blx_a-ssim-swap_example2.jpg}
+        \caption{Špatný výsledek (Roulette, BLX-$\alpha$, SSIM, Swap mutation)}
+        \label{fig:ex22}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/ranksel-convex-mse-swap_example2.jpg}
+        \caption{Špatný výsledek (Rank selection, Convex, MSE, Swap mutation)}
+        \label{fig:ex23}
+    \end{subfigure}
+\end{figure}
 
-\begin{table}[!h]
-  \caption{Porovnání časové náročnosti}
-  \label{tab:por}
+\begin{figure}[!h]
+    \centering
+    \caption{Srovnání na vzoru 6}
+    \label{porovnani_ex6}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/example6.png}
+        \caption{Vzor}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/example6_E.png}
+        \caption{Požadovaný výsledek}
+        \label{fig:gull}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/roulette-blx_a-ssim-dynamic_example6.jpg}
+        \caption{Správný výsledek (Roulette, BLX-$\alpha$, SSIM, Dynamic mutation)}
+        \label{fig:ex61}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/ranksel-simple-mse-swap_example6.jpg}
+        \caption{Obstojný výsledek (Rank selection, Simple, MSE, Swap mutation)}
+        \label{fig:ex62}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/ranksel-convex-mse-swap_example6.jpg}
+        \caption{Špatný výsledek (Rank selection, Convex, MSE, Swap mutation)}
+        \label{fig:ex63}
+    \end{subfigure}
+\end{figure}
 
-  \begin{center}
-    \begin{tabular}{|c|c|}
-    \hline
-       Metoda & Průměrný čas [s] \\
-       \hline
-       SSIM & 448 \\
-        mse &
-        246 \\
-        Turnaj &
-        347 \\
-        Poziční selekce &
-        346 \\
-        Ruleta &
-        348 \\
-        Jednoduché křížení &
-        349 \\
-        Konvexní křížení &
-        347 \\
-        BLX\_$\alpha$ &
-        345 \\
-        Mutace swap &
-        346 \\
-        Mutace dynamická &
-        347 \\
-        \hline
-    \end{tabular}
-  \end{center}
-\end{table}
+\begin{figure}[!h]
+    \centering
+    \caption{Srovnání na vzoru 3}
+    \label{porovnani_ex3}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/example3.png}
+        \caption{Vzor}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/example3_E.png}
+        \caption{Požadovaný výsledek}
+        \label{fig:gull}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/tournament-blx_a-ssim-dynamic_example3.jpg}
+        \caption{Správný výsledek (Tournament (!), BLX-$\alpha$, SSIM, Dynamic mutation)}
+        \label{fig:ex31}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/roulette-blx_a-ssim-dynamic_example3.jpg}
+        \caption{Správný výsledek (Roulette, BLX-$\alpha$, SSIM, Dynamic mutation)}
+        \label{fig:ex32}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/roulette-convex-mse-swap_example3.jpg}
+        \caption{Špatný výsledek (Roulette, Convex, MSE, Swap mutation)}
+        \label{fig:ex33}
+    \end{subfigure}
+\end{figure}
 
-Jak je vidět, vliv na celkový čas mají prakticky pouze metody fitness funkce. U genetických operátorů by bylo třeba měřit pouze čas provádění daného operátoru.
-
-\section{Použitá literatura}
-%TODO: Doplnit i další zdroje
-
-\begin{thebibliography}{9}
- 
-\bibitem{strojove-uceni}
-HONZÍK, Petr. \emph{Strojové učení} [online]. Brno, 2006. Dostupné také z: \url{www.vutbr.cz}
-
-\bibitem{ssim}
-WANG, Zhou, Alan C. BOVIK, Hamid R. SHEIKH a Eero P. SIMONCELLI. \emph{The SSIM Index for Image Quality Assessment}. The Center for Neural Science at NYU [online]. New York: NY University, 2003 [cit. 2016-04-18]. Dostupné z: \url{http://www.cns.nyu.edu/lcv/ssim/}
-
-\end{thebibliography}
+\begin{figure}[!h]
+    \centering
+    \caption{Vzory}
+    \label{vzory}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/example1.png}
+        \caption{Vzor 1}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/example2.png}
+        \caption{Vzor 2}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/example3.png}
+        \caption{Vzor 3}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/example4.png}
+        \caption{Vzor 4}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/example5.png}
+        \caption{Vzor 5}
+        \label{fig:gull}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{img/example6.png}
+        \caption{Vzor 6}
+        \label{fig:gull}
+    \end{subfigure}
+    
+\end{figure}
 
 
 \end{document}
