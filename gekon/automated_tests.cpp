@@ -157,25 +157,12 @@ int main(int argc, char **argv)
         cout << test_tag << comment << value << endl;
     };
 
-    /*
-    cv::Mat_<ker_num_t > mod_img;
-    cv::Mat i1 = cv::imread(argv[3], CV_LOAD_IMAGE_GRAYSCALE);
-    i1.convertTo(mod_img, KERNEL_TYPE, 1/255.0);
-    cv::Mat_<ker_num_t > orig_img;
-    cv::Mat i2 = cv::imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE);
-    i2.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
-    **/
     std::string original {argv[2]};
     std::string modified {argv[3]};
     auto samples = load_samples(original, modified);
 
     srand ((unsigned int)time(NULL));
     cv::theRNG().state = (uint64_t)time(NULL); //random seed for opencv. Need to be initialized for each thread.
-
-    //tr_sample_t sample = {
-    //        orig_img,
-    //        mod_img
-    //};
 
     while (it_worker != workers.end()) {
         test_output("Test name: ", it_worker->name);

@@ -14,7 +14,6 @@
 
 using std::cout; using std::endl; using std::string;
 using namespace cv;
-//using cv::CommandLineParser; using cv::Mat;
 using namespace gekon;
 
 static void help()
@@ -53,32 +52,10 @@ int main(int argc, char **argv) {
     cout << "Original image: " << original << endl;
     cout << "Modified image: " << modified << endl;
 
-/*    Mat_<ker_num_t > mod_img;
-    Mat i1 = imread(modified, CV_LOAD_IMAGE_GRAYSCALE);
-    i1.convertTo(mod_img, KERNEL_TYPE, 1/255.0);
-    Mat_<ker_num_t > orig_img;
-    Mat i2 = imread(original, CV_LOAD_IMAGE_GRAYSCALE);
-    i2.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
-
-    imshow("Image", i1);
-    cv::waitKey(0);
-    imshow("Image", i2);
-    cv::waitKey(0);
-    imshow("Image", mod_img);
-    cv::waitKey(0);
-    imshow("Image", orig_img);
-    cv::waitKey(0);
-*/
-
-
     // init gekon here
 
     cv::theRNG().state = time(NULL); //random seed for opencv. Need to be initialized for each thread.
 
-/*    tr_sample_t sample = {
-            orig_img,
-            mod_img
-    };*/
     auto samples = load_samples(original, modified);
     Worker the_gekon;//80,convSize);
     the_gekon.setGenSize(80);
@@ -119,23 +96,6 @@ int main(int argc, char **argv) {
     imshow("Result", img);
     cv::waitKey(0);
 
-    /*
-    Mat conv_result;
-    filter2D(sample.original, conv_result, -1, sol, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
-
-    auto w_sol = the_gekon.retWorstSolution();
-
-    cout << w_sol << endl;
-
-    Mat conv_result2;
-    filter2D(sample.original, conv_result2, -1, w_sol, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
-    imshow("Image", sample.modified);
-    cv::waitKey(0);
-    imshow("Image", conv_result);
-    cv::waitKey(0);
-    imshow("Image", conv_result2);
-    cv::waitKey(0);
-*/
     cout << "Bye!" << endl;
     return 0;
 }

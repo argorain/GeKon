@@ -23,7 +23,6 @@ namespace fs=boost::filesystem;
 namespace gekon {
 	tr_sample_t load_img_pair(const std::string path, const std::string name) {
 
-		//tr_sample_t *sample = (tr_sample_t*)malloc(sizeof(tr_sample_t*));
 		tr_sample_t sample = tr_sample_t();
 
 		cout << "Loading image pair "

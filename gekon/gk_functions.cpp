@@ -45,56 +45,10 @@ namespace gekon {
         return new_population;
     }
 
-    /*std::vector<double> fitness(std::function<double(tr_sample_t, candidate_t)> fit_fcn,
-                                std::vector<tr_sample_t> samples,
-                                const population_t generation) {
-        // Fitness matrix; 1st dimension - samples; 2nd dim - candidates applied to the given
-        // sample
-        std::vector<std::vector<double>> fit_matrix;
-        fit_matrix.resize(samples.size());
-
-        for (unsigned int i = 0; i < samples.size(); ++i) {
-            fit_matrix[i].resize(generation.size());
-            std::transform(generation.begin(), generation.end(), fit_matrix[i].begin(),
-                           [&](auto iter) { return fit_fcn(samples[i], iter); });
-
-        }
-
-        // Sum every column and calculate mean of fitness values for each candidate
-        // Right now it's just dumb arithmetic mean
-        std::vector<double> fit_result;
-        fit_result.resize(generation.size());
-        for (unsigned int i = 0; i < generation.size(); ++i) {
-            double fit_sum = 0;
-            for (unsigned int j = 0; j < samples.size(); ++j) {
-                fit_sum += fit_matrix[j][i];
-            }
-            fit_result[i] = fit_sum / double(samples.size());
-        }
-        return fit_result;
-    }*/
-
-
-
     double fitness_mse(const tr_sample_t sample, const candidate_t candidate) {
-        //conv2 with original
-        //diff = A-B
-        //sum(sum(diff))
 
         Mat_<ker_num_t> conv_result;
-        //Mat conv_result;
         filter2D(sample.original, conv_result, -1, candidate, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
-
-        //std::cout << candidate << std::endl;
-        /*
-        imshow("Image", sample.original);
-        cv::waitKey(0);
-        imshow("Image", sample.modified);
-        cv::waitKey(0);
-        */
-
-        //imshow("Image", conv_result);
-        //cv::waitKey(0);
 
         double sum_square = 0;
         cv::MatConstIterator_<ker_num_t> it = conv_result.begin(),
@@ -105,16 +59,7 @@ namespace gekon {
             sum_square += pow(double(*it)-double(*it2), 2);
         }
 
-        /*
-        conv_result = conv_result - sample.modified;
-        cv::pow(conv_result, 2, conv_result);
-        double sum_square = cv::sum(conv_result)[0]; //zero means first channel
-        // http://stackoverflow.com/questions/11071509/opencv-convert-scalar-to-float-or-double-type
-         */
-
         double mse = sqrt(double(conv_result.rows * conv_result.cols)/(sum_square+0.0001));
-        //std::cout << "MSE:" << mse;
-        //return mse;
         return exp(5*mse);
     }
 
@@ -154,12 +99,6 @@ namespace gekon {
         std::cout << "Selected positions: ";
         for(int i=0; i<left; i++) {
             double random = gekon::random(0, 1);
-            /*for(auto const& val: normPop) {
-                if(val.first > random) {
-                    selPop.push_back(std::make_pair(val.first, val.second));
-                    break;
-                }
-            }*/
             for (unsigned int j = 0; j < normPop.size(); ++j) {
                 if (normPop[j].first > random) {
                     selPop.push_back(std::make_pair(normPop[j].first, normPop[j].second));
@@ -232,7 +171,6 @@ namespace gekon {
     }
 
     void fitness(fitness_fcn_t fit_fcn,
-                 //tr_sample_t sample,
                  std::vector<tr_sample_t> samples,
                  population_t &generation,
                  const unsigned int threads_num)
@@ -262,16 +200,6 @@ namespace gekon {
             tt[i].join();
 
         delete [] tt;
-
-
-        /*
-        for (size_t j = 0; j < generation.size(); ++j) {
-            // std::cout << "Fitness calc #" << j;
-            generation[j].first = fit_fcn(sample, generation[j].second);
-            //std::cout << " = " << generation[j].first << std::endl;
-            //std::cout << "Konvolution" << std::endl << generation[j].second << std::endl;
-        }*/
-        //std::sort(generation.begin(), generation.end(), cmp_candidates);
     }
 
     std::vector<tr_sample_t> load_samples(std::string orig, std::string mod)
@@ -305,12 +233,6 @@ namespace gekon {
             }
             return {{bgr_orig[0],bgr_mod[0]},{bgr_orig[1],bgr_mod[1]},{bgr_orig[2],bgr_mod[2]}};
         } else if (imod.channels() == 1) {
-            //tr_sample_t ret = {
-            //        orig_img,
-            //        mod_img
-            //};
-            //std::vector<tr_sample_t> ret_vec = {ret};
-
             imod.convertTo(mod_img, KERNEL_TYPE, 1/255.0);
             iorig.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
             return {{orig_img, mod_img}};
@@ -364,29 +286,14 @@ namespace gekon {
         Mat conv_result;
         filter2D(sample.original, conv_result, -1, candidate, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
         
-        //        img1_temp = new IplImage(sample.original);
-  //      img2_temp = new IplImage(sample.modified);
         CvMat img1_mat = CvMat(conv_result);
         CvMat img2_mat = CvMat(sample.modified);
-
-        //cv::imshow("orig", sample.original);
-        //cv::imshow("mod", sample.modified);
-        
-        //std::cout << img1_mat.width << std::endl;
-        //std::cout << img2_mat.width << std::endl;    
 
         img1_temp = cvCreateImage(cvSize(img1_mat.width, img1_mat.height), IPL_DEPTH_8U, 1);
         img2_temp = cvCreateImage(cvSize(img2_mat.width, img2_mat.height), IPL_DEPTH_8U, 1);
 
-        //img1_temp = cvDecodeImage(&img1_mat);
-        //img2_temp = cvDecodeImage(&img2_mat);
         cvConvertImage(&img1_mat, img1_temp);
         cvConvertImage(&img2_mat, img2_temp);
-
-        //std::cout << img1_temp->width << std::endl;
-        //std::cout << img2_temp->width << std::endl;
-
-        //std::cout << "Checks over" << std::endl;
 
         if(img1_temp==NULL || img2_temp==NULL)
             return -1;
@@ -400,12 +307,7 @@ namespace gekon {
 
         cvConvert(img1_temp, img1);
         cvConvert(img2_temp, img2);
-//        cvReleaseImage(&img1_temp);
-//        cvReleaseImage(&img2_temp);
-        //img1_temp->~IplImage();
-        //img2_temp->~IplImage();
 
-        
         img1_sq = cvCreateImage( size, d, nChan);
         img2_sq = cvCreateImage( size, d, nChan);
         img1_img2 = cvCreateImage( size, d, nChan);
@@ -487,12 +389,7 @@ namespace gekon {
         
         // through observation, there is approximately 
         // 1% error max with the original matlab program
-/*
-        std::cout << "(R, G & B SSIM index)" << std::endl ;
-        std::cout << index_scalar.val[2] * 100 << "%" << std::endl ;
-        std::cout << index_scalar.val[1] * 100 << "%" << std::endl ;
-        std::cout << index_scalar.val[0] * 100 << "%" << std::endl ;
-*/
+
         // if you use this code within a program
         // don't forget to release the IplImages
         cvReleaseImage(&img1);

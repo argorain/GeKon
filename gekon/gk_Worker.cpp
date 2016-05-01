@@ -25,10 +25,6 @@ namespace gekon {
         max_generation_count = 5000;
         generation_counter = 1;
 
-       /* 
-        for (auto &iter: population) {
-            cout << iter.first << ' ' << iter.second << endl;
-        }*/
     }
 
     Worker::~Worker() {
@@ -36,9 +32,6 @@ namespace gekon {
     }
 
     double Worker::run() {
-        //static bool first_run = true;
-        //vector<double> fit_values;
-
         cout << "Run!" << endl;
         if (first_run) {
             cout << "Running with " << threads << " threads." << endl;
@@ -63,11 +56,6 @@ namespace gekon {
         vector<candidate_t> new_kernels;
         population_t new_kernels_with_fit;
 
-        /*
-        for (auto &iter: population) {
-            cout << iter.first << ' ' << iter.second << endl;
-        }*/
-
         cout << "Crossover" << endl;
         // take pair of kernels and produce new pair
         cout << "New gen size: " << new_generation.size() << endl;
@@ -77,12 +65,6 @@ namespace gekon {
             new_kernels.insert(new_kernels.end(), new_pair.begin(), new_pair.end());
         }
         cout << "New kernels size: " << new_kernels.size() << endl;
-
-        //cout << new_kernels[0] << endl;
-        //cout << "new kernels" << endl;
-        //for (size_t i=0; i < 5; ++i) {
-        //    cout << new_kernels[i] << endl;
-        //}
 
         // You should mutate everyone! There is some probability of mutation, but it should by applied for eveyone
         // todo: do not calculate fitness for those who haven't been changed by mutation => remember
@@ -101,23 +83,10 @@ namespace gekon {
 
         fitness(fit_single, samples, new_kernels_with_fit, threads);
 
-        /*
-        cout << "new kernels" << endl;
-        for (size_t i=0; i < (size_t)new_kernels.size(); ++i) {
-            cout << new_kernels[i] << endl;
-        }*/
-        
         new_generation.insert(new_generation.end(), new_kernels_with_fit.begin(), new_kernels_with_fit.end());
         new_generation.push_back(elite);
         std::sort(new_generation.begin(), new_generation.end(), cmp_candidates);
         population = new_generation;
-
-        /*
-        cout << "Population:" << endl;
-        for (size_t i=0; i < (size_t)new_generation.size(); ++i) {
-            cout << new_generation[i].first << endl;
-            cout << new_generation[i].second << endl;
-        }*/
 
         cout << "Gen size: " << new_generation.size() << endl;
 

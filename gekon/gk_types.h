@@ -20,7 +20,7 @@ namespace gekon
 
     // training sample
     // cv::Mat use references instead of copying so we don't have to
-    // worry about memory management (right ?)
+    // worry about memory management
     typedef struct{
         cv::Mat original;
         cv::Mat modified;

@@ -26,12 +26,7 @@ namespace gekon
 
     typedef std::function<double(tr_sample_t, candidate_t)> fitness_fcn_t;
 
-    // apply fitness function to the whole generation
-    /*std::vector<double> fitness(fitness_fcn_t fit_fcn,
-                            std::vector<tr_sample_t> samples,
-                            const population_t generation);*/
     void fitness(fitness_fcn_t fit_fcn,
-                 //tr_sample_t sample,
                  std::vector<tr_sample_t> samples,
                  population_t &generation,
                  const unsigned int threads_num);

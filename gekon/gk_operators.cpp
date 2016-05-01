@@ -24,11 +24,8 @@ using namespace cv;
 namespace gekon {
 	
 	ker_num_t random(ker_num_t min, ker_num_t max) {
-		//return min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
 		auto rand_num = rand();
-        //cout << "Rand: " << rand_num << endl;
         auto ret = ker_num_t(float(min) + float(rand_num)/float(RAND_MAX/float(max-min)));
-        //cout << "Ret: " << ret << endl;
         return ret;
 	}
 
@@ -44,7 +41,6 @@ namespace gekon {
 				float yt = Y.at<ker_num_t>(r,c);
 				float diff = abs(xt-yt);
 				float min, max;
-                //cout << (float)(diff.at<cv::Vec3b>(r,c)[0]) << " ";
 				if(xt > yt) {
 					min = yt-diff*c_blx_a_alpha;
 				   	max = xt+diff*c_blx_a_alpha;	
@@ -52,21 +48,16 @@ namespace gekon {
 					min = xt-diff*c_blx_a_alpha;
 					max = yt+diff*c_blx_a_alpha;
 				}
-		//		cout << "min: " << min << " max: " << max << endl;
 				float rX = random(min, max);
 				float rY = random(min, max); 
-		//		cout << "rX: " << rX << " rY: " << rY << endl;
 				kidX.at<ker_num_t>(r,c) = rX;
 				kidY.at<ker_num_t>(r,c) = rY;
-		//		cout << "rXV: " << (float)(kidX.at<float>(r,c)) << endl;
 			}
-			//cout << endl;
-		}		
+        }
 
 		std::vector<candidate_t> kids;
 		kids.push_back(kidX);
 		kids.push_back(kidY);
-		//std::cout << kidX << endl << kidY << endl;
 
 		return kids;
 
@@ -135,13 +126,11 @@ namespace gekon {
 			int c1 = random(-0.4, cols-1+0.4);
 			int r2 = random(-0.4, rows-1+0.4); 
 			int c2 = random(-0.4, cols-1+0.4);
-			//cout << "Swap between [" << r1 << "," << c1 << "],[" << r2 << "," << c2 << "]" << endl;
 			float g = X.at<float>(r1, c1);
 			X.at<float>(r1, c1) = X.at<float>(r2, c2);
 			X.at<float>(r2, c2) = g;
 		}
 
-		//return X;
 	}
 
     void m_dynamic(candidate_t &X, unsigned int t, unsigned int T) {
