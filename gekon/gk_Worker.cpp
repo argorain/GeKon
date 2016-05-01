@@ -19,7 +19,7 @@ namespace gekon {
         kernel_size = 3;
         generation_size = 100;
 
-        static_assert((unsigned int)NUM_THREADS > 0, "Number of threads must be numeric value greater than zero.");
+        static_assert((unsigned int) NUM_THREADS > 0, "Number of threads must be numeric value greater than zero.");
         threads = NUM_THREADS;
         first_run = true;
         max_generation_count = 5000;
@@ -49,11 +49,11 @@ namespace gekon {
         pair<double, candidate_t> elite = population[0];
         population_t new_generation = select(population);
         cout << "Population fitness: " << "[" << elite.first << "], ";
-        for_each(population.begin(), population.end(), [](auto& iter){
+        for_each(population.begin(), population.end(), [](auto &iter) {
             cout << iter.first << ", ";
         });
         cout << endl;
-        vector<candidate_t> new_kernels;
+        vector <candidate_t> new_kernels;
         population_t new_kernels_with_fit;
 
         cout << "Crossover" << endl;
@@ -70,16 +70,16 @@ namespace gekon {
         // todo: do not calculate fitness for those who haven't been changed by mutation => remember
         // who was mutated
         for_each(new_kernels.begin(),
-                new_kernels.end(),
-                [=](auto &iter){
-                    mutate(iter, generation_counter, max_generation_count);
-                });
-        
+                 new_kernels.end(),
+                 [=](auto &iter) {
+                     mutate(iter, generation_counter, max_generation_count);
+                 });
+
         new_kernels_with_fit.resize(new_kernels.size());
         transform(new_kernels.begin(),
                   new_kernels.end(),
                   new_kernels_with_fit.begin(),
-                  [](auto iter){return make_pair(0, iter);});
+                  [](auto iter) { return make_pair(0, iter); });
 
         fitness(fit_single, samples, new_kernels_with_fit, threads);
 

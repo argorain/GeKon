@@ -12,16 +12,15 @@
 #include <opencv2/core.hpp>
 #include <vector>
 
-namespace gekon
-{
+namespace gekon {
     // types used further in genetic algorithms
     typedef cv::Mat candidate_t;
-    typedef std::vector<std::pair<double, candidate_t>> population_t;
+    typedef std::vector <std::pair<double, candidate_t>> population_t;
 
     // training sample
     // cv::Mat use references instead of copying so we don't have to
     // worry about memory management
-    typedef struct{
+    typedef struct {
         cv::Mat original;
         cv::Mat modified;
     } tr_sample_t;

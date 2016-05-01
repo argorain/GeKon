@@ -16,8 +16,7 @@ using std::cout; using std::endl; using std::string;
 using namespace cv;
 using namespace gekon;
 
-static void help()
-{
+static void help() {
     cout << "Usage: gekon [PARAMETER] [ORIGNAL IMAGE] [MODIFIED IMAGE]" << endl << endl;
     cout << "All parameters are mandatory." << endl;
     cout << "PARAMETER is size of convolution matrix" << endl;
@@ -28,25 +27,24 @@ static void help()
     cout << "Department of Automation and Measurement, FEEC BUT, 2016" << endl;
 }
 
-const char* keys =
-{
-    "{help h||}{@convSize|3|convolution size}{@original|lena.jpg|original image name}{@modified|lena.mod.jpg|modiifed image name}"
-};
+const char *keys =
+        {
+                "{help h||}{@convSize|3|convolution size}{@original|lena.jpg|original image name}{@modified|lena.mod.jpg|modiifed image name}"
+        };
 
 int main(int argc, char **argv) {
-    srand ((unsigned int)time(NULL));
+    srand((unsigned int) time(NULL));
 
     cout << "GeKon" << endl;
 
     CommandLineParser parser(argc, argv, keys);
-    if (parser.has("help"))
-    {
+    if (parser.has("help")) {
         help();
         return 0;
     }
     string original = parser.get<string>(1);
     string modified = parser.get<string>(2);
-    int convSize = parser.get<int>(0);    	
+    int convSize = parser.get<int>(0);
 
     cout << "Convolution matrix size: " << convSize << endl;
     cout << "Original image: " << original << endl;
@@ -76,9 +74,9 @@ int main(int argc, char **argv) {
     for (int j = 0; j < loops; ++j) {
         auto ret = the_gekon.run();
         cout << endl << "Elite: " << ret << endl
-             << "Iterations: " << j << "/" << loops << endl << endl;
+        << "Iterations: " << j << "/" << loops << endl << endl;
         fitPlot.push_back(ret);
-        if(ret > goodEnough) {
+        if (ret > goodEnough) {
             cout << "Found solution good enough. Ending." << endl;
             break;
         }
@@ -86,7 +84,7 @@ int main(int argc, char **argv) {
     time(&end);
     cout << "Time elapsed: " << difftime(end, start) << endl;
     plot_graph(fitPlot, "Fitness");
-    
+
     auto sol = the_gekon.retBestSolution();
 
     cout << sol << endl;

@@ -17,29 +17,29 @@ using std::cerr;
 
 using namespace gekon;
 
-static const std::map<std::string, gekon::selection_fcn_t> selection_map = {
-        {"roulette", gekon::s_roulette},
+static const std::map <std::string, gekon::selection_fcn_t> selection_map = {
+        {"roulette",       gekon::s_roulette},
         {"rank selection", gekon::s_rank_selection},
-        {"tournament", gekon::s_tournament}
+        {"tournament",     gekon::s_tournament}
 };
 
-static const std::map<std::string, gekon::crossover_fcn_t> crossover_map = {
+static const std::map <std::string, gekon::crossover_fcn_t> crossover_map = {
         {"simple", gekon::c_simle},
         {"convex", gekon::c_convex},
-        {"blx_a", gekon::c_blx_a}
+        {"blx_a",  gekon::c_blx_a}
 };
 
-static const std::map<std::string, gekon::mutation_fcn_t> mutation_map = {
-        {"swap", gekon::m_swap},
+static const std::map <std::string, gekon::mutation_fcn_t> mutation_map = {
+        {"swap",    gekon::m_swap},
         {"dynamic", gekon::m_dynamic}
 };
 
-static const std::map<std::string, gekon::fitness_fcn_t> fitness_map = {
-        {"mse", gekon::fitness_mse},
+static const std::map <std::string, gekon::fitness_fcn_t> fitness_map = {
+        {"mse",  gekon::fitness_mse},
         {"ssim", gekon::fitness_ssim}
 };
 
-class test_definition{
+class test_definition {
 public:
     gekon::Worker worker;
     std::string name, selection, crossover, mutation, fitness;
@@ -54,19 +54,17 @@ public:
     }
 };
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     if (argc < 4) {
         cout << "Usage: ." << argv[0] << " <test file> <original> <modified>" << endl;
         return 1;
     }
 
-    std::shared_ptr<cpptoml::table> test_file = cpptoml::parse_file(argv[1]);
-    std::vector<std::shared_ptr<cpptoml::table>> test_cases;
-    std::vector<test_definition> workers;
+    std::shared_ptr <cpptoml::table> test_file = cpptoml::parse_file(argv[1]);
+    std::vector <std::shared_ptr<cpptoml::table>> test_cases;
+    std::vector <test_definition> workers;
 
-    try
-    {
+    try {
         cpptoml::string_to_base_map::iterator it = test_file->begin();
         while (it != test_file->end()) {
             if (test_file->get(it->first)->is_table()) {
@@ -79,26 +77,25 @@ int main(int argc, char **argv)
         }
         auto it_table = test_cases.begin();
         auto it_worker = workers.begin();
-        while (it_table != test_cases.end() && it_worker != workers.end())
-        {
+        while (it_table != test_cases.end() && it_worker != workers.end()) {
             if ((*it_table)->contains("threads")) {
                 const int64_t threads = (*it_table)->get("threads")->as<int64_t>()->get();
-                it_worker->number_of_threads = (unsigned int)threads;
-                it_worker->worker.overrideNumOfThreads((unsigned int)threads);
+                it_worker->number_of_threads = (unsigned int) threads;
+                it_worker->worker.overrideNumOfThreads((unsigned int) threads);
             }
             if ((*it_table)->contains("kernel_size")) {
                 const int64_t kernel_size = (*it_table)->get("kernel_size")->as<int64_t>()->get();
-                it_worker->kernel_size = (unsigned int)kernel_size;
-                it_worker->worker.setKernelSize((unsigned int)kernel_size);
+                it_worker->kernel_size = (unsigned int) kernel_size;
+                it_worker->worker.setKernelSize((unsigned int) kernel_size);
             }
             if ((*it_table)->contains("generation_size")) {
                 const int64_t generation_size = (*it_table)->get("generation_size")->as<int64_t>()->get();
-                it_worker->generation_size = (unsigned int)generation_size;
-                it_worker->worker.setGenSize((unsigned int)generation_size);
+                it_worker->generation_size = (unsigned int) generation_size;
+                it_worker->worker.setGenSize((unsigned int) generation_size);
             }
             if ((*it_table)->contains("max_iterations")) {
                 const int64_t max_iterations = (*it_table)->get("max_iterations")->as<int64_t>()->get();
-                it_worker->max_iterations = (unsigned int)max_iterations;
+                it_worker->max_iterations = (unsigned int) max_iterations;
             }
             if ((*it_table)->contains("selection")) {
                 const std::string selection = (*it_table)->get("selection")->as<std::string>()->get();
@@ -140,11 +137,11 @@ int main(int argc, char **argv)
                     cerr << "Fitness type not found!" << endl;
                 }
             }
-            it_table++; it_worker++;
+            it_table++;
+            it_worker++;
         }
     }
-    catch (const cpptoml::parse_exception& e)
-    {
+    catch (const cpptoml::parse_exception &e) {
         std::cerr << "Failed to parse " << argv[1] << ": " << e.what() << std::endl;
         return 1;
     }
@@ -153,16 +150,16 @@ int main(int argc, char **argv)
 
     auto it_worker = workers.begin();
     const std::string test_tag = "[TEST]";
-    auto test_output = [&](std::string comment, std::string value){
+    auto test_output = [&](std::string comment, std::string value) {
         cout << test_tag << comment << value << endl;
     };
 
-    std::string original {argv[2]};
-    std::string modified {argv[3]};
+    std::string original{argv[2]};
+    std::string modified{argv[3]};
     auto samples = load_samples(original, modified);
 
-    srand ((unsigned int)time(NULL));
-    cv::theRNG().state = (uint64_t)time(NULL); //random seed for opencv. Need to be initialized for each thread.
+    srand((unsigned int) time(NULL));
+    cv::theRNG().state = (uint64_t) time(NULL); //random seed for opencv. Need to be initialized for each thread.
 
     while (it_worker != workers.end()) {
         test_output("Test name: ", it_worker->name);
@@ -192,7 +189,7 @@ int main(int argc, char **argv)
         for (unsigned int i = 0; i < elite.size() - 1; ++i) {
             cout << elite[i] << ", ";
         }
-        cout << elite[elite.size()-1]  << "]" << endl;
+        cout << elite[elite.size() - 1] << "]" << endl;
 
         time(&end);
         cout << test_tag << "Time elapsed: " << difftime(end, start) << endl;
@@ -201,16 +198,17 @@ int main(int argc, char **argv)
         time(&seconds);
 
 
-        cout << "output/"+it_worker->name+"_"+basename(argv[2])+"_"+std::to_string(seconds)+".txt" << endl;
+        cout << "output/" + it_worker->name + "_" + basename(argv[2]) + "_" + std::to_string(seconds) + ".txt" << endl;
 
         std::ofstream output;
         auto sol = it_worker->worker.retBestSolution();
-        output.open("output/"+it_worker->name+"_"+basename(argv[2])+"_"+std::to_string(seconds)+".txt");
+        output.open("output/" + it_worker->name + "_" + basename(argv[2]) + "_" + std::to_string(seconds) + ".txt");
         output << sol << endl;
         output.close();
 
         auto img = vec2image(samples, sol);
-        cv::imwrite("output/"+it_worker->name+"_"+basename(argv[2])+"_"+std::to_string(seconds)+".jpg", img*255);
+        cv::imwrite("output/" + it_worker->name + "_" + basename(argv[2]) + "_" + std::to_string(seconds) + ".jpg",
+                    img * 255);
 
         ++it_worker;
     }

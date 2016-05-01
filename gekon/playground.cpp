@@ -20,13 +20,12 @@ using namespace std;
 using namespace cv;
 using namespace gekon;
 
-const char* keys =
-{
-    "{help h||}{@convSize|3|convolution size}{@original|lena.jpg|original image name}{@modified|lena.mod.jpg|modiifed image name}"
-};
+const char *keys =
+        {
+                "{help h||}{@convSize|3|convolution size}{@original|lena.jpg|original image name}{@modified|lena.mod.jpg|modiifed image name}"
+        };
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     cout << "GeKon" << endl;
 
     CommandLineParser parser(argc, argv, keys);
@@ -36,10 +35,10 @@ int main(int argc, char **argv)
 
     cout << "Convolution matrix size: " << convSize << endl;
 
-    Mat_<ker_num_t > mod_img;
-    Mat i1 = imread(modified, IMREAD_UNCHANGED );
+    Mat_ <ker_num_t> mod_img;
+    Mat i1 = imread(modified, IMREAD_UNCHANGED);
     //i1.convertTo(mod_img, KERNEL_TYPE, 1/255.0);
-    Mat_<ker_num_t > orig_img;
+    Mat_ <ker_num_t> orig_img;
     Mat i2 = imread(original, IMREAD_UNCHANGED);
     //i2.convertTo(orig_img, KERNEL_TYPE, 1/255.0);
 
@@ -168,8 +167,8 @@ int main(int argc, char **argv)
     */
 
 //    ssim("samples/lena_gray.png", "samples/lena_gray_M.png");
- //   ssim("samples/lena_gray.png", "samples/lena_gray.mod.png");
-  //  ssim("samples/lena_gray.png", "samples/lena_gray.png");
+    //   ssim("samples/lena_gray.png", "samples/lena_gray.mod.png");
+    //  ssim("samples/lena_gray.png", "samples/lena_gray.png");
 
 
 }

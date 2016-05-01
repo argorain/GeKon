@@ -18,7 +18,7 @@ namespace gekon {
         size_t generation_size;
         population_t population;
 
-        std::vector<tr_sample_t> samples;
+        std::vector <tr_sample_t> samples;
         tr_sample_t sample;
 
         selection_fcn_t select;
@@ -34,24 +34,38 @@ namespace gekon {
 
     public:
         Worker();
+
         virtual ~Worker();
-        void setKernelSize(const int ksize) {kernel_size = ksize;};
-        void setGenSize(const size_t gensize) {generation_size = gensize;};
+
+        void setKernelSize(const int ksize) { kernel_size = ksize; };
+
+        void setGenSize(const size_t gensize) { generation_size = gensize; };
+
         void setTrSample(tr_sample_t asample) {
             samples.push_back(asample);
         };
+
         void setTrSamples(auto asamples) {
             samples = asamples;
         }
-        void setSelectionFcn(selection_fcn_t fcn) {select = fcn;};
-        void setCrossoverFcn(crossover_fcn_t fcn) {crossover = fcn;};
-        void setMutationFcn(mutation_fcn_t fcn) {mutate = fcn;};
-        void overrideNumOfThreads(const unsigned int n) {threads = n;};
-        void setMaxNumberOfGenerations(const unsigned int n) {max_generation_count=n;};
-        void setFitnessFcn(fitness_fcn_t fcn) {fit_single = fcn;};
+
+        void setSelectionFcn(selection_fcn_t fcn) { select = fcn; };
+
+        void setCrossoverFcn(crossover_fcn_t fcn) { crossover = fcn; };
+
+        void setMutationFcn(mutation_fcn_t fcn) { mutate = fcn; };
+
+        void overrideNumOfThreads(const unsigned int n) { threads = n; };
+
+        void setMaxNumberOfGenerations(const unsigned int n) { max_generation_count = n; };
+
+        void setFitnessFcn(fitness_fcn_t fcn) { fit_single = fcn; };
+
         double run();
-        cv::Mat retBestSolution() {return population[0].second;};
-        cv::Mat retWorstSolution() {return population[population.size()-1].second;};
+
+        cv::Mat retBestSolution() { return population[0].second; };
+
+        cv::Mat retWorstSolution() { return population[population.size() - 1].second; };
     };
 }
 

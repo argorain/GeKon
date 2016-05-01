@@ -11,8 +11,7 @@
 #include "gk_utils.h"
 #include "gk_types.h"
 
-namespace gekon
-{
+namespace gekon {
 
     // Note about returning vector as value:
     // http://thbecker.net/articles/rvalue_references/section_06.html
@@ -27,7 +26,7 @@ namespace gekon
     typedef std::function<double(tr_sample_t, candidate_t)> fitness_fcn_t;
 
     void fitness(fitness_fcn_t fit_fcn,
-                 std::vector<tr_sample_t> samples,
+                 std::vector <tr_sample_t> samples,
                  population_t &generation,
                  const unsigned int threads_num);
 
@@ -36,15 +35,18 @@ namespace gekon
     typedef std::function<population_t(population_t)> selection_fcn_t;
 
     population_t s_roulette(const population_t prev_population);
+
     population_t s_rank_selection(const population_t prev_population);
+
     population_t s_tournament(const population_t prev_population);
 
     // Naive fitness function implementing mean square error calculation
     double fitness_mse(const tr_sample_t sample, const candidate_t candidate);
 
     // Load training sample into vector (in case of RGB image)
-    std::vector<tr_sample_t> load_samples(std::string orig, std::string mod);
-    cv::Mat vec2image(std::vector<tr_sample_t> samples, candidate_t kernel);
+    std::vector <tr_sample_t> load_samples(std::string orig, std::string mod);
+
+    cv::Mat vec2image(std::vector <tr_sample_t> samples, candidate_t kernel);
 
     double fitness_ssim(const tr_sample_t sample, const candidate_t candidate);
 
