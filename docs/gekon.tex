@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt]{scrartcl}
+\documentclass[a4paper,11pt,titlepage]{scrartcl}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 %\usepackage{lmodern}
@@ -26,6 +26,8 @@
 
 \maketitle
 \tableofcontents
+
+\newpage
 
 \section{Zadání}
 Cílem projektu je navrhnout algoritmus pro indukci konvoluční masky na základě dvou šedotónových nebo barevných obrázků. Pro hledání řešení jsou použité genetické algoritmy. Jako prostředek realizace je zvolena knihovna OpenCV a programovací jazyk C++.
@@ -75,11 +77,16 @@ Funguje stejně jako vážená ruleta pouze místo fitness funkce používá pro
 Metoda náhodně vybírá dvojice, ze které vybírá toho lepšího jedince.
 
 \subsection{Křížení}
+Metody křížení slouží k vytvoření dvojice potomků z dvojice původních jedinců.
 
-\paragraph{blx a, simple, convex}
+\paragraph{Jednoduché}
+Geny potomků jsou náhodně vybrány z matic rodičů. Příkladem implementace může být vygenerování náhodné matice binárních hodnot, která určí, zda se daný gen vezme z prvního nebo druhého rodiče.
+
+\paragraph{Konvexní}
+Upravuje předcházející metodu tak, že výsledný gen není vybrán pouze ze dvou hodnot genu rodičů, ale z intervalu těchto hodnot. Nicméně i tato metoda má nevýhodu v tom, že může konvergovat do lokálních maxim, proto zavádíme následující metodu.
 
 \paragraph{BLX-$\alpha$}
-Metoda křížení BLX-$\alpha$ \ref{blx} je založená na principu výběru hodnoty z rozsahu většího, než je rozsah rodičů, takže se může potomek vyhnout lokálnímu extrému.\\
+Metoda křížení BLX-$\alpha$ \cite{blx} je založená na principu výběru hodnoty z rozsahu většího, než je rozsah rodičů, takže se může potomek vyhnout lokálnímu extrému.\\
 Výsledná hodnota jednoho prvku po křížení je určena takto:
 \begin{equation}
     u = <min(x,y) - \alpha \Delta; max(x,y) + \alpha \Delta>
@@ -87,6 +94,17 @@ Výsledná hodnota jednoho prvku po křížení je určena takto:
 kde $\alpha$ je parametr rozšíření intervalu, $\Delta$ je absolutní hodnota rozdílu hodnot rodičů. Hodnota $u$ je hodnota nového potomka která je náhodně vybraná z intervalu.
 
 \subsection{Mutace}
+
+\paragraph{Swap}
+Mutace metodou swap je pravděpodobně nejjednodušší možné řešení. Spočívá ve výměně několika dvojic prvků mezi sebou.
+
+\paragraph{Dynamická}
+Dynamická mutace na rozdíl od swap bere v potaz počet iterací a s blížícím se koncem běhu genetického algoritmu postupně snižuje velikost mutace. Tento způsob lze popsat rovnicí:
+\begin{equation}
+    \Delta(t,y) = y \left( 1 - r^{ {1-\frac{t}{T} }^B }  \right)
+\end{equation}
+
+Kde y je jeden konkrétní gen, r je náhodné číslo z intervalu $ <0,1> $, t je pořadí iterace, T je maximální možný počet iterací a B je empirická konstanta s doporučenou hodnotou 5.
 
 \subsection{Zpracování obrazu}
 
@@ -157,9 +175,9 @@ void m_dynamic(candidate_t &X, unsigned int t, unsigned int T) {
      * Defined as $\Delta(t,y) = y \left( 1 - r^{ {1-\frac{t}{T} }^B }  \right)$
      *     where B = 5
      */
-    int rows = X.rows;
-   	int cols = X.cols;
-   	for (int r = 0; r < rows; ++r) {
+   int rows = X.rows;
+   int cols = X.cols;
+   for (int r = 0; r < rows; ++r) {
         for (int c = 0; c < cols; ++c) {
             if(random(0,1) < m_swap_prob) {
                 X.at<ker_num_t>(r,c) = X.at<ker_num_t>(r,c)*
@@ -206,12 +224,18 @@ Výsledek na šedotónovém obrázku \ref{porovnani_ex6} je obecně lepší, ale
 
 Zajímavá změna je na obrázku \ref{porovnani_ex3}. Zde ve vizuální podobnosti vyšel lépe vzorek využívající selekci Turnaj oproti Ruletě. Opět jako několikrát předtím, špatný výsledek je na \ref{fig:ex33}.
 
+Časový průběh fitness funkce vzorového běhu algoritmu je zobrazen na obrázku \ref{fitness_t}. Jak je vidět, používáme elitismus, abychom zajistili neklesající průběh.
+
+\begin{figure}[h!]
+    \caption{Průběh fitness funkce v závislosti na čase}
+    \label{fitness_t}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/fitness.png}
+\end{figure}
 
 \subsection{Porovnání časové náročnosti}
 
-Následující tabulka uvádí vliv jednotlivých operátorů na celkovou časovou náročnost; tzn. nejedná se o náročnost pouze daného operátoru, ale celého algoritmu s použitím tohoto operátoru.
-
-\begin{table}[!h]
+\begin{table}[h!]
   \caption{Porovnání časové náročnosti}
   \label{tab:por}
 
@@ -244,7 +268,28 @@ Následující tabulka uvádí vliv jednotlivých operátorů na celkovou časov
   \end{center}
 \end{table}
 
+Tabulka \ref{tab:por} uvádí vliv jednotlivých operátorů na celkovou časovou náročnost; tzn. nejedná se o náročnost pouze daného operátoru, ale celého algoritmu s použitím tohoto operátoru.
+
 Jak je vidět, vliv na celkový čas mají prakticky pouze metody fitness funkce. U genetických operátorů by bylo třeba měřit pouze čas provádění daného operátoru.
+
+\newpage
+\section{Závěr}
+Cílem projektu bylo navrhnout algoritmus pro indukci konvoluční masky při znalosti původního a výsledného obrázku. Toto zadání se podařilo splnit beze zbytku pomocí implementace genetických algoritmů. Jako nejvýhodnější kombinace se jeví použití SSIM algoritmu pro fitness funkci, selekce pomocí rulety, BLX-$\alpha$ pro křížení a mutace dynamická. Tato kombinace operátorů vykazuje stabilně nejlepší výsledky při shodných časech, který jsou sice obecně delší oproti jednodušším operátorům, ale tato cena je daní za jejich výkonnost.
+
+Důležitým faktorem je výkonnost právě fitness funkce. Ta musí být schopná i z relativně špatného výsledku co nejlépe určit, zda je aktuální výsledek lepší nebo horší. Proto jsou obecně lepší metody který porovnávají strukturální podobnost jako například SSIM.
+
+Dalším kritickým faktorem je mutace. Při pokusech bez mutace se algoritmus zasekával v lokálních extrémech a správného výsledky je možné dosáhnout pouze při správné konstelaci první generace. Na druhou stranu nechávat mutovat jedince po celou dobu výpočtu není vhodné z důvodu možného odchýlení od správného výsledku. Tato situace nastala právě u obrázku \ref{fig:ex22}, který měl mutaci Swap, která má stejnou pravděpodobnost mutace po celou dobu výpočtu oproti výsledku na obrázku \ref{fig:ex21}, který má mutaci dynamickou. Té se pravděpodobnost mutace snižuje jak se přibližuje správnému výsledku.
+
+Vliv operátoru křížení je zásadní pro rychlost konvergence k výsledku. Možností je několik, základní jsou ale vždy omezené na rozsah hodnot v genomu rodičů. To ovšem sebou nese riziko konvergence do lokálního extrému. Proto se zavedla metoda BLX-$\alpha$, která vybírá hodnotu z rozsahu rodičů, který je rozšířený o konstantní velikost na obě strany. Díky tomu se může vyhnout lokálnímu extrému. Právě tato metoda vykazuje nejlepší výsledky při křížení.
+
+Vliv operátoru selekce se projevuje převážně v rychlosti konvergence ke správnému výsledku. V našem případě nejlepších výsledků dosahovala ruleta i přes svou šanci konvergovat k lokálním extrémům. 
+
+\section{Výsledná práce online}
+Výsledek práce i s kompletní historií postupu lze najít v repozitáři na Githubu:
+
+\url{https://github.com/argorain/GeKon}.
+
+Předpokladem pro úspěšný překlad programu je C++ ve verzi 14, CMake a OpenCV verze 3 a vyšší.
 
 \section{Použitá literatura}
 %TODO: Doplnit i další zdroje
@@ -303,12 +348,12 @@ WANG, Zhou, Alan C. BOVIK, Hamid R. SHEIKH a Eero P. SIMONCELLI. \emph{The SSIM 
 
 \begin{figure}[!h]
     \centering
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.40\textwidth}
         \includegraphics[width=\textwidth]{img/example1.png}
         \caption{Vzor}
         \label{fig:gull}
     \end{subfigure}
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.40\textwidth}
         \includegraphics[width=\textwidth]{img/example1_E.png}
         \caption{Požadovaný výsledek}
         \label{fig:gull}
@@ -335,12 +380,12 @@ WANG, Zhou, Alan C. BOVIK, Hamid R. SHEIKH a Eero P. SIMONCELLI. \emph{The SSIM 
 
 \begin{figure}[!h]
     \centering
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.40\textwidth}
         \includegraphics[width=\textwidth]{img/example2.png}
         \caption{Vzor}
         \label{fig:gull}
     \end{subfigure}
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.40\textwidth}
         \includegraphics[width=\textwidth]{img/example2_E.png}
         \caption{Požadovaný výsledek}
         \label{fig:gull}
@@ -367,12 +412,12 @@ WANG, Zhou, Alan C. BOVIK, Hamid R. SHEIKH a Eero P. SIMONCELLI. \emph{The SSIM 
 
 \begin{figure}[!h]
     \centering
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.40\textwidth}
         \includegraphics[width=\textwidth]{img/example6.png}
         \caption{Vzor}
         \label{fig:gull}
     \end{subfigure}
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.40\textwidth}
         \includegraphics[width=\textwidth]{img/example6_E.png}
         \caption{Požadovaný výsledek}
         \label{fig:gull}
@@ -399,12 +444,12 @@ WANG, Zhou, Alan C. BOVIK, Hamid R. SHEIKH a Eero P. SIMONCELLI. \emph{The SSIM 
 
 \begin{figure}[!h]
     \centering
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.40\textwidth}
         \includegraphics[width=\textwidth]{img/example3.png}
         \caption{Vzor}
         \label{fig:gull}
     \end{subfigure}
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.40\textwidth}
         \includegraphics[width=\textwidth]{img/example3_E.png}
         \caption{Požadovaný výsledek}
         \label{fig:gull}
